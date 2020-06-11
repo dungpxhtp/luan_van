@@ -82,7 +82,7 @@ public function login(Request $request)
             $v= Validator::make($request->all(),  [
                 'name' => 'required',
                 'email' => 'required|unique:users|email',
-                'password'=>'required|min:6',
+                'password'=>'required|min:6|max:200',
                 'password_confirmation' => 'required|same:password',
 
 
@@ -116,6 +116,14 @@ public function login(Request $request)
             $user->name = $request->name;
             $user->email = $request->email;
             $user->password = bcrypt($request->password);
+            $user->phoneUser=$request->phoneUser;
+            $user->gender=$request->gender;
+            if($user->gender==1){
+                $user->codeuser='M'.mt_rand();
+            }else
+            {
+                $user->codeuser='W'.mt_rand();
+            }
             $user->save();
 
             if ($this->loginAfterSignUp) {

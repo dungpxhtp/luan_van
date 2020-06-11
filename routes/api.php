@@ -24,3 +24,5 @@ Route::post('dangky', 'ApiController@register');
 Route::group(['middleware' => 'auth.jwt'], function () {
 
 });
+//User
+Route::get('brandproducts','Frontend\Home@brandproducts');
