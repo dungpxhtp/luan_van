@@ -18,11 +18,22 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 });*/
 
+
 Route::post('login', 'ApiController@login');
 Route::post('dangky', 'ApiController@register');
 
 Route::group(['middleware' => 'auth.jwt'], function () {
-
+    Route::post('createcomment/{idProduct}/{parentid}','Api\commentUser@store');
 });
-//User
+//Uses Cate Gory
 Route::get('brandproducts','Frontend\Home@brandproducts');
+Route::get('categoryproducts','Frontend\Home@categoryproducts');
+Route::get('products','Frontend\Home@products');
+
+// User Comment
+Route::get('getAllComment/{id}','Api\commentUser@index');
+//call back erorr url api
+Route::fallback(function(){
+    return response()->json([
+        'message' => 'Page Not Found. If error persists, contact thien.phamminhstu@gmail.com'], 404);
+});
