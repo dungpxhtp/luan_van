@@ -1,0 +1,79 @@
+header{
+    height: 50px;
+}
+.account{
+    margin: 0 10px;
+}
+.page-wrapper{
+
+    margin: auto;
+    padding: 10px;
+}
+.item-margin-5{
+ margin-left: 5px;
+}
+.breadcrumb-customer{
+    display: flex;
+    align-items: center;
+}
+/*
+    *   Dashboard
+    *
+    *
+*/
+.box-comments{
+    min-height: 200px;
+    margin: 10px 0;
+    border-style: solid;
+    border-color: #444242;
+    border-radius: 5px;
+    background-color:#0275d8 ;
+
+
+}
+.card-header-box-comments{
+    color: #FFFFFF;
+}
+.card-footer-box {
+    margin-top: 10px;
+}
+.card-footer-box > a{
+    color: #FFFFFF;
+    text-decoration: none;
+
+}
+.box-orders{
+    min-height: 200px;
+    margin: 10px 0;
+
+    background-color: #F0AD4E;
+    border-style: solid;
+    border-color: #444242;
+    border-radius: 5px;
+
+}
+.box-products{
+    min-height: 200px;
+    margin: 10px 0;
+    background-color: #D9534F;
+    border-style: solid;
+    border-color: #444242;
+    border-radius: 5px;
+}
+.box-table-order{
+    border: 1px solid #444242;
+}
+.view-all-transaction{
+    display: flex;
+    justify-content: flex-end;
+}
+.shadow {
+    -webkit-box-shadow: 8px 8px 10px 12px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+    -moz-box-shadow:    8px 8px 10px 12px #ccc;  /* Firefox 3.5 - 3.6 */
+    box-shadow:         8px 8px 10px 12px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  }
+/*
+    *  End Dashboard
+    *
+    *
+*/

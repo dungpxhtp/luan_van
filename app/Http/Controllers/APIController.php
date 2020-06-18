@@ -42,7 +42,7 @@ public function login(Request $request)
                         'user'=>$findUser
                     ],
                     ],
-            'status' =>'201'
+            'status' =>'200'
         ]);
     }
 
