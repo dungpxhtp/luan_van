@@ -28,18 +28,13 @@
                             <li class="nav-item active">
                               <a class="nav-link" href="{{ Route('dashboard') }}"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
                             </li>
-                            <li class="nav-item">
-                              <a class="nav-link" href="#">Features</a>
-                            </li>
-                            <li class="nav-item">
-                              <a class="nav-link" href="#">Pricing</a>
-                            </li>
+
                             <li class="nav-item dropdown">
                               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Dropdown link
+                                Sản Phẩm
                               </a>
                               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="{{ Route('productindex') }}">Danh Sách Sản Phẩm</a>
                                 <a class="dropdown-item" href="#">Another action</a>
                                 <a class="dropdown-item" href="#">Something else here</a>
                               </div>
@@ -73,12 +68,12 @@
 
 
 
-    <script src="{{ asset('js/jquery/jquery-3.5.1.slim.min.js') }}">
-    </script>
-    <script src="{{ asset('js/jquery/popper.min.js') }}">
-    </script>
-    <script src="{{ asset('js/bs4/bootstrap.min.js') }}">
-    </script>
+
+
+    <script src="{{asset('js/jquery/jquery-3.5.1.slim.min.js')}}"></script>
+    <script src="{{ asset('js/jquery/popper.min.js') }}"></script>
+   <script src="{{ asset('js/jquery/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('js/bs4/bootstrap.min.js') }}"></script>
     <script src="{{ asset('fontawesome/js/all.min.js') }}"></script>
     <script src="{{ asset('fontawesome/js/brands.js') }}"></script>
     <script src="{{ asset('fontawesome/js/fontawesome.min.js') }}"></script>

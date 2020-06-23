@@ -77,3 +77,22 @@ header{
     *
     *
 */
+/*
+  *
+  * Table
+  *
+*/
+td , th{
+    text-align: center;
+}
+th{
+    background-color: #444242;
+    color: #FFFFFF;
+}
+.box-status-off
+{
+    text-align: end;
+    margin: 10px auto;
+}
+/*end table */
+
