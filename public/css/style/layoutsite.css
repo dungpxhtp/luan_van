@@ -95,4 +95,8 @@ th{
     margin: 10px auto;
 }
 /*end table */
-
+/*form upload */
+#uploadImage{
+    min-height: 400px;
+}
+/* end form upload */

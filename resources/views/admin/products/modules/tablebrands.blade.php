@@ -32,7 +32,7 @@
                                 <td>{{ $item->nameGender }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->code }}</td>
-                                <td><img style='width:250px;height:250px;' src="{{ asset('imageProducts') }}/{{$item->image}}"/></td>
+                                <td><img style='width:250px;height:250px;' src="{{ $item->image }}"/></td>
                                 <td>
                                     @if ($item->status ==1)
                                     <span class="btn btn-sm btn-success" style="cursor: default;"><i class="fas fa-toggle-on"></i>Bật</span>
@@ -55,9 +55,9 @@
 
                                         @endif
 
-                                        <a href="{{ Route('repair',['id_products'=>$item->slug]) }}" class="btn btn-info btn-sm">Sửa</a>
-                                        <a class="btn btn-sm btn-secondary">
-                                            <i class="fas fa-trash"></i> Xóa
+                                        <a href="{{ Route('repair',['slug_products'=>$item->slug,'id_product'=>$item->id]) }}" class="btn btn-info btn-sm">Sửa</a>
+                                        <a class="btn btn-sm btn-secondary" href="{{ Route('deleteProducts',['id_product'=>$item->id]) }}">
+                                                    <i class="fas fa-trash"></i> Xóa
                                         </a>
                                     </div>
                                 </td>

@@ -56,11 +56,21 @@
     </div>
 
 </nav>
+<div class="button-save row my-3">
+    <div class="col">
+        <a class="btn btn-primary btn-sm " href="{{ Route('getSaveProducts') }}">
+            <i class="fas fa-plus"></i> <span class="text-btn">
+                Thêm Sản Phẩm
+            </span>
+        </a>
+    </div>
 
+</div>
 <div id="table_data">
     @include('admin.products.modules.tablebrands')
 </div>
     @includeIf('admin.products.modal.modalproductbrands')
+    @includeIf('admin.products.modules.message')
 
 @endsection
 @section('script')
@@ -93,6 +103,12 @@
 
 
     </script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $("#thongbao").modal('show');
+        });
+    </script>
+
 @endsection
 

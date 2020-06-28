@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title')</title>
+
+
     <link rel="stylesheet" href="{{ asset('css/bs4/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style/normalize.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style/layoutsite.css') }}">
@@ -31,14 +33,27 @@
 
                             <li class="nav-item dropdown">
                               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Sản Phẩm
+                               Quản Lý Sản Phẩm
                               </a>
                               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="{{ Route('productindex') }}">Danh Sách Sản Phẩm</a>
-                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="{{ Route('getSaveProducts') }}">Thêm Sản Phẩm</a>
                                 <a class="dropdown-item" href="#">Something else here</a>
                               </div>
                             </li>
+
+                            {{-- /*  Quản Lí Loại */ --}}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  Quản Lý Thuộc Tính
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                  <a class="dropdown-item" href="{{ Route('indexbrandproduct') }}">Quản Lý Hãng</a>
+                                  <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                              </li>
+                         {{-- =
+                            /*end Loại */ --}}
 
                           </ul>
                           <ul class="navbar-nav ml-md-auto account">
@@ -72,7 +87,7 @@
 
     <script src="{{asset('js/jquery/jquery-3.5.1.slim.min.js')}}"></script>
     <script src="{{ asset('js/jquery/popper.min.js') }}"></script>
-   <script src="{{ asset('js/jquery/jquery-3.5.1.min.js') }}"></script>
+   <script src="{{ asset('js/jquery/jquery-3.5.1.min.js') }}" crossorigin="anonymous"></script>
     <script src="{{ asset('js/bs4/bootstrap.min.js') }}"></script>
     <script src="{{ asset('fontawesome/js/all.min.js') }}"></script>
     <script src="{{ asset('fontawesome/js/brands.js') }}"></script>
