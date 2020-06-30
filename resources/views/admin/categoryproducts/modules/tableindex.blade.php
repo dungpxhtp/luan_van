@@ -7,13 +7,13 @@
                     <tr>
                         <th scope="col"># </th>
                         <th scope="col">Tên </th>
-                        <th scope="col">Mã Hãng</th>
+
 
 
                         <th scope="col">Trạng Thái</th>
 
                         <th scope="col">Ngày Tạo</th>
-                        <th scope="col">Hình Ảnh</th>
+
                         <th scope="col"></th>
 
 

@@ -102,7 +102,7 @@
                    <div class="form-group text-center">
                     <label>Trạng Thái</label>
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" name="status" id="status"}}>
+                        <input type="checkbox" class="custom-control-input" name="status" id="status">
                         <label class="custom-control-label" for="status"></label>
                     </div>
 
@@ -302,7 +302,7 @@
                     </div>
                        <div class="form-group">
                            <label>Số Lượng Của Sản Phẩm</label>
-                           <input name="quantity" class="form-control" type="number" min="0"  value="{{ old('quantity') }}">
+                           <input name="quantity" class="form-control" type="number" min="0"  value="{{ old('quantity') }}" >
                            @if ($errors->has('quantity'))
                            <span class="text-danger">{{ $errors->first('quantity') }}</span>
                            @endif

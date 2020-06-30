@@ -30,7 +30,7 @@
                             <li class="nav-item active">
                               <a class="nav-link" href="{{ Route('dashboard') }}"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
                             </li>
-
+                            {{-- Quản Lý Sản Phẩm --}}
                             <li class="nav-item dropdown">
                               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                Quản Lý Sản Phẩm
@@ -41,7 +41,7 @@
                                 <a class="dropdown-item" href="#">Something else here</a>
                               </div>
                             </li>
-
+                            {{-- End Quản Lý Sản Phẩm --}}
                             {{-- /*  Quản Lí Loại */ --}}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -49,12 +49,25 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                   <a class="dropdown-item" href="{{ Route('indexbrandproduct') }}">Quản Lý Hãng</a>
-                                  <a class="dropdown-item" href="#">Something else here</a>
+                                  <a class="dropdown-item" href="{{ Route('indexcategoryproducts') }}">Quản Lý Loại Đồng Hồ</a>
+                                  <a class="dropdown-item" href="{{ Route('indexgendercategoryproducts') }}">Quản Lý Đối Tượng</a>
+
                                 </div>
                               </li>
                          {{-- =
                             /*end Loại */ --}}
+                            {{-- Quản Lý Đơn Hàng  --}}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Quản Lý Đơn Hàng
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                  <a class="dropdown-item" href="{{ Route('orders') }}">Danh Sách Đơn Hàng</a>
 
+
+                                </div>
+                              </li>
+                            {{-- End Quản Lý Đơn Hàng --}}
                           </ul>
                           <ul class="navbar-nav ml-md-auto account">
 
@@ -96,9 +109,25 @@
     <script src="{{ asset('jtable/jquery.dataTables.min.js') }}"></script>
     <script>
         $(document).ready( function () {
-            $('#myTable').DataTable();
+
+            var Vietnamese ="{{ asset('jtable/Vietnamese.json') }}";
+
+
+
+            $('#myTable').DataTable({
+
+                processing:true,
+                language: {
+                    "url": Vietnamese
+                },
+            });
+               // Setup - add a text input to each footer cell
+
+
         } );
+
     </script>
+
 </body>
 
 @yield('script')

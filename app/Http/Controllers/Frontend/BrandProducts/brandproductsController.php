@@ -4,30 +4,82 @@ namespace App\Http\Controllers\Frontend\BrandProducts;
 
 use App\Http\Controllers\Controller;
 use App\Models\brandproducts;
+use App\Models\products;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
+use Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class brandproductsController extends Controller
 {
     //
     public function index()
     {
-        $getData=brandproducts::all();
-        return view('admin.brandproducts.index',compact('getData'));
+
+        return view('admin.brandproducts.index');
     }
-    public function update_status($id)
+    public function ajaxbrandproduct(Request $request)
     {
+        if($request->ajax())
+        {
+            $getData=brandproducts::query();
+            return Datatables::of($getData)
+            ->setRowAttr(['align'=>'center'])
+            ->addColumn('status_brandproduct',function($getData){
+                    if($getData->status==1){
+                            $span='<span class="btn btn-sm btn-success" style="cursor: default;"><i class="fas fa-toggle-on"></i>Bật</span>';
+                            return $span;
+
+                    }else{
+                             $span='<span class="btn btn-sm btn-success" style="cursor: default;"><i class="fas fa-toggle-on"></i>Tắt</span>';
+                             return $span;
+                    }
+            })
+            ->addColumn('created_at_brandproduct',function($getData){
+                $time=  \Carbon\Carbon::parse($getData->created_at)->format('d/m/Y');
+                return $time;
+            })
+            ->addColumn('action',function($getData){
+                        if($getData->status==1){
+                            $button='<a type="button" href="'.$getData->id.'" name="update_status"  class="update_status btn btn-danger btn-sm"><i class="fas fa-power-off"></i>Tắt</a>';
+
+
+                        }else{
+                            $button ='<a type="button" href="'.$getData->id.'" name="update_status" class="update_status btn btn-success btn-sm"><i class="fas fa-power-off"></i>Bật</a>';
+
+                        }
+                          $button.='<a type="button" href="'.$getData->id.'" name="update_status"  class="delete_brands btn btn-secondary btn-sm"> <i class="fas fa-trash"></i> Xóa</a>';
+                          $button.='<a type="button" href="update_brandproduct/'.$getData->id.'/'.$getData->slug.'" name="update_status"  class="update_brands btn btn-info btn-sm">Sửa</a>';
+
+                          return $button;
+
+            })->addColumn('image_brands',function($getData){
+                $image= '<img src="'.$getData->image .' " alt="image thuong hieu" />' ;
+                return $image;
+            })
+            ->rawColumns(['status_brandproduct','created_at_brandproduct','action','image_brands'])
+            ->make('true');
+        }
+    }
+    public function update_status(Request $request,$id)
+    {
+      if($request->ajax())
+      {
         $row=brandproducts::findOrFail($id);
         if($row->status==0)
         {
             $row->status=1;
             $row->save();
-            return redirect()->back()->with("message",["type"=>"success","msg"=>"Bật Trạng Thái Thành Công "]);
+            return response()->json('Bật Trạng Thái Thành Công');
         }else
         {
             $row->status=0;
             $row->save();
-            return redirect()->back()->with("message",["type"=>"success","msg"=>"Tắt Trạng Thái Thành Công "]);
+            return response()->json('Tắt Trạng Thái Thành Công');
         }
+      }
 
     }
     public function update_brandproduct($id_brandproducts,$slug)
@@ -37,6 +89,131 @@ class brandproductsController extends Controller
     }
     public function post_brandproduct(Request $request,$id_brandproducts)
     {
-        dd($request->all());
+        $v=Validator::make($request->all(), [
+            'name'=>'required',
+            'code'=>'required',
+            'detail'=>'required',
+            'filepath'=>'required',
+
+        ],
+        [
+            'name.required'=>'Tên Không Được Bỏ Trống',
+            'code.required'=>'Mã Sản Phẩm Không Được Bỏ Trống',
+            'detail.required'=>'Không Được Bỏ Trống',
+            'filepath.required'=>'Không Được Bỏ Trống',
+
+
+        ] );
+        if($v->fails())
+            {
+                return redirect()->back()
+                ->withErrors($v)
+                ->withInput();
+            }
+    if(brandproducts::where([['name','=',$request->name],['id','<>',$id_brandproducts]])->count())
+            {
+                return redirect()->back()->with("message",["type"=>"danger","msg"=>"Tên Sản Phẩm Đã Tồn Tại. Nhập Lại "]);
+            }
+    if(brandproducts::where([['code','=',$request->code],['id','<>',$id_brandproducts]])->count())
+            {
+                return redirect()->back()->with("message",["type"=>"danger","msg"=>"Mã Sản Phẩm Đã Tồn Tại.Nhập Lại"]);
+            }
+    if($request->status =='on')
+            {
+                $status=1;
+            }else
+            {
+                $status=0;
+            }
+            $idAdmin=Auth::guard('admin')->user()->id;
+            $str_code=Str::slug($request->code);
+            $row=brandproducts::findOrFail($id_brandproducts);
+            $row->status=$status;
+            $row->name=$request->name;
+            $row->code=strtoupper($str_code);
+            $row->slug=Str::slug($request->name.'/'.$str_code,'-');
+            $row->image=$request->filepath;
+            $row->metadesc=$request->metadesc;
+            $row->metakey=$request->metakey;
+            $row->detail=$request->detail;
+            $row->updated_by=$idAdmin;
+            $row->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
+            $row->save();
+            return redirect()->back()->with("message",["type"=>"success","msg"=>"Sửa Thành Công"]);
+    }
+    public function destroy(Request $request,$id_brandproducts)
+    {
+        if($request->ajax())
+        {
+            if(products::where([['id_brandproducts','=',$id_brandproducts]])->count())
+            {
+                return response()->json('Không Thể Xóa Do Còn Sản Phẩm Liên Quan');
+            }
+            $getData=brandproducts::findOrFail($id_brandproducts);
+            if($getData->delete())
+            {
+                return response()->json('Xóa Thành Công');
+            }
+
+        }
+    }
+    public function add_brandproduct()
+    {
+        return view('admin.brandproducts.add_brandproduct');
+    }
+    public function post_add_brandproduct(Request $request)
+    {
+
+        $v=Validator::make($request->all(), [
+            'name'=>'required',
+            'code'=>'required',
+            'detail'=>'required',
+            'filepath'=>'required',
+
+        ],
+        [
+            'name.required'=>'Tên Không Được Bỏ Trống',
+            'code.required'=>'Mã Sản Phẩm Không Được Bỏ Trống',
+            'detail.required'=>'Không Được Bỏ Trống',
+            'filepath.required'=>'Không Được Bỏ Trống',
+
+
+        ] );
+        if($v->fails())
+            {
+                return redirect()->back()
+                ->withErrors($v)
+                ->withInput();
+            }
+    if(brandproducts::where([['name','=',$request->name]])->count())
+            {
+                return redirect()->back()->with("message",["type"=>"danger","msg"=>"Tên Sản Phẩm Đã Tồn Tại. Nhập Lại "]);
+            }
+    if(brandproducts::where([['code','=',$request->code]])->count())
+            {
+                return redirect()->back()->with("message",["type"=>"danger","msg"=>"Mã Sản Phẩm Đã Tồn Tại.Nhập Lại"]);
+            }
+    if($request->status =='on')
+            {
+                $status=1;
+            }else
+            {
+                $status=0;
+            }
+            $idAdmin=Auth::guard('admin')->user()->id;
+            $str_code=Str::slug($request->code);
+            $row=new brandproducts;
+            $row->status=$status;
+            $row->name=$request->name;
+            $row->code=strtoupper($str_code);
+            $row->slug=Str::slug($request->name.'/'.$str_code,'-');
+            $row->image=$request->filepath;
+            $row->metadesc=$request->metadesc;
+            $row->metakey=$request->metakey;
+            $row->detail=$request->detail;
+            $row->updated_by=$idAdmin;
+            $row->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
+            $row->save();
+            return redirect()->back()->with("message",["type"=>"success","msg"=>"Thêm Thành Công"]);
     }
 }

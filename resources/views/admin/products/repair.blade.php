@@ -322,14 +322,14 @@
                     </div>
                        <div class="form-group">
                            <label>Số Lượng Của Sản Phẩm</label>
-                           <input name="quantity" class="form-control" type="number" min="0"  value="{{ old('quantity',$products->quantity) }}">
+                           <input name="quantity" class="form-control" type="number" min="0" required oninvalid="this.setCustomValidity('Kiểm Tra Lại Số Lượng')" onchange="this.setCustomValidity('')"    value="{{ old('quantity',$products->quantity) }}">
                            @if ($errors->has('quantity'))
                            <span class="text-danger">{{ $errors->first('quantity') }}</span>
                            @endif
                        </div>
                        <div class="form-group">
                                <label>Giá Bán</label>
-                               <input name="price" class="form-control" id="price" type="number" min="10000" value="{{ old('price',$products->price) }}" >
+                               <input name="price" class="form-control" id="price" required type="number" min="10000" value="{{ old('price',$products->price) }}" >
                                <label class="price-formart"></label>
                                @if ($errors->has('price'))
                                <span class="text-danger">{{ $errors->first('price') }}</span>

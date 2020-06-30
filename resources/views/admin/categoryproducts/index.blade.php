@@ -18,7 +18,7 @@
 </nav>
 <div class="button-save row my-3">
     <div class="col">
-        <a class="btn btn-primary btn-sm " href="{{ Route('add_brandproduct') }}">
+        <a class="btn btn-primary btn-sm " href="{{ Route('add_categoryproducts') }}">
             <i class="fas fa-plus"></i> <span class="text-btn">
                 Thêm Loại Đồng Hồ
             </span>
@@ -26,7 +26,7 @@
     </div>
 
 </div>
-@include('admin.brandproducts.modules.tableindex')
+@include('admin.categoryproducts.modules.tableindex')
 @includeIf('admin.products.modules.message')
 
 <div id="confirmModal" class="modal fade" role="dialog">
@@ -135,14 +135,13 @@
                     language: {
                         "url": Vietnamese
                     },
-                    ajax: '{{ Route('ajaxbrandproduct') }}',
+                    ajax: '{{ Route('fetchcategoryproducts') }}',
                     columns:[
                         {data:'id',name:'id'},
                         {data:'name',name:'name'},
-                        {data:'code',name:'code'},
+
                         {data:'status_brandproduct',name:'status_brandproduct'},
                         {data:'created_at_brandproduct',name:'created_at_brandproduct'},
-                        {data:'image_brands',name:'image_brands',orderable:false},
 
                         {data:'action',name:'action',orderable: false},
 
@@ -155,7 +154,7 @@
             $(document).on('click','.update_status',function(event){
                 event.preventDefault();
                 var id = $(this).attr("href");
-                let url="{{ Route('update_status',':id') }}";
+                let url="{{ Route('update_status_categoryproducts',':id') }}";
                 url = url.replace(':id', id);
                 $.ajax({
                     url :url,
@@ -176,13 +175,12 @@
                 event.preventDefault();
                 id_brands = $(this).attr("href");
                 $('#ok_button').text('OK');
-
                 $('#confirmModal').modal('show');
 
 
             })
             $('#ok_button').click(function(){
-                let url="{{ Route('destroy',':id') }}";
+                let url="{{ Route('destroy_categoryproducts',':id') }}";
                 url = url.replace(':id', id_brands);
                 $.ajax({
                     url :url,

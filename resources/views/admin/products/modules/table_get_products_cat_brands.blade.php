@@ -47,6 +47,7 @@
 
 
                     </tbody>
+
                 </table>
                 <div class="justify-content-center view-all-transaction">
                     {{-- {!! $getData->links() !!} --}}

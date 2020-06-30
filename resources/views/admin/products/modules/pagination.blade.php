@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-xl-12 box-table-order">
             <div class="table-responsive-sm my-3">
-                <table class="table table-bordered table-hover table-striped ">
+                <table class="table table-bordered table-hover table-striped " id="myTable">
                     <thead>
                     <tr>
                         <th scope="col"># </th>

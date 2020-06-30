@@ -3,6 +3,7 @@
     Quản Lý Hãng
 @endsection
 @section('head')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 @endsection
 @section('main')
@@ -18,7 +19,7 @@
 </nav>
 <div class="button-save row my-3">
     <div class="col">
-        <a class="btn btn-primary btn-sm " href="{{ Route('add_brandproduct') }}">
+        <a class="btn btn-primary btn-sm btn_add">
             <i class="fas fa-plus"></i> <span class="text-btn">
                 Thêm Loại Đồng Hồ
             </span>
@@ -26,7 +27,7 @@
     </div>
 
 </div>
-@include('admin.brandproducts.modules.tableindex')
+@include('admin.genderproducts.modules.tableindex')
 @includeIf('admin.products.modules.message')
 
 <div id="confirmModal" class="modal fade" role="dialog">
@@ -42,7 +43,7 @@
             </h4>
             </div>
             <div class="modal-footer">
-             <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">OK</button>
+                <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">OK</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -54,72 +55,109 @@
     <div class="modal-dialog">
      <div class="modal-content">
       <div class="modal-header">
+
+           <h4 class="modal-title">Thêm</h4>
              <button type="button" class="close" data-dismiss="modal">&times;</button>
-             <h4 class="modal-title"></h4>
+
            </div>
            <div class="modal-body">
             <span id="form_result"></span>
-            <div class="row">
-                    <div class="col">
-                        <form method="post" id="sample_form" class="form-horizontal">
-                            @csrf
+                   <form id="insert_gender">
+                    {{ csrf_field() }}
+                    <div class="row">
+                        <div class="col-md-12">
                             <div class="form-group">
-                              <label class="control-label col-md-4" >Tên : </label>
-                              <div class="col">
-                               <input type="text" name="name" id="first_name" class="form-control" />
-                              </div>
-                             </div>
-                             <div class="form-group">
-                              <label class="control-label col-md-4">Mã Hàng : </label>
-                              <div class="col">
-                               <input type="text" name="code" id="last_name" class="form-control" />
-                              </div>
-                              <div class="form-group">
-                                <label>Chọn Ảnh Đại Diện</label>
-                                <div class="input-group">
-                                    <span class="input-group-btn">
-                                      <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                                        <i class="far fa-images"></i>Chọn Ảnh
-                                      </a>
-                                    </span>
-                                    <input id="thumbnail" class="form-control" type="text" name="filepath" readonly value="{{old('filepath')}}" >
-                                  </div>
-                                  <img id="holder" style="margin-top:15px;max-height:100px;" src="">
-                                  @if ($errors->has('filepath'))
-                                  <span class="text-danger">{{ $errors->first('filepath') }}</span>
-                                  @endif
+                                <label>Tên Hãng Đồng Hồ</label>
+                                <input name="name" class="form-control" type="text" value="{{ old('name') }}">
+                             @if ($errors->has('name'))
+                             <span class="text-danger">{{ $errors->first('name') }}</span>
+                             @endif
+
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>Từ Khóa Meta Key</label>
+                                <textarea name="metakey" class="form-control" rows="3">{{ old('metakey') }}</textarea>
+                             @if ($errors->has('metakey'))
+                             <span class="text-danger">{{ $errors->first('metakey') }}</span>
+                             @endif
+
                             </div>
                             <div class="form-group">
-                                <label>Chi Tiết Đồng Hồ</label>
-                                <textarea id="my-editor" name="detail" class="form-control">
-                                    {{ old('detail') }}
-                                </textarea>
+                                <label>Từ Khóa Meta Key</label>
+                                <textarea name="metadesc" class="form-control" rows="3">{{ old('metakey') }}</textarea>
+                             @if ($errors->has('metadesc'))
+                             <span class="text-danger">{{ $errors->first('metadesc') }}</span>
+                             @endif
 
-                             </div>
+                            </div>
                             <div class="form-group text-center">
                                 <label>Trạng Thái</label>
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" name="status" id="status">
+                                    <input type="checkbox" class="custom-control-input" name="status" id="status" >
                                     <label class="custom-control-label" for="status"></label>
                                 </div>
 
-                               </div>
-                             </div>
-                                  <br />
-                                  <div class="form-group" align="center">
-                                   <input type="hidden" name="action" id="action" value="Add" />
-                                   <input type="hidden" name="hidden_id" id="hidden_id" />
-                                   <input type="submit" name="action_button" id="action_button" class="btn btn-warning" value="Add" />
-                                  </div>
-                           </form>
+                            </div>
+
+                            <div class="form-group text-center">
+                                <button type="button" name="ok_button" id="btn_submit" class="btn btn-success">Thêm</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Thoát</button>
+
+
+                            </div>
+                        </div>
                     </div>
-            </div>
+                </form>
            </div>
         </div>
        </div>
    </div>
 @endsection
 @section('script')
+    <script>
+        $(document).on('click','.btn_add',function(event){
+            event.preventDefault();
+            $('#formModal').modal('show');
+        });
+        $('#btn_submit').click(function(event){
+            event.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            var url= '{{ Route('post_add_gendercategoryproducts') }}';
+            console.log(url);
+            $.ajax({
+                url:url,
+                type:'POST',
+                data:$('#insert_gender').serialize(),
+                contentType: 'application/x-www-form-urlencoded',
+                dataType: 'JSON',
+                success:function(data){
+                    var html = '';
+                    if(data.errors)
+                    {
+                    html = '<div class="alert alert-danger">';
+
+                    html += '<p>' + data.errors + '</p>';
+
+                    html += '</div>';
+                    }
+                    if(data.success)
+                    {
+                    html = '<div class="alert alert-success">' + data.success + '</div>';
+                    $('#insert_gender')[0].reset();
+                    $('#table_index').DataTable().ajax.reload();
+                    }
+                    $('#form_result').html(html);
+                }
+            });
+        });
+    </script>
     <script>
         $(document).ready(function(){
             $("#thongbao").modal('show');
@@ -128,21 +166,19 @@
         <script>
             $(document).ready(function(){
                 var Vietnamese ="{{ asset('jtable/Vietnamese.json') }}";
-
                 $('#table_index').DataTable({
                     processing:true,
                     serverSide:true,
                     language: {
                         "url": Vietnamese
                     },
-                    ajax: '{{ Route('ajaxbrandproduct') }}',
+                    ajax: '{{ Route('fetchgendercategoryproducts') }}',
                     columns:[
                         {data:'id',name:'id'},
                         {data:'name',name:'name'},
-                        {data:'code',name:'code'},
+
                         {data:'status_brandproduct',name:'status_brandproduct'},
                         {data:'created_at_brandproduct',name:'created_at_brandproduct'},
-                        {data:'image_brands',name:'image_brands',orderable:false},
 
                         {data:'action',name:'action',orderable: false},
 
@@ -155,7 +191,7 @@
             $(document).on('click','.update_status',function(event){
                 event.preventDefault();
                 var id = $(this).attr("href");
-                let url="{{ Route('update_status',':id') }}";
+                let url="{{ Route('update_status_gendercategoryproducts',':id') }}";
                 url = url.replace(':id', id);
                 $.ajax({
                     url :url,
@@ -164,9 +200,10 @@
                     jsonpCallback: "index",
                     success:function(data)
                     {
+                        alert(data);
                     setTimeout(function(){
                         $('#table_index').DataTable().ajax.reload();
-                        alert(data);
+
                     },1000);
                     }
                 });
@@ -182,7 +219,7 @@
 
             })
             $('#ok_button').click(function(){
-                let url="{{ Route('destroy',':id') }}";
+                let url="{{ Route('destroy_gendercategoryproducts',':id') }}";
                 url = url.replace(':id', id_brands);
                 $.ajax({
                     url :url,

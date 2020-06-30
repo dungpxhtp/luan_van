@@ -11,19 +11,24 @@
 </head>
 <body>
 
-    <div class="container">
+    <div class="container-fluid">
+        <div class="row">
+
+        </div>
         <div class="row row-login align-items-center">
+
             <div class="col col-login">
+
                 <form name="myForm" class="form-content fadeIn" onsubmit="return validateForm();" method="POST" action="{{ Route('loginAdmin') }}">
                     @csrf
-                    <div class="form-group">
-                      <label for="exampleInputEmail1">Email address</label>
-                      <input type="email" required="required" name="inputEmail"   class="form-control" id="inputEmail" aria-describedby="emailHelp" >
-                      <small id="emailHelp" class="form-text text-muted">We ll never share your email with anyone else.</small>
+                    <div class="form-group" style="margin-top:10px;">
+                        <label for="exampleInputPassword1"></label>
+
+                      <input type="email" required="required" name="inputEmail"   class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Nhập Vào Tài Khoản">
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputPassword1">Password</label>
-                      <input type="password" name="inputPassword" required="required" class="form-control" id="inputPassword">
+                      <label for="exampleInputPassword1"></label>
+                      <input type="password" name="inputPassword" required="required" class="form-control" id="inputPassword" placeholder="Nhập Vào Mật Khẩu">
                     </div>
 
                     <button type="submit" class="btn btn-success btn-login">Đăng Nhập</button>

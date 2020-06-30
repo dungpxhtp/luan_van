@@ -50,6 +50,7 @@ class product extends Controller
     }
     function get_products_cat_brands($id_brandproducts,$id_cate)
     {
+
         $id_Brand=brandproducts::where([['slug','=',$id_brandproducts],['status','=','1']])->firstOrFail();
         $id_Cates=categoryproducts::where([['slug','=',$id_cate],['status','=','1']])->firstOrFail();
         $id_categoryproducts=$id_Cates->id;
@@ -293,7 +294,7 @@ class product extends Controller
         $row->status=$status;
         $row->name=$request->name;
         $row->code=strtoupper($str_code);
-        $row->slug=Str::slug($request->name.'/'.$str_code,'-');
+        $row->slug=Str::slug($request->name);
         $row->image=$request->filepath;
         $row->price=$request->price;
         $row->quantity=$request->quantity;

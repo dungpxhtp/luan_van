@@ -100,3 +100,6 @@ th{
     min-height: 400px;
 }
 /* end form upload */
+.btn{
+    margin: 0 5px;
+}
