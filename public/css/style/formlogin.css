@@ -1,5 +1,7 @@
 body{
-    background: #7da9bba4;
+    background: url('http://watchstore.test//storage/files/anhbackground/image.jpg')  center center ;
+        background-size: auto;
+
 }
 .container{
     height: 100vh;

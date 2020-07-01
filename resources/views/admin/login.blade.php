@@ -8,10 +8,14 @@
     <link rel="stylesheet" href="{{ asset('css/bs4/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style/formlogin.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style/normalize.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('fontawesome/css/brands.css') }}">
+    <link rel="stylesheet" href="{{ asset('fontawesome/css/solid.css') }}">
 </head>
 <body>
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="margin-top: 50px;">
         <div class="row">
 
         </div>
@@ -22,16 +26,15 @@
                 <form name="myForm" class="form-content fadeIn" onsubmit="return validateForm();" method="POST" action="{{ Route('loginAdmin') }}">
                     @csrf
                     <div class="form-group" style="margin-top:10px;">
-                        <label for="exampleInputPassword1"></label>
+                        <label for="exampleInputPassword1"><i class="fas fa-users fa-3x" style="color: #467B29"></i></label>
 
-                      <input type="email" required="required" name="inputEmail"   class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Nhập Vào Tài Khoản">
+                      <input type="email" required="required" name="inputEmail"   class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Tài Khoản" style="border-radius: 30px;">
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputPassword1"></label>
-                      <input type="password" name="inputPassword" required="required" class="form-control" id="inputPassword" placeholder="Nhập Vào Mật Khẩu">
+                      <input type="password" name="inputPassword" required="required" class="form-control" id="inputPassword" placeholder="Mật Khẩu" style="border-radius: 30px;">
                     </div>
 
-                    <button type="submit" class="btn btn-success btn-login">Đăng Nhập</button>
+                    <button type="submit" class="btn btn-success btn-login" style="border-radius: 30px; margin:20px 0;">Đăng Nhập</button>
 
                   </form>
 
@@ -52,6 +55,10 @@
 
     <script src="{{ asset('js/bs4/bootstrap.min.js') }}">
     </script>
+    <script src="{{ asset('fontawesome/js/all.min.js') }}"></script>
+    <script src="{{ asset('fontawesome/js/brands.js') }}"></script>
+    <script src="{{ asset('fontawesome/js/fontawesome.min.js') }}"></script>
+    <script src="{{ asset('fontawesome/js/solid.js') }}"></script>
 </body>
 
 </html>
