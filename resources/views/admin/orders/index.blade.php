@@ -16,108 +16,55 @@
     </div>
 
 </nav>
-<div class="button-save row my-3">
-    <div class="col">
-        <a class="btn btn-primary btn-sm " href="{{ Route('add_brandproduct') }}">
-            <i class="fas fa-plus"></i> <span class="text-btn">
-                Thêm Loại Đồng Hồ
-            </span>
-        </a>
-    </div>
 
-</div>
-@include('admin.brandproducts.modules.tableindex')
+@include('admin.orders.modules.tableindex')
 @includeIf('admin.products.modules.message')
 
-<div id="confirmModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+<div id="confirmModal" class="modal fade " role="dialog" >
+    <div class="modal-dialog mw-100 w-75">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title"></h2>
+                <h2 class="modal-title">Chi Tiết Đơn Hàng</h2>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
 
             </div>
             <div class="modal-body">
-                <h4 align="center" style="margin:0;">Bạn có chắc chắn muốn xóa dữ liệu này?
-            </h4>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-12 box-table-order">
+                            <div class="table-responsive my-3">
+                                <table class="table table-bordered table-hover table-striped " id="table_index">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Mã Hóa Đơn</th>
+                                        <th scope="col">Tên người nhận</th>
+                                        <th scope="col">Số Điện Thoại</th>
+                                        <th scope="col">Ngày Đặt Hàng</th>
+                                        <th scope="col">Tổng Tiền</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="tbody_Order">
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
-             <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">OK</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+             <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">Xuất Hóa Đơn</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Thoát</button>
             </div>
         </div>
     </div>
 </div>
 
 
-<div id="formModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-     <div class="modal-content">
-      <div class="modal-header">
-             <button type="button" class="close" data-dismiss="modal">&times;</button>
-             <h4 class="modal-title"></h4>
-           </div>
-           <div class="modal-body">
-            <span id="form_result"></span>
-            <div class="row">
-                    <div class="col">
-                        <form method="post" id="sample_form" class="form-horizontal">
-                            @csrf
-                            <div class="form-group">
-                              <label class="control-label col-md-4" >Tên : </label>
-                              <div class="col">
-                               <input type="text" name="name" id="first_name" class="form-control" />
-                              </div>
-                             </div>
-                             <div class="form-group">
-                              <label class="control-label col-md-4">Mã Hàng : </label>
-                              <div class="col">
-                               <input type="text" name="code" id="last_name" class="form-control" />
-                              </div>
-                              <div class="form-group">
-                                <label>Chọn Ảnh Đại Diện</label>
-                                <div class="input-group">
-                                    <span class="input-group-btn">
-                                      <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                                        <i class="far fa-images"></i>Chọn Ảnh
-                                      </a>
-                                    </span>
-                                    <input id="thumbnail" class="form-control" type="text" name="filepath" readonly value="{{old('filepath')}}" >
-                                  </div>
-                                  <img id="holder" style="margin-top:15px;max-height:100px;" src="">
-                                  @if ($errors->has('filepath'))
-                                  <span class="text-danger">{{ $errors->first('filepath') }}</span>
-                                  @endif
-                            </div>
-                            <div class="form-group">
-                                <label>Chi Tiết Đồng Hồ</label>
-                                <textarea id="my-editor" name="detail" class="form-control">
-                                    {{ old('detail') }}
-                                </textarea>
 
-                             </div>
-                            <div class="form-group text-center">
-                                <label>Trạng Thái</label>
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" name="status" id="status">
-                                    <label class="custom-control-label" for="status"></label>
-                                </div>
-
-                               </div>
-                             </div>
-                                  <br />
-                                  <div class="form-group" align="center">
-                                   <input type="hidden" name="action" id="action" value="Add" />
-                                   <input type="hidden" name="hidden_id" id="hidden_id" />
-                                   <input type="submit" name="action_button" id="action_button" class="btn btn-warning" value="Add" />
-                                  </div>
-                           </form>
-                    </div>
-            </div>
-           </div>
-        </div>
-       </div>
-   </div>
 @endsection
 @section('script')
     <script>
@@ -135,14 +82,16 @@
                     language: {
                         "url": Vietnamese
                     },
-                    ajax: '{{ Route('ajaxbrandproduct') }}',
+                    ajax: '{{ Route('fetchorders') }}',
                     columns:[
-                        {data:'id',name:'id'},
-                        {data:'name',name:'name'},
-                        {data:'code',name:'code'},
-                        {data:'status_brandproduct',name:'status_brandproduct'},
-                        {data:'created_at_brandproduct',name:'created_at_brandproduct'},
-                        {data:'image_brands',name:'image_brands',orderable:false},
+                        {data:'codeOder',name:'codeOder'},
+                        {data:'fullName',name:'fullName'},
+                        {data:'phoneOder',name:'phoneOder'},
+                        {data:'exportDate',name:'exportDate'},
+                        {data:'TotalOrder',name:'TotalOrder'},
+                        {data:'Address',name:'Address'},
+                        {data:'Payments',name:'Payments'},
+                        {data:'status',name:'status'},
 
                         {data:'action',name:'action',orderable: false},
 
@@ -152,10 +101,10 @@
                     ]
                 });
             })
-            $(document).on('click','.update_status',function(event){
+            $(document).on('click','.viewOrder',function(event){
                 event.preventDefault();
                 var id = $(this).attr("href");
-                let url="{{ Route('update_status',':id') }}";
+                let url="{{ Route('viewOrder',':id') }}";
                 url = url.replace(':id', id);
                 $.ajax({
                     url :url,
@@ -163,11 +112,21 @@
                     dataType:"json",
                     jsonpCallback: "index",
                     success:function(data)
-                    {
-                    setTimeout(function(){
-                        $('#table_index').DataTable().ajax.reload();
-                        alert(data);
-                    },1000);
+                    {   console.log(data);
+                        $('.tbody_Order').empty();
+                            if(typeof data.success !== 'undefined')
+                            {
+                                $.each(data.success,function(i,v){
+                                    var tr=$('<tr>').append(
+                                        $('<td>').html(v.nameproducts),
+                                        $('<td>').html("<img src='"+v.image+"' style='width:100px;'>"),
+                                        $('<td>').html(v.quantity),
+                                        $('<td>').html(v.price),
+                                        $('<td>').html(v.TotalProducts),
+                                    ).appendTo('.tbody_Order');
+                                });
+                            }
+                            $('#confirmModal').modal('show');
                     }
                 });
             });

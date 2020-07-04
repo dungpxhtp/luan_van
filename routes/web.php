@@ -82,6 +82,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
     Route::group(['prefix' => 'orders'], function () {
         Route::get('orders','Frontend\orders\orderscontroller@indexorders')->name('orders');
         Route::get('fetchorders','Frontend\orders\orderscontroller@fetchorders')->name('fetchorders');
+        Route::get('viewOrder/{id_orders}','Frontend\orders\orderscontroller@viewOrder')->name('viewOrder');
     });
 
 
