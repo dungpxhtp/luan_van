@@ -20,6 +20,7 @@ class brandproductsController extends Controller
 
         return view('admin.brandproducts.index');
     }
+
     public function ajaxbrandproduct(Request $request)
     {
         if($request->ajax())
@@ -63,6 +64,7 @@ class brandproductsController extends Controller
             ->make('true');
         }
     }
+
     public function update_status(Request $request,$id)
     {
       if($request->ajax())

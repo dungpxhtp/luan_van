@@ -48,9 +48,9 @@
                 <div class="form-group">
                     <label>Tên Hãng Đồng Hồ</label>
                     <input name="name" class="form-control" type="text" value="{{ old('name') }}">
-                 @if ($errors->has('name'))
-                 <span class="text-danger">{{ $errors->first('name') }}</span>
-                 @endif
+                    @if ($errors->has('name'))
+                        <span class="text-danger">{{ $errors->first('name') }}</span>
+                    @endif
 
 
                 </div>
@@ -71,8 +71,7 @@
             </div>
                 <div class="form-group">
                     <label>Từ Khóa Meta Key</label>
-                    <textarea name="metakey" class="form-control" rows="3">{{ old('metakey') }}
-                    </textarea>
+                    <textarea name="metakey" class="form-control" rows="3">{{ old('metakey') }}</textarea>
                  @if ($errors->has('metakey'))
                  <span class="text-danger">{{ $errors->first('metakey') }}</span>
                  @endif
@@ -80,8 +79,7 @@
                 </div>
                 <div class="form-group">
                     <label>Từ Khóa Meta Key</label>
-                    <textarea name="metadesc" class="form-control" rows="3">{{ old('metakey') }}
-                    </textarea>
+                    <textarea name="metadesc" class="form-control" rows="3">{{ old('metakey') }}</textarea>
                  @if ($errors->has('metadesc'))
                  <span class="text-danger">{{ $errors->first('metadesc') }}</span>
                  @endif
@@ -126,36 +124,9 @@
 @includeIf('admin.products.modules.message')
 @endsection
 @section('script')
-<script>
-        $(document).ready(function(){
-            if($("#status").is(":checked"))
-            {
-                $(".custom-control-label").text('Đang Hoạt Động');
-            }else
-            {
-                $(".custom-control-label").text('Tắt Hoạt Động');
-            }
-            $('#status').click(function(){
-                if($("#status").is(":checked"))
-                {
-                    $(".custom-control-label").text('Đang Hoạt Động');
-                }else
-                {
-                    $(".custom-control-label").text('Tắt Hoạt Động');
-                }
-            });
-        });
-    </script>
     <script>
-        $(document).ready(function(){
-            if($("#status").is(":checked"))
-            {
-                $(".custom-control-label").text('Đang Hoạt Động');
-            }else
-            {
-                $(".custom-control-label").text('Tắt Hoạt Động');
-            }
-            $('#status').click(function(){
+            $(document).ready(function(){
+
                 if($("#status").is(":checked"))
                 {
                     $(".custom-control-label").text('Đang Hoạt Động');
@@ -163,36 +134,38 @@
                 {
                     $(".custom-control-label").text('Tắt Hoạt Động');
                 }
+                $('#status').click(function(){
+                    if($("#status").is(":checked"))
+                    {
+                        $(".custom-control-label").text('Đang Hoạt Động');
+                    }else
+                    {
+                        $(".custom-control-label").text('Tắt Hoạt Động');
+                    }
+                });
+                var options = {
+                    filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+                    filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+                    filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+                    filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token=',
+                    language:'vi',
+                    uiColor: '#14B8C4',
+                    };
+                    CKEDITOR.replace('my-editor', options);
+                $("#thongbao").modal('show');
             });
-        });
     </script>
 
-    <script>
-        $(document).ready(function(){
-            var options = {
-                filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
-                filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
-                filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
-                filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token=',
-                language:'vi',
-                uiColor: '#14B8C4',
-                };
-                CKEDITOR.replace('my-editor', options);
-        });
-    </script>
+
     {{-- <script src="/vendor/laravel-filemanager/js/lfm.js"></script> --}}
 
     <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
-   <script>
+    <script>
     var route_prefix = "/laravel-filemanager?type=Images";
     $('#lfm').filemanager('image', {prefix: route_prefix});
     </script>
     <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
     <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
-    <script>
-        $(document).ready(function(){
-            $("#thongbao").modal('show');
-        });
-    </script>
+
 
 @endsection

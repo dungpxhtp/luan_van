@@ -79,12 +79,23 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::post('post_update_gendercategoryproducts/{id_gendercategoryproducts}','Frontend\genderCategoryProducts\gendercategoryproductscontroller@post_update_gendercategoryproducts')->name('post_update_gendercategoryproducts');
         Route::post('post_add_gendercategoryproducts','Frontend\genderCategoryProducts\gendercategoryproductscontroller@post_add_gendercategoryproducts')->name('post_add_gendercategoryproducts');
     });
+    //Đơn Hàng
     Route::group(['prefix' => 'orders'], function () {
         Route::get('orders','Frontend\orders\orderscontroller@indexorders')->name('orders');
         Route::get('fetchorders','Frontend\orders\orderscontroller@fetchorders')->name('fetchorders');
+        Route::get('fetchordersconfirm','Frontend\orders\orderscontroller@fetchordersconfirm')->name('fetchordersconfirm');
+        Route::post('update-quantity-order/{id_order_products}','Frontend\orders\orderscontroller@update_quantity_order')->name('update_quantity_order');
         Route::get('viewOrder/{id_orders}','Frontend\orders\orderscontroller@viewOrder')->name('viewOrder');
+        Route::get('update_status_orders/{id_orders}','Frontend\orders\orderscontroller@update_status_orders')->name('update_status_orders');
+        Route::get('export-pdf-order/{id_orders}/hoadon','Frontend\orders\orderscontroller@export_pdf_order')->name('export_pdf_order');
+        Route::post('post-export-pdf-order/{id_orders}/hoadon','Frontend\orders\orderscontroller@post_export_pdf_order')->name('post_export_pdf_order');
+        Route::get('export/{id}','Frontend\orders\orderscontroller@export')->name('export');
     });
-
+    //Quản Lý User
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('users','Frontend\UserController@index')->name('users.view');
+        Route::get('FetchUsersList','Frontend\UserController@fetchUserAjax')->name('users.FetchAjax');
+    });
 
 
 });

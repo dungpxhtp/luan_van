@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
     <title>@yield('title')</title>
 
 
@@ -68,6 +70,35 @@
 
                                 </div>
                               </li>
+                              <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Quản Lý Bình Luận
+                                  </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                  <a class="dropdown-item" href="{{ Route('orders') }}">Quản Lý Bình Luận</a>
+                                </div>
+
+                              </li>
+                              <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Quản Lý Khách Hàng
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                  <a class="dropdown-item" href="{{ Route('users.view') }}">Quản Lý Khách Hàng</a>
+
+
+                                </div>
+                              </li>
+                              <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Quản Lý Tin Tức
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                  <a class="dropdown-item" href="{{ Route('orders') }}">Quản Lý Khách Hàng</a>
+
+
+                                </div>
+                              </li>
                             {{-- End Quản Lý Đơn Hàng --}}
                           </ul>
                           <ul class="navbar-nav ml-md-auto account">
@@ -99,35 +130,7 @@
 
 
 
-    <script src="{{asset('js/jquery/jquery-3.5.1.slim.min.js')}}"></script>
-    <script src="{{ asset('js/jquery/popper.min.js') }}"></script>
-     <script src="{{ asset('js/jquery/jquery-3.5.1.min.js') }}" crossorigin="anonymous"></script>
-    <script src="{{ asset('js/bs4/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('fontawesome/js/all.min.js') }}"></script>
-    <script src="{{ asset('fontawesome/js/brands.js') }}"></script>
-    <script src="{{ asset('fontawesome/js/fontawesome.min.js') }}"></script>
-    <script src="{{ asset('fontawesome/js/solid.js') }}"></script>
-    <script src="{{ asset('jtable/jquery.dataTables.min.js') }}"></script>
-    <script>
-        $(document).ready( function () {
-
-            var Vietnamese ="{{ asset('jtable/Vietnamese.json') }}";
-
-
-
-            $('#myTable').DataTable({
-
-                processing:true,
-                language: {
-                    "url": Vietnamese
-                },
-            });
-               // Setup - add a text input to each footer cell
-
-
-        } );
-
-    </script>
+@includeIf('admin.public.js.scripts')
 
 </body>
 

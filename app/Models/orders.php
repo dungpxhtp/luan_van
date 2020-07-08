@@ -8,4 +8,5 @@ class orders extends Model
 {
     //
     protected $table='orders';
+    public $timestamps = FALSE;
 }

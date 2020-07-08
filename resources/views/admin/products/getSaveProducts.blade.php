@@ -301,13 +301,13 @@
                         @endif
 
                     </div>
-                       <div class="form-group">
+                       {{--  <div class="form-group">
                            <label>Số Lượng Của Sản Phẩm</label>
                            <input name="quantity" class="form-control" type="number" min="0"  value="{{ old('quantity') }}" >
                            @if ($errors->has('quantity'))
                            <span class="text-danger">{{ $errors->first('quantity') }}</span>
                            @endif
-                       </div>
+                       </div>  --}}
                        <div class="form-group">
                                <label>Giá Bán</label>
                                <input name="price" class="form-control" id="price" type="number" min="10000" value="{{ old('price') }}" >
@@ -344,41 +344,17 @@
 @endsection
 
 @section('script')
-    <script>
-        $(document).ready(function(){
-            if($("#status").is(":checked"))
-            {
-                $(".custom-control-label").text('Đang Hoạt Động');
-            }else
-            {
-                $(".custom-control-label").text('Tắt Hoạt Động');
-            }
-            $('#status').click(function(){
-                if($("#status").is(":checked"))
-                {
-                    $(".custom-control-label").text('Đang Hoạt Động');
-                }else
-                {
-                    $(".custom-control-label").text('Tắt Hoạt Động');
-                }
-            });
-        });
+    <script src="{{ asset('js/myJs/toggle.js') }}">
+
     </script>
     <script src="{{ asset('js/myJs/formartVND.js') }}">
     </script>
     <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
         var options = {
-            filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
-            filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token={{ csrf_token() }}',
-            filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
-            filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token={{ csrf_token() }}',
-            allowedContent: true,
+        filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+        filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token=',
+        filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+        filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token=',
         language:'vi',
         uiColor: '#14B8C4',
         };
@@ -387,7 +363,7 @@
     {{-- <script src="/vendor/laravel-filemanager/js/lfm.js"></script> --}}
 
     <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
-   <script>
+    <script>
     var route_prefix = "/laravel-filemanager?type=Images";
     $('#lfm').filemanager('image', {prefix: route_prefix});
     </script>
@@ -398,6 +374,5 @@
             $("#thongbao").modal('show');
         });
     </script>
-
 
 @endsection

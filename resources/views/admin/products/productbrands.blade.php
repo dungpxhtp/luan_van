@@ -9,11 +9,12 @@
 
 @endsection
 @section('main')
+@includeIf('admin.public.template.breadcurmb', ['breadcrumb' => 'Danh Sách Loại' , 'getNameCate'=>$getNameCate])
 
 <nav aria-label="Page breadcrumb" class="my-3">
     <div class="container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item breadcrumb-customer"><i class="fas fa-tachometer-alt"></i>Danh Sách Loại {{ $getNameCate}}</li>
+                <li class="breadcrumb-item breadcrumb-customer"><i class="fas fa-tachometer-alt"></i>Danh Sách Loại</li>
             </ol>
     </div>
     <div class="container">

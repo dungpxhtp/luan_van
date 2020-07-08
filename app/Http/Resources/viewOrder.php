@@ -16,6 +16,7 @@ class viewOrder extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'=>$this->id,
             'nameproducts'=>$this->nameproducts,
             'image'=>$this->image,
             'TotalProducts'=>library_my::formatMoney($this->TotalProducts),
