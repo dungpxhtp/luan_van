@@ -9,7 +9,7 @@
 <nav aria-label="Page breadcrumb" class="my-3">
     <div class="container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item breadcrumb-customer"><i class="fas fa-tachometer-alt"></i>Danh Sách Loại Đồng Hồ</li>
+                <li class="breadcrumb-item breadcrumb-customer"><i class="fas fa-tachometer-alt"></i>Danh Sách Hãng Đồng Hồ</li>
              {{-- <li class="breadcrumb-item active">Sản Phẩm </li> --}}
 
             </ol>
@@ -20,7 +20,7 @@
     <div class="col">
         <a class="btn btn-primary btn-sm " href="{{ Route('add_brandproduct') }}">
             <i class="fas fa-plus"></i> <span class="text-btn">
-                Thêm Loại Đồng Hồ
+                Thêm Hãng Đồng Hồ
             </span>
         </a>
     </div>
@@ -137,7 +137,9 @@
                     },
                     ajax: '{{ Route('ajaxbrandproduct') }}',
                     columns:[
-                        {data:'id',name:'id'},
+                        {data:'stt',render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }},
                         {data:'name',name:'name'},
                         {data:'code',name:'code'},
                         {data:'status_brandproduct',name:'status_brandproduct'},

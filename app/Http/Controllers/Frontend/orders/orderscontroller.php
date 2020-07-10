@@ -27,13 +27,17 @@ class orderscontroller extends Controller
 
         if($request->ajax())
         {
-        $getData=orders::where('orders.status','=',1)->join('users','orders.id_users','=','users.id')->select('orders.*','users.codeuser as codeuser','users.email','users.phoneuser','users.name as tenkhachhang')->orderBy('orders.created_at','desc')->get();
+        $getData=orders::where('orders.status','=',1)->join('users','orders.id_users','=','users.id')->select('orders.*','users.codeuser as codeuser','users.email','users.phoneuser','users.name as tenkhachhang','users.codeuser as codeuser')->orderBy('orders.created_at','desc')->get();
 
             return Datatables::of($getData)
             ->addColumn('codeOder',function($getData){
                 $codeOder=$getData->codeOder;
                 return $codeOder;
-            })->addColumn('fullName',function($getData){
+            })->addColumn('codeuser',function($getData){
+                $codeuser =$getData->codeuser;
+                return $codeuser;
+            })
+            ->addColumn('fullName',function($getData){
                 $fullName=$getData->fullName;
                 return $fullName;
             })->addColumn('phoneOder',function($getData){
@@ -66,8 +70,10 @@ class orderscontroller extends Controller
                         return $status;
                 }
             })->addColumn('action',function($getData){
-                $action='<a type="button" href="'.$getData->id.'" name="viewOrder"   class="viewOrder btn bg-info  text-white  btn-sm"><i class="fas fa-box-open"></i> Xem</a>';
+                $action='<div class="col">';
+                $action.='<a type="button" href="'.$getData->id.'" name="viewOrder"   class="viewOrder btn bg-info  text-white  btn-sm"><i class="fas fa-box-open"></i> Xem</a>';
                 $action.='<a type="button" href="'.$getData->id.'" name="viewOrder"   class="confirm-order btn bg-info  text-white  btn-sm"><i class="fas fa-people-carry"></i> Xác Nhận</a>';
+                $action.='</div>';
                 return $action;
             })
             ->rawColumns(['codeOder','fullName','phoneOder','exportDate','TotalOrder','Address','Payments','status','action'])->make('true');
@@ -89,13 +95,17 @@ class orderscontroller extends Controller
     {
         if($request->ajax())
         {
-        $getData=orders::where('orders.status','=',2)->join('users','orders.id_users','=','users.id')->select('orders.*','users.codeuser as codeuser','users.email','users.phoneuser','users.name as tenkhachhang')->orderBy('orders.created_at','desc')->get();
+        $getData=orders::where('orders.status','=',2)->join('users','orders.id_users','=','users.id')->select('orders.*','users.codeuser as codeuser','users.email','users.phoneuser','users.name as tenkhachhang','users.codeuser as codeuser')->orderBy('orders.created_at','desc')->get();
 
             return Datatables::of($getData)
             ->addColumn('codeOder',function($getData){
                 $codeOder=$getData->codeOder;
                 return $codeOder;
-            })->addColumn('fullName',function($getData){
+            })->addColumn('codeuser',function($getData){
+                $codeuser =$getData->codeuser;
+                return $codeuser;
+            })
+            ->addColumn('fullName',function($getData){
                 $fullName=$getData->fullName;
                 return $fullName;
             })->addColumn('phoneOder',function($getData){

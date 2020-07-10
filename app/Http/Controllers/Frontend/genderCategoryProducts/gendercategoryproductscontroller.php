@@ -38,6 +38,8 @@ class gendercategoryproductscontroller extends Controller
             ->addColumn('created_at_brandproduct',function($getData){
                 $time=  \Carbon\Carbon::parse($getData->created_at)->format('d/m/Y');
                 return $time;
+            })->addColumn('stt',function(){
+
             })
             ->addColumn('action',function($getData){
                         if($getData->status==1){
@@ -54,7 +56,7 @@ class gendercategoryproductscontroller extends Controller
                           return $button;
 
             })
-            ->rawColumns(['status_brandproduct','created_at_brandproduct','action'])
+            ->rawColumns(['status_brandproduct','created_at_brandproduct','action','stt'])
             ->make('true');
         }
     }

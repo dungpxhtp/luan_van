@@ -43,9 +43,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                <div class="text-xs-right view-all-transaction">
-                    <a href="javascript:;">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
+
             </div>
         </div>
 

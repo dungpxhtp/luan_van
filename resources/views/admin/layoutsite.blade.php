@@ -84,7 +84,7 @@
                                     Quản Lý Khách Hàng
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                  <a class="dropdown-item" href="{{ Route('users.view') }}">Quản Lý Khách Hàng</a>
+                                  <a class="dropdown-item" href="{{ Route('users.view') }}">Danh Sách Khách Hàng</a>
 
 
                                 </div>

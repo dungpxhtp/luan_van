@@ -56,8 +56,10 @@ class categoryProductsController extends Controller
                 })->addColumn('image_brands',function($getData){
                     $image= '<img src="'.$getData->image .' " alt="image thuong hieu" />' ;
                     return $image;
+                })->addColumn('stt',function(){
+
                 })
-                ->rawColumns(['status_brandproduct','created_at_brandproduct','action','image_brands'])
+                ->rawColumns(['status_brandproduct','created_at_brandproduct','action','image_brands','stt'])
                 ->make('true');
 
         }

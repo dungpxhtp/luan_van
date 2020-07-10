@@ -139,7 +139,7 @@ class product extends Controller
             'id_categoryproducts'=>'required',
             'id_productboder'=>'required',
             'id_brandproducts'=>'required',
-            'quantity'=>'required',
+
             'price'=>'required',
         ],
         [
@@ -155,7 +155,6 @@ class product extends Controller
             'id_productglasses.required'=>'Không Được Bỏ Trống',
             'id_categoryproducts.required'=>'Không Được Bỏ Trống',
             'id_productboder.required'=>'Không Được Bỏ Trống',
-            'quantity.required'=>'Không Được Bỏ Trống',
             'price.required'=>'Không Được Bỏ Trống',
 
         ] );
@@ -173,16 +172,23 @@ class product extends Controller
         {
             return redirect()->back()->with("message",["type"=>"danger","msg"=>"Mã Sản Phẩm Đã Tồn Tại"]);
         }
+        if($request->serinumber=='on')
+        {
+            $serinumber=1;
+
+        }else
+        {
+            $serinumber=0;
+        }
         $idAdmin=Auth::guard('admin')->user()->id;
         $str_code=Str::slug($request->code);
         $row=products::findOrFail($id);
         $row->name=$request->name;
         $row->code=strtoupper($str_code);
-        $row->slug=Str::slug($request->name.'/'.$str_code,'-');
+        $row->slug=Str::slug($request->name);
         $row->image=$request->filepath;
         $row->price=$request->price;
-        $row->quantity=$request->quantity;
-
+        $row->serinumber=$serinumber;
         $row->id_brandproducts=$request->id_brandproducts;
         $row->id_productboder=$request->id_productboder;
         $row->id_categoryproducts=$request->id_categoryproducts;
@@ -233,6 +239,7 @@ class product extends Controller
     }
     public function postSaveProducts(Request $request)
     {
+
         $v=Validator::make($request->all(), [
             'name'=>'required',
             'code'=>'required',
@@ -246,7 +253,7 @@ class product extends Controller
             'id_categoryproducts'=>'required',
             'id_productboder'=>'required',
             'id_brandproducts'=>'required',
-            'quantity'=>'required',
+
             'price'=>'required',
         ],
         [
@@ -262,8 +269,7 @@ class product extends Controller
             'id_productglasses.required'=>'Không Được Bỏ Trống',
             'id_categoryproducts.required'=>'Không Được Bỏ Trống',
             'id_productboder.required'=>'Không Được Bỏ Trống',
-            'quantity.required'=>'Không Được Bỏ Trống',
-            'price.required'=>'Không Được Bỏ Trống',
+                'price.required'=>'Không Được Bỏ Trống',
 
         ] );
         if($v->fails())
@@ -272,6 +278,22 @@ class product extends Controller
                 ->withErrors($v)
                 ->withInput();
             }
+            if($request->status =='on')
+        {
+            $status=1;
+        }else
+        {
+            $status=0;
+        }
+        if($request->serinumber=='on')
+        {
+            $serinumber=1;
+
+        }else
+        {
+            $serinumber=0;
+        }
+
         if(products::where([['name','=',$request->name]])->count())
         {
             return redirect()->back()->with("message",["type"=>"danger","msg"=>"Tên Sản Phẩm Đã Tồn Tại. Nhập Lại "]);
@@ -280,13 +302,7 @@ class product extends Controller
         {
             return redirect()->back()->with("message",["type"=>"danger","msg"=>"Mã Sản Phẩm Đã Tồn Tại.Nhập Lại"]);
         }
-        if($request->status =='on')
-        {
-            $status=1;
-        }else
-        {
-            $status=0;
-        }
+
 
         $idAdmin=Auth::guard('admin')->user()->id;
         $str_code=Str::slug($request->code);
@@ -297,7 +313,7 @@ class product extends Controller
         $row->slug=Str::slug($request->name);
         $row->image=$request->filepath;
         $row->price=$request->price;
-        $row->quantity=$request->quantity;
+        $row->serinumber=$serinumber;
         $row->id_brandproducts=$request->id_brandproducts;
         $row->id_productboder=$request->id_productboder;
         $row->id_categoryproducts=$request->id_categoryproducts;
@@ -309,8 +325,8 @@ class product extends Controller
         $row->metadesc=$request->metadesc;
         $row->metakey=$request->metakey;
         $row->detail=$request->detail;
-        $row->update_by=$idAdmin;
-        $row->update_at=Carbon::now('Asia/Ho_Chi_Minh');
+        $row->created_by=$idAdmin;
+        $row->created_at=Carbon::now('Asia/Ho_Chi_Minh');
         $row->save();
         return redirect()->back()->with("message",["type"=>"success","msg"=>"Thêm Thành Công"]);
     }

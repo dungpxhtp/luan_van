@@ -32,7 +32,7 @@
                                 <td>{{ $item->nameGender }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->code }}</td>
-                                <td><img style='width:250px;height:250px;' src="{{ $item->image }}"/></td>
+                                <td><img style='width:150px;height:150px;' src="{{ $item->image }}"/></td>
                                 <td>
                                     @if ($item->status ==1)
                                     <span class="btn btn-sm btn-success" style="cursor: default;"><i class="fas fa-toggle-on"></i>Bật</span>

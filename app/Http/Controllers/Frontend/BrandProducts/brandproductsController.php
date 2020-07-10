@@ -34,7 +34,7 @@ class brandproductsController extends Controller
                             return $span;
 
                     }else{
-                             $span='<span class="btn btn-sm btn-success" style="cursor: default;"><i class="fas fa-toggle-on"></i>Tắt</span>';
+                             $span='<span class="btn btn-sm btn-danger" style="cursor: default;"><i class="fas fa-toggle-on"></i>Tắt</span>';
                              return $span;
                     }
             })
@@ -57,10 +57,12 @@ class brandproductsController extends Controller
                           return $button;
 
             })->addColumn('image_brands',function($getData){
-                $image= '<img src="'.$getData->image .' " alt="image thuong hieu" />' ;
+                $image= '<img src="'.$getData->image .' " alt="image thuong hieu" style="height:150px;width:150px;" />' ;
                 return $image;
+            })->addColumn('stt',function(){
+
             })
-            ->rawColumns(['status_brandproduct','created_at_brandproduct','action','image_brands'])
+            ->rawColumns(['status_brandproduct','created_at_brandproduct','action','image_brands','stt'])
             ->make('true');
         }
     }

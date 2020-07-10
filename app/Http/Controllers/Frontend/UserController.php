@@ -56,7 +56,7 @@ class UserController extends Controller
                }
                return $status;
             })->addColumn('action',function($userGetAll){
-                $action='<a class="btn btn-sm btn-warning">Tắt Hoạt Động</a>';
+                $action=\Carbon\Carbon::parse($userGetAll->created_at)->format('d m Y H:i:s');
                 return $action;
             })->rawColumns(['codeuser','email','phoneuser','name','gender','status','action'])->make('true');
         }

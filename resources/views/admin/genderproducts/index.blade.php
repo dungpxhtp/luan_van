@@ -10,7 +10,7 @@
 <nav aria-label="Page breadcrumb" class="my-3">
     <div class="container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item breadcrumb-customer"><i class="fas fa-tachometer-alt"></i>Danh Sách Loại Đồng Hồ</li>
+                <li class="breadcrumb-item breadcrumb-customer"><i class="fas fa-tachometer-alt"></i>Danh Sách Đối Tượng Đồng Hồ</li>
              {{-- <li class="breadcrumb-item active">Sản Phẩm </li> --}}
 
             </ol>
@@ -21,7 +21,7 @@
     <div class="col">
         <a class="btn btn-primary btn-sm btn_add">
             <i class="fas fa-plus"></i> <span class="text-btn">
-                Thêm Loại Đồng Hồ
+                Thêm Đối Tượng Đồng Hồ
             </span>
         </a>
     </div>
@@ -116,132 +116,133 @@
        </div>
    </div>
 @endsection
-@section('script')
-    <script>
-        $(document).on('click','.btn_add',function(event){
-            event.preventDefault();
-            $('#formModal').modal('show');
-        });
-        $('#btn_submit').click(function(event){
-            event.preventDefault();
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            var url= '{{ Route('post_add_gendercategoryproducts') }}';
-            console.log(url);
-            $.ajax({
-                url:url,
-                type:'POST',
-                data:$('#insert_gender').serialize(),
-                contentType: 'application/x-www-form-urlencoded',
-                dataType: 'JSON',
-                success:function(data){
-                    var html = '';
-                    if(data.errors)
-                    {
-                    html = '<div class="alert alert-danger">';
-
-                    html += '<p>' + data.errors + '</p>';
-
-                    html += '</div>';
-                    }
-                    if(data.success)
-                    {
-                    html = '<div class="alert alert-success">' + data.success + '</div>';
-                    $('#insert_gender')[0].reset();
-                    $('#table_index').DataTable().ajax.reload();
-                    }
-                    $('#form_result').html(html);
-                }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function(){
-            $("#thongbao").modal('show');
-        });
-    </script>
-        <script>
-            $(document).ready(function(){
-                var Vietnamese ="{{ asset('jtable/Vietnamese.json') }}";
-                $('#table_index').DataTable({
-                    processing:true,
-                    serverSide:true,
-                    language: {
-                        "url": Vietnamese
-                    },
-                    ajax: '{{ Route('fetchgendercategoryproducts') }}',
-                    columns:[
-                        {data:'id',name:'id'},
-                        {data:'name',name:'name'},
-
-                        {data:'status_brandproduct',name:'status_brandproduct'},
-                        {data:'created_at_brandproduct',name:'created_at_brandproduct'},
-
-                        {data:'action',name:'action',orderable: false},
-
-
-
-
-                    ]
+    @section('script')
+            <script>
+                $(document).on('click','.btn_add',function(event){
+                    event.preventDefault();
+                    $('#formModal').modal('show');
                 });
-            })
-            $(document).on('click','.update_status',function(event){
-                event.preventDefault();
-                var id = $(this).attr("href");
-                let url="{{ Route('update_status_gendercategoryproducts',':id') }}";
-                url = url.replace(':id', id);
-                $.ajax({
-                    url :url,
-                    type:"GET",
-                    dataType:"json",
-                    jsonpCallback: "index",
-                    success:function(data)
-                    {
-                        alert(data);
-                    setTimeout(function(){
-                        $('#table_index').DataTable().ajax.reload();
+                $('#btn_submit').click(function(event){
+                    event.preventDefault();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    var url= '{{ Route('post_add_gendercategoryproducts') }}';
+                    console.log(url);
+                    $.ajax({
+                        url:url,
+                        type:'POST',
+                        data:$('#insert_gender').serialize(),
+                        contentType: 'application/x-www-form-urlencoded',
+                        dataType: 'JSON',
+                        success:function(data){
+                            var html = '';
+                            if(data.errors)
+                            {
+                            html = '<div class="alert alert-danger">';
 
-                    },1000);
-                    }
-                });
-            });
-            var id_brands;
-            $(document).on('click','.delete_brands',function(event){
-                event.preventDefault();
-                id_brands = $(this).attr("href");
-                $('#ok_button').text('OK');
+                            html += '<p>' + data.errors + '</p>';
 
-                $('#confirmModal').modal('show');
-
-
-            })
-            $('#ok_button').click(function(){
-                let url="{{ Route('destroy_gendercategoryproducts',':id') }}";
-                url = url.replace(':id', id_brands);
-                $.ajax({
-                    url :url,
-                    beforeSend:function(){
-                        $('#ok_button').text('Deleting...');
-                    },
-                    type:'GET',
-                    jsonpCallback: "index",
-                    success:function(data){
-                        setTimeout(function(){
-                            $('#confirmModal').modal('hide');
+                            html += '</div>';
+                            }
+                            if(data.success)
+                            {
+                            html = '<div class="alert alert-success">' + data.success + '</div>';
+                            $('#insert_gender')[0].reset();
                             $('#table_index').DataTable().ajax.reload();
-                            alert(data);
-                        }, 1000);
-                    }
-
+                            }
+                            $('#form_result').html(html);
+                        }
+                    });
                 });
-            })
+
+
+                $(document).ready(function(){
+                    $("#thongbao").modal('show');
+                });
+
+                    $(document).ready(function(){
+                        var Vietnamese ="{{ asset('jtable/Vietnamese.json') }}";
+                        $('#table_index').DataTable({
+                            processing:true,
+                            serverSide:true,
+                            language: {
+                                "url": Vietnamese
+                            },
+                            ajax: '{{ Route('fetchgendercategoryproducts') }}',
+                            columns:[
+                                {data:'stt',render: function (data, type, row, meta) {
+                                    return meta.row + meta.settings._iDisplayStart + 1;
+                                }},
+                                {data:'name',name:'name'},
+
+                                {data:'status_brandproduct',name:'status_brandproduct'},
+                                {data:'created_at_brandproduct',name:'created_at_brandproduct'},
+
+                                {data:'action',name:'action',orderable: false},
+
+
+
+
+                            ]
+                        });
+                    })
+                    $(document).on('click','.update_status',function(event){
+                        event.preventDefault();
+                        var id = $(this).attr("href");
+                        let url="{{ Route('update_status_gendercategoryproducts',':id') }}";
+                        url = url.replace(':id', id);
+                        $.ajax({
+                            url :url,
+                            type:"GET",
+                            dataType:"json",
+                            jsonpCallback: "index",
+                            success:function(data)
+                            {
+                                alert(data);
+                            setTimeout(function(){
+                                $('#table_index').DataTable().ajax.reload();
+
+                            },1000);
+                            }
+                        });
+                    });
+                    var id_brands;
+                    $(document).on('click','.delete_brands',function(event){
+                        event.preventDefault();
+                        id_brands = $(this).attr("href");
+                        $('#ok_button').text('OK');
+
+                        $('#confirmModal').modal('show');
+
+
+                    })
+                    $('#ok_button').click(function(){
+                        let url="{{ Route('destroy_gendercategoryproducts',':id') }}";
+                        url = url.replace(':id', id_brands);
+                        $.ajax({
+                            url :url,
+                            beforeSend:function(){
+                                $('#ok_button').text('Deleting...');
+                            },
+                            type:'GET',
+                            jsonpCallback: "index",
+                            success:function(data){
+                                setTimeout(function(){
+                                    $('#confirmModal').modal('hide');
+                                    $('#table_index').DataTable().ajax.reload();
+                                    alert(data);
+                                }, 1000);
+                            }
+
+                        });
+                    })
 
         </script>
 
 
 
 
-@endsection
+    @endsection

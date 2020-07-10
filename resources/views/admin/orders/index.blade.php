@@ -10,27 +10,40 @@
 <nav aria-label="Page breadcrumb" class="my-3">
     <div class="container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item breadcrumb-customer"><i class="fas fa-tachometer-alt"></i>Danh Sách Đơn Hàng Đang Chờ</li>
+                <li class="breadcrumb-item breadcrumb-customer"><i class="fas fa-tachometer-alt"></i>Danh Sách Đơn Hàng </li>
              {{-- <li class="breadcrumb-item active">Sản Phẩm </li> --}}
 
             </ol>
     </div>
 
 </nav>
+    <div class="container my-3">
+        <div class="row">
+            <div class="col">
+                <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#table_dangcho">Danh Sách Đơn Hàng Đang Chờ</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#table_xacnhan">Danh Sách Đơn Hàng Đã Xác Nhận </a>
+                        </li>
 
-@includeIf('admin.orders.modules.tableindex')
-<nav aria-label="Page breadcrumb" class="my-3">
-    <div class="container">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item breadcrumb-customer"><i class="fas fa-tachometer-alt"></i>Danh Sách Đơn Hàng Đã Xác Nhận </li>
-             {{-- <li class="breadcrumb-item active">Sản Phẩm </li> --}}
-
-            </ol>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {{-- tab content --}}
+<div class="tab-content">
+    <div class="tab-pane active" id='table_dangcho'>
+        @includeIf('admin.orders.modules.tableindex')
     </div>
 
-</nav>
-@includeIf('admin.orders.modules.tableconfirm')
+    <div class="tab-pane fade " id="table_xacnhan">
 
+       @includeIf('admin.orders.modules.tableconfirm')
+    </div>
+</div>
+    {{-- end tabcontent --}}
 <div id="confirmModal" class="modal fade " role="dialog" >
     <div class="modal-dialog mw-100 w-75">
         <div class="modal-content">
@@ -114,6 +127,7 @@
                     columns:[
                         {data:'codeOder',name:'codeOder'},
                         {data:'fullName',name:'fullName'},
+                        {data:'codeuser',name:'codeuser'},
                         {data:'phoneOder',name:'phoneOder'},
                         {data:'exportDate',name:'exportDate'},
                         {data:'TotalOrder',name:'TotalOrder'},
@@ -140,6 +154,7 @@
                     columns:[
                         {data:'codeOder',name:'codeOder'},
                         {data:'fullName',name:'fullName'},
+                        {data:'codeuser',name:'codeuser'},
                         {data:'phoneOder',name:'phoneOder'},
                         {data:'exportDate',name:'exportDate'},
                         {data:'TotalOrder',name:'TotalOrder'},

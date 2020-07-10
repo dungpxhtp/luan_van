@@ -84,6 +84,14 @@
                             <label class="custom-control-label" for="status"></label>
                         </div>
                    </div>
+                   <div class="form-group text-center">
+                    <label>Serinumber</label>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" name="serinumber" id="serinumber" {{ $products->serinumber ==1 ?"Checked":"" }}>
+                            <label class="custom-control-label serinumber " for="serinumber"></label>
+                        </div>
+
+                   </div>
                </div>
                <div class="col-md-3 box effect1">
                        <div class="form-group ">

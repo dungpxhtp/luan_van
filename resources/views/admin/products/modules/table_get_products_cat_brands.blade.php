@@ -30,7 +30,7 @@
                                 <td>{{ $item->nameGender }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->code }}</td>
-                                <td><img style='width:250px;height:250px;' src="{{ asset('imageProducts') }}/{{$item->image}}"/>
+                                <td><img style='width:150px;height:150px;' src="{{ asset('imageProducts') }}/{{$item->image}}"/>
 
                                 </td>
                                 <td>

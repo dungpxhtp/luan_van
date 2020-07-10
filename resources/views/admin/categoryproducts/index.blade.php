@@ -137,7 +137,9 @@
                     },
                     ajax: '{{ Route('fetchcategoryproducts') }}',
                     columns:[
-                        {data:'id',name:'id'},
+                        {data:'stt',render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }},
                         {data:'name',name:'name'},
 
                         {data:'status_brandproduct',name:'status_brandproduct'},

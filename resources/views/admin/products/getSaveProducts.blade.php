@@ -31,7 +31,7 @@
 <nav aria-label="Page breadcrumb" class="my-3">
     <div class="container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item breadcrumb-customer"><i class="fas fa-tachometer-alt"></i>Danh Sách Loại </li>
+                <li class="breadcrumb-item breadcrumb-customer"><i class="fas fa-tachometer-alt"></i> Thêm Sản Phẩm</li>
             </ol>
     </div>
     @includeIf('admin.products.modules.message')
@@ -44,7 +44,7 @@
                <div class="row">
                    <div class="col-md-6">
                    <strong class="text-danger">
-                      Sửa Sản Phẩm
+                      Thêm Sản Phẩm
                    </strong>
                    </div>
                    <div class="col-md-6 text-right">
@@ -104,7 +104,15 @@
                     <label>Trạng Thái</label>
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" name="status" id="status">
-                        <label class="custom-control-label" for="status"></label>
+                        <label class="custom-control-label status" for="status"></label>
+                    </div>
+
+                   </div>
+                   <div class="form-group text-center">
+                    <label>Serinumber</label>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" name="serinumber" id="serinumber">
+                        <label class="custom-control-label serinumber " for="serinumber"></label>
                     </div>
 
                    </div>
