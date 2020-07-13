@@ -48,11 +48,5 @@
     </div>
 @endsection
 @section('script')
-    <script type="text/javascript" src="{{ asset('js/jquery/jquery.lazy.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/jquery/jquery.lazy.plugins.min.js') }}"></script>
-    <script>
-        $(function(){
-            $('.lazy').lazy();
-        });
-    </script>
+    
 @endsection

@@ -39,7 +39,7 @@ class HomeController extends Controller
          ->join('brandproducts','products.id_brandproducts','=','brandproducts.id')
          ->select('gendercategoryproducts.name as name_gendercategoryproducts','productmodel.name as name_productmodel',
                 'productssize.name as name_productssize','productwaterproorf.name as name_productwaterproorf','productglasses.name as name_productglasses',
-                'categoryproducts.name as name_categoryproducts','productborderscolor.name as name_productborderscolor','brandproducts.name as name_brandproducts','products.*' )       
+                'categoryproducts.name as name_categoryproducts','productborderscolor.name as name_productborderscolor','brandproducts.name as name_brandproducts','products.*','brandproducts.image as image_brandproducts','brandproducts.slug as slug_brandproducts' )       
         ->firstOrFail();
      
         return view('user.detail',compact('product'));

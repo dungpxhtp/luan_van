@@ -100,6 +100,61 @@
             background-color: #efefef;
             text-align: center;
         }
+        .title-product-detail{
+               font-weight: 500;
+            font-size: 1rem;
+        }
+        .sku_wrapper{
+            display:block;
+            clear:both;
+            color:#000000;
+            margin-bottom:10px;
+            
+        }
+        .sku{
+            color:#827c7c;
+        }
+        .price-product{
+            font-size:1.4rem;
+            color:#827c7c;
+        }
+        .add-cart
+        {   
+            padding:10px;
+            background: #990000;
+          
+        }
+        .hvr-grow {
+            display: inline-block;
+            vertical-align: middle;
+            transform: translateZ(0);
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+            backface-visibility: hidden;
+            -moz-osx-font-smoothing: grayscale;
+            transition-duration: 0.3s;
+            transition-property: transform;
+        }
+
+        .hvr-grow:hover,
+        .hvr-grow:focus,
+        .hvr-grow:active {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+        }
+        .hotline{
+            display:block;
+        }
+        .border-title-top-bottom{
+            padding:20px 0;
+            border-top: 1px solid #ebebeb;
+            border-bottom: 1px solid #ebebeb;
+        }
+        .description{
+            margin : 5px 0;
+            clear:both;
+            text-align: justify;
+        }
         </style>
     @yield('head')
 </head>
@@ -289,7 +344,13 @@
     <script src="{{ asset('fontawesome/js/brands.js') }}"></script>
     <script src="{{ asset('fontawesome/js/fontawesome.min.js') }}"></script>
     <script src="{{ asset('fontawesome/js/solid.js') }}"></script>
-
+    <script type="text/javascript" src="{{ asset('js/jquery/jquery.lazy.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery/jquery.lazy.plugins.min.js') }}"></script>
+    <script>
+        $(function(){
+            $('.lazy').lazy();
+        });
+    </script>
 
 
 
