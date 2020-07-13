@@ -28,7 +28,7 @@
 <body class="login-page">
 
     <div>
-        <form method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data" action="{{ Route('post_export_pdf_order',['id_orders'=>$orders->id]) }}">
             @csrf
         <div class="row">
             <div class="col-xs-7">
@@ -62,7 +62,7 @@
                     <div class="form-group row">
                         <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Số Điện Thoại</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control form-control-sm" name="phoneOder" value="{{ $orders->phoneOder }}">
+                          <input type="text" class="form-control form-control-sm" name="phoneOder" value="{{ $orders->phoneOder }}" readonly>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -107,26 +107,37 @@
                 <tr>
                     <th>Danh Sách Sản Phẩm</th>
                     <th>SeriNumber </th>
-
+                    <th>Số Lượng</th>
                     <th class="text-right">Thành Tiền</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($ordersproducts as $item )
+                    @if($item->serinumber ==1)
 
-                    @for($i=0 ;$i<$item->quantity ; $i++)
-                <tr>
-                      <td><div><strong>{{ $item->nameproducts }}</strong></div>
-                        <p>{{ $item->codeproducts }}</p></td>
-                        @if (empty($item->serinumber))
-                           <td><input type="text" name="serinumber" value="Chưa Nhập Seri"/></td>
-                        @else
-                        <td><input type="text" name="serinumber" value="{{ $item->serinumber }}" /></td>
+                            @for($i=0 ;$i<$item->quantity ; $i++)
+                                <tr>
+                                    <td><div><strong>{{ $item->nameproducts }}</strong></div>
+                                        <p>{{ $item->codeproducts }}</p></td>
 
-                        @endif
-                        <td class="text-right">{{ $item->price }} VNĐ</td>
-                </tr>
-                    @endfor
+                                        <td><input type="text" name="serinumber" placeholder="Nhập Số Serinumber" /></td>
+                                        <td>1</td>
+
+                                        <td class="text-right">{{ $item->price }} VNĐ</td>
+                                </tr>
+                            @endfor
+                    @else
+                    <tr>
+                        <td><div><strong>{{ $item->nameproducts }}</strong></div>
+                            <p>{{ $item->codeproducts }}</p></td>
+
+                            <td><input type="text" name="serinumber" value="Không Có Số Serinumber" readonly /></td>
+                            <td>{{ $item->quantity }}</td>
+
+
+                            <td class="text-right">{{ $item->price }} VNĐ</td>
+                    </tr>
+                    @endif
                 @endforeach
             </tbody>
         </table>
@@ -171,11 +182,11 @@
                     </p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-10 text-center">
-                    <a href="" class="export btn btn-sm btn-success" >Cập Nhật Hóa Đơn</a>
+            <div class="row " style="margin: 20px 0;">
+                <div class="col-xs-12 text-center">
+                    <a href="{{ Route('orders') }}" class="export btn btn-sm btn-warning" >Quay về</a>
 
-                    <a href="{{ Route('export',['id'=>$orders->id]) }}" class="export btn btn-sm btn-success" >Xuất Hóa Đơn</a>
+                    <button type="submit" class="export btn btn-sm btn-success" >Tạo Hóa Đơn</button>
                 </div>
             </div>
         </div>

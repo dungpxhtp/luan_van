@@ -13,7 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('','Frontend\loginAdminController@getLogin')->name('getLogin');
+/*user */
+Route::get('/','Backend\HomeController@home')->name('home');
+Route::get('san-pham/{slug}','Backend\HomeController@productDetail')->name('productDetail');    
+/* admin */
+Route::get('admin','Frontend\loginAdminController@getLogin')->name('getLogin');
 Route::post('loginAdmin','Frontend\loginAdminController@loginAdmin')->name('loginAdmin');
 
 Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
@@ -88,7 +92,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::get('viewOrder/{id_orders}','Frontend\orders\orderscontroller@viewOrder')->name('viewOrder');
         Route::get('update_status_orders/{id_orders}','Frontend\orders\orderscontroller@update_status_orders')->name('update_status_orders');
         Route::get('export-pdf-order/{id_orders}/hoadon','Frontend\orders\orderscontroller@export_pdf_order')->name('export_pdf_order');
-        Route::post('post-export-pdf-order/{id_orders}/hoadon','Frontend\orders\orderscontroller@post_export_pdf_order')->name('post_export_pdf_order');
+        Route::post('post-export-pdf-order/{id_orders}','Frontend\orders\orderscontroller@post_export_pdf_order')->name('post_export_pdf_order');
         Route::get('export/{id}','Frontend\orders\orderscontroller@export')->name('export');
     });
     //Quản Lý User

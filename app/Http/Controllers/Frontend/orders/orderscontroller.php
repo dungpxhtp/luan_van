@@ -189,11 +189,12 @@ class orderscontroller extends Controller
     public function export_pdf_order($id_orders)
     {
         $orders=orders::findOrFail($id_orders);
-        $ordersproducts=ordersproducts::where([['ordersproducts.id_orders','=',$orders->id]])->join('products','ordersproducts.id_products','=','products.id')->select('ordersproducts.*','products.name as nameproducts','products.code as codeproducts')->get();
+        $ordersproducts=ordersproducts::where([['ordersproducts.id_orders','=',$orders->id]])->join('products','ordersproducts.id_products','=','products.id')->select('ordersproducts.*','products.name as nameproducts','products.code as codeproducts','products.serinumber as serinumber')->get();
         return view('admin.pdfexportorder.index',compact('orders','ordersproducts'));
     }
     public function post_export_pdf_order(Request $request)
     {
+        dd($request->all());
         $v=Validator::make($request->all(), [
             'fullName'=>'required',
             'phoneOder'=>'required',
