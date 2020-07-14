@@ -1,19 +1,30 @@
 @extends('user.layoutsite')
 @section('title')
-     {{$product->name}}   
+     {{$product->name}}
+@endsection
+@section('head')
+        <link rel="stylesheet" href="{{ asset('carousel/css/owl.carousel.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('carousel/css/owl.theme.default.min.css') }}">
+
 @endsection
 @section('main')
     <div class="clearfix my-5">
         <div class="container">
             <div class="row">
-                     <div class="col-md-12 text-center">
-                        <h3 class="title-product-news title-brands text-uppercase"> <span class="span-title-brands">{{$product->name}} - {{$product->name_gendercategoryproducts }} - {{$product->name_categoryproducts}}</span></h3>
+                <div class="col-md-12 d-flex justify-content-end back">
+                    <a href="{{ url()->previous() }}">Quay Trở Lại</a>
+                </div>
+            </div>
+            <div class="row my-3">
+                    <div class="col-md-12 text-center">
+                        {{ Breadcrumbs::render('detail',$product->name_gendercategoryproducts,$product->name) }}
                     </div>
                     <div class="col-md-12 text-center">
-                        BreachCurm
+                        <h3 class="title-product-news title-brands text-uppercase"> <span class="span-title-brands">{{$product->name}} - {{$product->name_gendercategoryproducts }} - {{$product->name_categoryproducts}}</span></h3>
                     </div>
+
             </div>
-                  
+
         </div>
     </div>
     <div class="clearfix my-5">
@@ -21,7 +32,7 @@
             <div class="row">
                     <div class="col-md-3 my-3">
                         <div class ="box-img">
-                            <img class="card-img-top lazy" data-src="{{ $product->image }}" alt="{{ $product->slug }}" style="width:250px ; height:250px;"> 
+                            <img class="card-img-top lazy" data-src="{{ $product->image }}" alt="{{ $product->slug }}" style="width:250px ; height:250px;">
                         </div>
                     </div>
                     <div class="col-md-4 my-3">
@@ -33,20 +44,20 @@
                                         <span class="sku">
                                             {{$product->code}}
                                         </span>
-                                        </span> 
-                                        <p class="price-product"> 
+                                        </span>
+                                        <p class="price-product">
                                            <span> {{ number_format($product->price) }} VNĐ </span>
                                         </p>
                                         <p class="description">
                                             <span class="desc">{{$product->metadesc}}</span>
                                         </p>
-                                </div> 
+                                </div>
                                   <div class="col-md-12 text-center ">
                                      <a class ="btn btn-sm add-cart text-white text-uppercase hvr-grow ">Thêm Vào Giỏ Hàng</a>
                                      <span class="hotline">
                                          Gọi đặt mua: <a style="color: #c40d2e;" href="tel:0356581777">0356581777</a> (7:30-21:30)
                                      </span>
-                                    </div>  
+                                    </div>
                           </div>
                     </div>
                     @includeIf('user.layout.detail-right-product')
@@ -59,31 +70,107 @@
                 <div class="col-md-12">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                       <a class="nav-link btn-btn-sm hvr-grow active" data-toggle="tab" href="#home">Mô Tả</a>
+                       <a class="nav-link btn-btn-sm hvr-grow active" data-toggle="tab" href="#home">Chi Tiết Sản Phẩm</a>
                     </li>
                     <li class="nav-item">
-                       <a class="nav-link hvr-grow" data-toggle="tab" href="#menu1">Chi Tiết Sản Phẩm</a>
+                       <a class="nav-link hvr-grow" data-toggle="tab" href="#menu1">Mô Tả</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link hvr-grow" data-toggle="tab" href="#menu2">Chế Độ Bảo Hành Và Hậu Mãi</a>
                     </li>
                 </ul>
-                <div class="tab-content">
+                <div class="tab-content my-3">
                     <div id="home" class="container tab-pane active"><br>
-                    <h3>HOME</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        @includeIf('user.layout.detail-title-description');
                     </div>
-                    <div id="menu1" class="container tab-pane fade"><br>
-                    <h3>Menu 1</h3>
-                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <div id="menu1" class="container tab-pane fade">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                       <p>
+                                         {!!$product->detail !!}
+                                                </p>
+                                            </div>
+                                        </div>
+                                </div>
+
                     </div>
-                    <div id="menu2" class="container tab-pane fade"><br>
-                    <h3>Menu 2</h3>
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                    <div id="menu2" class="container tab-pane fade">
+                            @includeIf('user.layout.detail-guarantee');
                     </div>
-                </div>   
+                </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="clearfix my-5">
+        <div class="container">
+                @includeIf('user.layout.detail-related-product', ['id' => $product->id_brandproducts])
+        </div>
+    </div>
+    <div class="clearfix my-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-md-12">
+                    <p class="name-comment">ABC</p>
+                    <span class="text-comment">Sản Phẩm Này Như Thế Nào</span>
+                    <div class="comment-acttion">
+                        <a href="">Trả Lời</a>
+                        <span>1 tuần</span>
+                    </div>
+                    <div class="reply-comment">
+                        <p class="name-comment">ABC</p>
+                        <span class="text-comment">Sản Phẩm Này Như Thế Nào</span>
+                        <div class="comment-acttion">
+                            <a href="">Trả Lời</a>
+                            <span>1 tuần</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+@endsection
+@section('script')
+    <script src="{{ asset('carousel/js/owl.carousel.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.owl-carousel').owlCarousel({
+                loop:true,
+                lazyLoad:true,
+                margin:10,
+                responsiveClass:true,
+                autoplay:true,
+                autoplayTimeout:2000,
+                autoplayHoverPause:true,
+                responsive:{
+                    0:{
+                        items:1,
+                        nav:true
+                    },
+                    600:{
+                        items:3,
+                        nav:false
+                    },
+                    1000:{
+                        items:4,
+                        nav:true,
+                        loop:true
+                    }
+                }
+            });
+            $('.play').on('click',function(){
+                owl.trigger('play.owl.autoplay',[1000])
+            })
+            $('.stop').on('click',function(){
+                owl.trigger('stop.owl.autoplay')
+            })
+          });
+    </script>
 @endsection

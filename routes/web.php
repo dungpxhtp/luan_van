@@ -15,11 +15,32 @@ use Illuminate\Support\Facades\Route;
 
 /*user */
 Route::get('/','Backend\HomeController@home')->name('home');
-Route::get('san-pham/{slug}','Backend\HomeController@productDetail')->name('productDetail');    
+Route::get('san-pham/{slug}','Backend\HomeController@productDetail')->name('productDetail');
 /* admin */
 Route::get('admin','Frontend\loginAdminController@getLogin')->name('getLogin');
 Route::post('loginAdmin','Frontend\loginAdminController@loginAdmin')->name('loginAdmin');
 
+//show san pham theo hãng
+Route::get('thuong-hieu/{slug}','Backend\HomeController@brands_products')->name('brands_products.thuong-hieu');
+Route::get('filter/{slug}','Backend\HomeController@brands_filter_products')->name('brands_products.filter');
+//end show san pham theo hãng
+
+
+//show san pham theo loai san pham
+Route::get('loai-san-pham/{slug}','Backend\HomeController@category')->name('category_products.loai-san-pham');
+Route::get('filter-loai-san-pham/{slug}','Backend\HomeController@category_filter_products')->name('category.filter');
+
+
+//end show sanpham theo loai
+//show san pham theo đối tượgn
+Route::get('doi-tuong/{slug}','Backend\HomeController@gender')->name('gender.index');
+Route::get('filter-doi-tuong/{slug}','Backend\HomeController@gender_filter_products')->name('gender.filter');
+
+//end show sản phẩm theo đối tượng
+
+//tin tứcc
+Route::get('tin-tuc','Backend\HomeController@topic')->name('tin-thuc.index');
+//end tin tức
 Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
     Route::get('dashboard','Frontend\Backend@dashboard')->name('dashboard');
     Route::get('logOutAdmin','Frontend\Backend@logOutAdmin')->name('logOutAdmin');

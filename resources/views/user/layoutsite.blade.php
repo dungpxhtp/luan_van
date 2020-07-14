@@ -93,12 +93,13 @@
         }
         footer{
 
-            right: 0;
-            bottom: 0;
-            left: 0;
-            padding: 1rem;
-            background-color: #efefef;
-            text-align: center;
+            position: relative;
+            background: #333333;
+            height: 150px;
+            clear:both;
+            padding-top:20px;
+
+            z-index: 50;
         }
         .title-product-detail{
                font-weight: 500;
@@ -109,7 +110,7 @@
             clear:both;
             color:#000000;
             margin-bottom:10px;
-            
+
         }
         .sku{
             color:#827c7c;
@@ -119,10 +120,10 @@
             color:#827c7c;
         }
         .add-cart
-        {   
+        {
             padding:10px;
             background: #990000;
-          
+
         }
         .hvr-grow {
             display: inline-block;
@@ -155,6 +156,63 @@
             clear:both;
             text-align: justify;
         }
+        .title-description:nth-child(even)
+        {
+            background-color: #EFEFF1;
+        }
+        .text-guarantee{
+            font-weight: 700;
+        }
+        .reply-comment{
+            margin: 5px 20px;
+            background-color: #F1F1F1;
+        }
+        #loading {
+            background-color:white;
+            position: fixed;
+            display: block;
+            top: 0;
+            bottom: 0;
+            z-index: 1000000;
+            opacity: 0.5;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+          }
+
+          #loading img {
+            margin: auto;
+            display: block;
+            left: 50%;
+            top: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            position: absolute;
+            z-index: 999;
+          }
+          .page-wrapper{
+              min-height: 80vh;
+          }
+          .box-topic{
+            border: 1px solid #333333;
+
+          }
+          .box-post{
+
+              border-bottom: 1px solid #333333;
+          }
+          img
+          {
+              display: block;
+          }
+          .date-post
+          {
+            text-align: center;
+            width: 150px;
+            height: 50px;
+            border: 1px solid #333333;
+
+          }
         </style>
     @yield('head')
 </head>
@@ -162,7 +220,7 @@
     <div class="container-fluid">
                 <header>
                     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-                        <a class="navbar-brand" href="#">WatchStore</a>
+                        <a class="navbar-brand" href="{{ route('home') }}">WatchStore</a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                           <span class="navbar-toggler-icon"></span>
                         </button>
@@ -181,7 +239,7 @@
                                 <div class="row my-3">
                                     <div class="col-3">
 
-                                        <a class="dropdown-item text-capitalize" href="#">
+                                        <a class="dropdown-item text-capitalize" href="{{ Route('brands_products.thuong-hieu',['slug'=>$item->slug]) }}">
                                             <i class="fas fa-angle-double-right"></i> {{ $item->name }}
                                         </a>
                                     </div>
@@ -210,7 +268,7 @@
                                   <div class="row my-3">
                                       <div class="col-3">
 
-                                          <a class="dropdown-item text-capitalize" href="{{ $item->slug }}">
+                                          <a class="dropdown-item text-capitalize" href="{{ Route('category_products.loai-san-pham',['slug'=>$item->slug] )}}">
                                               <i class="fas fa-angle-double-right"></i> {{ $item->name }}
                                           </a>
                                       </div>
@@ -235,7 +293,7 @@
                                   <div class="row my-3">
                                       <div class="col-3">
 
-                                          <a class="dropdown-item text-capitalize" href="{{ $item->slug }}">
+                                          <a class="dropdown-item text-capitalize" href="{{ Route('gender.index',['slug'=>$item->slug])}}">
                                               <i class="fas fa-angle-double-right"></i> {{ $item->name }}
                                           </a>
                                       </div>
@@ -244,29 +302,10 @@
                                   @endforeach
                                 </div>
                               </li>
-                              <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle nav__name" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                 Tin Tức
+                              <li class="nav-item">
+                                <a class="nav-link nav__name" href="{{ Route('tin-thuc.index') }}" >
+                                    Tin Tức
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                  <span class="text-uppercase">Chuyên Mục Tin Tức</span>
-                                  @foreach ($topic as $item)
-
-
-                                  <div class="row my-3">
-                                      <div class="col-3">
-
-                                          <a class="dropdown-item text-capitalize" href="{{ $item->slug }}">
-                                              <i class="fas fa-angle-double-right"></i> {{ $item->name }}
-                                          </a>
-                                      </div>
-
-                                  </div>
-
-
-                                  @endforeach
-                                </div>
-
                               </li>
                               <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle nav__name" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

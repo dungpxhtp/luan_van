@@ -173,7 +173,7 @@
                                  <span class="text-danger">{{ $errors->first('id_productglasses') }}</span>
                                 @endif
                     </div>
-                    <div class="form-group ">
+                    {{-- <div class="form-group ">
                         <label>Loại Đồng Hồ</label>
                         <select name="id_categoryproducts" class="form-control">
                          @foreach($categoryproducts as $idcategoryproducts)
@@ -188,7 +188,7 @@
                           <span class="text-danger">{{ $errors->first('id_categoryproducts') }}</span>
                         @endif
 
-                    </div>
+                    </div> --}}
 
                     <div class="form-group ">
                         <label>Màu Sắc Đồng Hồ</label>
