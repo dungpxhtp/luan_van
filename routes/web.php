@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 /*user */
 Route::get('/','Backend\HomeController@home')->name('home');
+//show sản phẩm
+
 Route::get('san-pham/{slug}','Backend\HomeController@productDetail')->name('productDetail');
 /* admin */
 Route::get('admin','Frontend\loginAdminController@getLogin')->name('getLogin');
@@ -40,7 +42,10 @@ Route::get('filter-doi-tuong/{slug}','Backend\HomeController@gender_filter_produ
 
 //tin tứcc
 Route::get('tin-tuc','Backend\HomeController@topic')->name('tin-thuc.index');
+Route::get('danh-muc-tin-tuc/{slug}','Backend\HomeController@topicPost')->name('topicPost');
+Route::get('bai-viet/{slug}','Backend\HomeController@postdetail')->name('postdetail');
 //end tin tức
+Route::get('lien-he','Backend\HomeController@contact')->name('contact');
 Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
     Route::get('dashboard','Frontend\Backend@dashboard')->name('dashboard');
     Route::get('logOutAdmin','Frontend\Backend@logOutAdmin')->name('logOutAdmin');

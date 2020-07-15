@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
+    @yield('meta')
     <title>@yield('title')</title>
 
+
+
+
+    <link rel="shortcut icon" type="image/png" href="{{ asset('image/icon.png') }}">
 
     <link rel="stylesheet" href="{{ asset('css/bs4/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style/normalize.min.css') }}">
@@ -204,6 +208,15 @@
           img
           {
               display: block;
+              transition: .5s ease;
+              backface-visibility: hidden;
+
+          }
+          img:hover{
+            transition: .5s ease;
+            opacity: 0.5;
+
+
           }
           .date-post
           {
@@ -212,6 +225,15 @@
             height: 50px;
             border: 1px solid #333333;
 
+          }
+          .title-topic{
+
+            margin-top:1.5rem;
+            margin-bottom:1.5rem;
+
+          }
+          .title-topic-new{
+              text-transform: uppercase;
           }
         </style>
     @yield('head')
@@ -307,38 +329,10 @@
                                     Tin Tức
                                 </a>
                               </li>
-                              <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle nav__name" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                 Liên Hệ
+                              <li class="nav-item">
+                                <a class="nav-link nav__name" href="{{ Route('contact') }}" >
+                                  Liên Hệ
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                  <span class="text-uppercase">Liên Hệ</span>
-
-
-
-                                  <div class="row my-3">
-                                      <div class="col-3">
-
-                                          <a class="dropdown-item text-capitalize" href="">
-                                              <i class="fas fa-angle-double-right"></i>thông tin liên hệ
-                                          </a>
-                                      </div>
-
-                                  </div>
-                                  <div class="row my-3">
-                                    <div class="col-3">
-
-                                        <a class="dropdown-item text-capitalize" href="">
-                                            <i class="fas fa-angle-double-right"></i>thắc mắc góp ý
-                                        </a>
-                                    </div>
-
-                                </div>
-
-
-
-                                </div>
-
                               </li>
                           </ul>
                           <ul class="navbar-nav ml-md-auto account">

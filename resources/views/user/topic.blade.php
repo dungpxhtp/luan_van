@@ -1,6 +1,11 @@
 @extends('user.layoutsite')
 @section('title')
-  Tổng Hợp Tin Tức Shop
+   @if (isset($topicPost))
+        {{ $topicPost->name }}
+   @else
+    Tổng Hợp Tin Tức
+
+   @endif
 @endsection
 @section('main')
     <div class="row">
@@ -40,18 +45,48 @@
 
                         <div class="row box-topic">
                             <div class="col-md-12 text-center">
-                                    <h3>Danh Mục Tham Khảo</h3>
+                                <h3 class="title-topic">Danh Mục Tham Khảo</h3>
                             </div>
-                            <div class="col-md-12">
-                                @foreach ($topic as $item)
-                                <i class="fas fa-chevron-right"></i>
-                                <a href="" style="margin: 0 20px">
-                                    {{ $item->name }}
-                                </a>
-                                @endforeach
+                            <div class="col-md-12 my-2">
+
+                                    @foreach ($topic as $item)
+                                    <div class="box-description-topic my-2">
+                                        <i class="fas fa-chevron-right"></i>
+                                        <a href="{{ Route('topicPost',['slug'=>$item->slug]) }}" style="margin: 0 20px">
+                                            {{ $item->name }}
+                                        </a>
+                                    </div>
+                                    @endforeach
+
 
                             </div>
                         </div>
+                        @if (count($postnew)>0)
+                            <div class="row box-new-topic my-5">
+
+                                <div class="col-md-12 d-flex align-items-center justify-content-center">
+                                    <h3 class="title-topic">Bài viết mới</h3>
+
+
+                                </div>
+                                @foreach ($postnew as $item)
+                                    <div class="row my-3">
+                                        <div class="col-md-3">
+                                         <a href="{{ Route('postdetail',['slug'=>$item->slug]) }}">
+                                            <img class="layzy" src="{{ $item->image }}" alt="{{ $item->slug }}" width="100%">
+                                        </a>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <a class="title-topic-new" href="{{ Route('postdetail',['slug'=>$item->slug]) }}">    {!! \Illuminate\Support\Str::limit(strip_tags($item->title), $limit = 50, $end = '...') !!}</a>
+                                            <span style="display: block;margin-top:3px;">
+                                                <i class="far fa-calendar-alt"></i> {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y')}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+
                     </div>
                 </div>
             </div>

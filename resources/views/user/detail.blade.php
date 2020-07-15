@@ -116,23 +116,26 @@
                 </div>
             </div>
             <div class="row my-3">
-                <div class="col-md-12">
-                    <p class="name-comment">ABC</p>
-                    <span class="text-comment">Sản Phẩm Này Như Thế Nào</span>
+            @foreach ($comment as $item)
+                @if ($item->parentid == 0)
+
+
+                <div class="col-md-12 my-5">
+                    <h5 class="name-comment">{{ $item->nameuser }}</h5>
+                    <span class="text-comment">{{ $item->commentText }}</span>
                     <div class="comment-acttion">
                         <a href="">Trả Lời</a>
-                        <span>1 tuần</span>
+                        <span>{{ $item->created_at }}</span>
                     </div>
-                    <div class="reply-comment">
-                        <p class="name-comment">ABC</p>
-                        <span class="text-comment">Sản Phẩm Này Như Thế Nào</span>
-                        <div class="comment-acttion">
-                            <a href="">Trả Lời</a>
-                            <span>1 tuần</span>
-                        </div>
-                    </div>
-                </div>
 
+
+                @else
+                        @includeIf('user.layout.comment.replyComment', ['id' =>  $item->parentid ])
+                </div>
+                @endif
+
+
+            @endforeach
             </div>
         </div>
     </div>

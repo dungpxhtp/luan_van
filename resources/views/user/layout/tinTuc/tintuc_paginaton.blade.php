@@ -13,13 +13,13 @@
                     </h2>
 
                    <div>
-                    <img src="{{ $item->image }}" alt="{{ $item->slug }}" style="width:100%">
+                  <a href="{{ Route('postdetail',['slug'=>$item->slug]) }}"> <img src="{{ $item->image }}" alt="{{ $item->slug }}" style="width:100%"> </a>
                     </div>
                     <p class="text-description my-3">
                         {!! \Illuminate\Support\Str::limit(strip_tags($item->detail), $limit = 100, $end = '...') !!}
                     </p>
                     <div class="read-more d-flex justify-content-end">
-                        <a href="" class="btn btn-sm btn-info">Xem Thêm</a>
+                        <a href="{{ Route('postdetail',['slug'=>$item->slug]) }}" class="btn btn-sm btn-info">Xem Thêm</a>
 
                     </div>
             </div>

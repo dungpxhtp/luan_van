@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\products;
 use App\Models\brandproducts;
 use App\Models\categoryproducts;
+use App\Models\commentproducts;
 use App\Models\gendercategoryproducts;
 use App\Models\post;
 use App\Models\topic;
@@ -20,7 +21,9 @@ class HomeController extends Controller
         $categoryproducts=categoryproducts::where('status','=','1')->get();
         $gendercategoryproducts=gendercategoryproducts::where('status','=','1')->get();
         $topic=topic::where('status','=','1')->get();
-        \View::share(['brandsproducts'=> $brandsproducts,'categoryproducts'=>$categoryproducts,'gendercategoryproducts'=>$gendercategoryproducts,'topic'=>$topic]);
+        $postnew=post::where([['status','=',1]])->orderBy('created_at','asc')->take(5)->get();
+
+        \View::share(['brandsproducts'=> $brandsproducts,'categoryproducts'=>$categoryproducts,'gendercategoryproducts'=>$gendercategoryproducts,'topic'=>$topic,'postnew'=>$postnew]);
     }
     public function home(){
         $productsnew=products::where([['status','=','1']])->orderBy('created_at','desc')->take(4)->get();
@@ -29,6 +32,7 @@ class HomeController extends Controller
     }
     public function productDetail($slug)
     {
+
         $product=products::where([['products.status','=','1'],['products.slug','=',$slug]])
          ->join('gendercategoryproducts','products.id_gendercategoryproducts','=','gendercategoryproducts.id')
          ->join('productmodel','products.id_productmodel','=','productmodel.id')
@@ -42,8 +46,9 @@ class HomeController extends Controller
                 'productssize.name as name_productssize','productwaterproorf.name as name_productwaterproorf','productglasses.name as name_productglasses',
                 'categoryproducts.name as name_categoryproducts','productborderscolor.name as name_productborderscolor','brandproducts.name as name_brandproducts','products.*','brandproducts.image as image_brandproducts','brandproducts.slug as slug_brandproducts' )
         ->firstOrFail();
+        $comment=commentproducts::where([['commentproducts.id_product','=',$product->id],['commentproducts.status','=','1']])->join('users','commentproducts.id_user','=','users.id')->select('commentproducts.*','users.name as nameuser')->orderBy('created_at','desc')->paginate(10);
 
-        return view('user.detail',compact('product'));
+        return view('user.detail',compact('product','comment'));
     }
     // hãng parram slug //
     public function brands_products($slug,Request $request)
@@ -136,14 +141,36 @@ class HomeController extends Controller
     //tin tuc index
     public function topic(Request $request)
     {
-        $post=post::where([['status','=',1]])->paginate(1);
+        $post=post::where([['status','=',1]])->paginate(5);
         if($request->ajax())
         {
-            $post=post::where([['status','=',1]])->paginate(1);
+            $post=post::where([['status','=',1]])->paginate(5);
             return view('user.layout.tinTuc.tintuc_paginaton',['post'=>$post])->render();
 
         }
         return view('user.topic',compact('post'));
     }
 
+    public function topicPost(Request $request,$slug)
+    {
+        $topicPost=topic::where([['slug','=',$slug],['status','=','1']])->firstOrFail();
+        $post=post::where([['status','=',1],['id_topic','=',$topicPost->id]])->paginate(5);
+        if($request->ajax())
+        {
+            $post=post::where([['status','=',1],['id_topic','=',$topicPost->id]])->paginate(5);
+            return view('user.layout.tinTuc.tintuc_paginaton',['post'=>$post])->render();
+
+        }
+        return view('user.topic',compact('post','topicPost'));
+    }
+    public function postdetail($slug)
+    {
+        $postdetail=post::where([['status','=','1'],['slug','=',$slug]])->firstOrFail();
+
+        return view('user.topicdetail',compact('postdetail'));
+    }
+    public function contact()
+    {
+        return view('user.lienhe');
+    }
 }
