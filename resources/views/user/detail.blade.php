@@ -112,38 +112,53 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-
+                        <form class="form-comment">
+                            <div class="form-group">
+                              <label for="exampleFormControlTextarea1">Bình Luận Về Sản Phẩm</label>
+                              <textarea class="form-control counted input-comment" name="input-comment" placeholder="Mời Bạn Nhập Bình Luận Về Sản Phẩm" rows="3" ></textarea>
+                              <h6 class="pull-right" id="counter" style="margin-top: 10px;"></h6>
+                            </div>
+                            <button  value="{{ Route('commentProduct',['id_products'=>$product->id]) }}" class="btn btn-sm btn-success btn-submit-comment" >Bình Luận</button>
+                        </form>
                 </div>
             </div>
-            <div class="row my-3">
-            @foreach ($comment as $item)
-                @if ($item->parentid == 0)
-
-
-                <div class="col-md-12 my-5">
-                    <h5 class="name-comment">{{ $item->nameuser }}</h5>
-                    <span class="text-comment">{{ $item->commentText }}</span>
-                    <div class="comment-acttion">
-                        <a href="">Trả Lời</a>
-                        <span>{{ $item->created_at }}</span>
-                    </div>
-
-
-                @else
-                        @includeIf('user.layout.comment.replyComment', ['id' =>  $item->parentid ])
-                </div>
-                @endif
-
-
-            @endforeach
+            <div id="showcomment">
+            @includeIf('user.layout.comment.replyComment')
             </div>
         </div>
     </div>
+    <div class="modal modal-comment" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    @includeIf('user.layout.loading.loading');
+
 @endsection
 @section('script')
     <script src="{{ asset('carousel/js/owl.carousel.min.js') }}"></script>
     <script>
         $(document).ready(function(){
+            $(document).ajaxStart(function() {
+                $("#loading").show();
+            });
+            $(document).ajaxStop(function() {
+                $("#loading").hide();
+            });
             $('.owl-carousel').owlCarousel({
                 loop:true,
                 lazyLoad:true,
@@ -170,10 +185,75 @@
             });
             $('.play').on('click',function(){
                 owl.trigger('play.owl.autoplay',[1000])
-            })
+            });
             $('.stop').on('click',function(){
                 owl.trigger('stop.owl.autoplay')
-            })
-          });
+            });
+
+            $(document).on("click",".btn-reply",function(event){
+                event.preventDefault();
+                $(".modal-comment").modal("show");
+            });
+            $(document).on("click",".btn-submit-comment",function(event){
+                event.preventDefault();
+                var url = $(".btn-submit-comment").val();
+                var location=window.location.href;
+                console.log(location);
+                var text=$(".input-comment").val();
+                console.log(text);
+                if(!$(".input-comment").val().length)
+                {
+                    alert('Vui Lòng Nhập Nội Dung Bình Luận');
+                }else
+                {
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url : url,
+                    type:'POST',
+                    data:$('.form-comment').serialize(),
+                    contentType:'application/x-www-form-urlencoded;     charset=UTF-8' ,
+                    dataType:"JSON",
+                    success:function(data)
+                    {
+
+
+                    }
+                });
+            }
+
+            });
+        });
+
+
+        $(function() {
+            $('body').on('click', '.pagination a', function(e) {
+                e.preventDefault();
+
+                $('#load a').css('color', '#dfecf6');
+                $('#load').append('<i class="fas fa-spinner"></i>');
+
+                var url = $(this).attr('href');
+                console.log(url);
+                getArticles(url);
+                //window.history.pushState("", "", url);
+            });
+
+            function getArticles(url) {
+                $.ajax({
+                    url : url
+                }).done(function (data) {
+                    $('#showcomment').html(data);
+                }).fail(function () {
+                    alert('Articles could not be loaded.');
+                });
+            }
+        });
+    </script>
+    <script type="text/javascript" src="{{ asset('js/myJs/demsokitu.js') }}">
     </script>
 @endsection

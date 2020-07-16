@@ -19,16 +19,17 @@ use Illuminate\Support\Facades\Route;
 });*/
 
 
-Route::post('login', 'ApiController@login');
-Route::post('dangky', 'ApiController@register');
+Route::post('dang-nhap', 'ApiController@login')->name('loginuser');
+Route::post('dang-ky-user', 'ApiController@register');
 
 Route::group(['middleware' => 'auth.jwt'], function () {
-    Route::post('createcomment/{idProduct}/{parentid}','Api\commentUser@store');
+    Route::get('products','Frontend\Home@products');
+
 });
 //Uses Cate Gory
 Route::get('brandproducts','Frontend\Home@brandproducts');
 Route::get('categoryproducts','Frontend\Home@categoryproducts');
-Route::get('products','Frontend\Home@products');
+
 
 // User Comment
 Route::get('getAllComment/{id}','Api\commentUser@index');

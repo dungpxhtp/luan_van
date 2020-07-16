@@ -66,28 +66,7 @@ class Home extends Controller
     }
     public function products()
     {
-            try {
-                $getAll=products::where([['products.status','=','1'],['categoryproducts.status','=','1']])->join('categoryproducts','products.id_categoryproducts','categoryproducts.id')->select('products.*')->orderBy('created_at','desc')->get();
-                if($getAll->isEmpty())
-            {
-                return response()->json([
-                    'data'=>'Not Data'
-                ]);
-            }
-            return response()->json(
-
-                    productsResource::collection($getAll)
-
-
-            );
-            } catch (Exception $e) {
-                return response()->json([
-                    'error'=>[
-                        'messagess'=>$e->messages()
-                    ],
-                    'status'=>500,
-                ],200);
-            }
+            return  response()->json('ok');
     }
 
 }

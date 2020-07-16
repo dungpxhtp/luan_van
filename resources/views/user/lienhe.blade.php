@@ -35,7 +35,7 @@
                                 <div class="form-group">
                                   <label for="exampleFormControlTextarea1">Nội Dung </label>
                                   <textarea class="form-control counted" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                   <h6 class="pull-right" id="counter"></h6>
+                                   <h6 class="pull-right" id="counter" style="margin-top:10px;"></h6>
 
                                 </div>
                                 <button type="submit" class="btn btn-sm btn-success">
@@ -62,7 +62,5 @@
 @endsection
 @section('script')
 <script type="text/javascript" src="{{ asset('js/myJs/demsokitu.js') }}">
-
-
 </script>
 @endsection

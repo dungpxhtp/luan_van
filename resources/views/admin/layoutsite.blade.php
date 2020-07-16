@@ -17,7 +17,31 @@
     <link rel="stylesheet" href="{{ asset('fontawesome/css/brands.css') }}">
     <link rel="stylesheet" href="{{ asset('fontawesome/css/solid.css') }}">
     <link rel="stylesheet" href="{{ asset('jtable/jquery.dataTables.min.css') }}">
+    <style>
+        #loading {
+            background-color:white;
+            position: fixed;
+            display: block;
+            top: 0;
+            bottom: 0;
+            z-index: 1000000;
+            opacity: 0.5;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+          }
 
+          #loading img {
+            margin: auto;
+            display: block;
+            left: 50%;
+            top: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            position: absolute;
+            z-index: 999;
+          }
+    </style>
     @yield('head')
 </head>
 <body>
@@ -128,11 +152,21 @@
 
 
 
-
+ @includeIf('user.layout.loading.loading');
 
 @includeIf('admin.public.js.scripts')
 
 </body>
 
+    <script>
+        $(document).ready(function(){
+            $(document).ajaxStart(function() {
+                $("#loading").show();
+            });
+            $(document).ajaxStop(function() {
+                $("#loading").hide();
+            });
+        });
+    </script>
 @yield('script')
 </html>

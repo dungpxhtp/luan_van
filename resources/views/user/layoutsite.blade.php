@@ -8,6 +8,7 @@
     @yield('meta')
     <title>@yield('title')</title>
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
 
@@ -334,19 +335,35 @@
                                   Liên Hệ
                                 </a>
                               </li>
+
                           </ul>
                           <ul class="navbar-nav ml-md-auto account">
-
-                              <li class="nav-item dropdown">
+                            @if (!Auth::guard('khachhang')->check())
+                            <li class="nav-item">
+                                <a class="nav-link nav__name login" href="{{ Route('get_dang_nhap_user') }}">
+                                     Đăng Nhập
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav__name" href="">
+                                        Đăng Ký
+                                </a>
+                            </li>
+                            @endif
+                            @if (Auth::guard('khachhang')->check())
+                            <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  <i class="fas fa-users"></i>
+                                  <i class="fas fa-users"></i>  Xin Chào  {{
+                                 Auth::guard('khachhang')->user()->name }}
+
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                   <a class="dropdown-item" href="#"><i class="fas fa-users"></i><span class="item-margin-5">Thông Tin</span></a>
                                   <a class="dropdown-item" href="#"><i class="fas fa-cogs "></i><span class="item-margin-5">Setting</span></a>
-                                  <a class="dropdown-item" href="{{ Route('logOutAdmin') }}"><i class="fas fa-sign-out-alt"></i><span class="item-margin-5">Đăng Xuất</span></a>
+                                  <a class="dropdown-item" href="{{ Route('logoutUser') }}"><i class="fas fa-sign-out-alt"></i><span class="item-margin-5">Đăng Xuất</span></a>
                                 </div>
                               </li>
+                            @endif
 
                           </ul>
                         </div>
@@ -364,8 +381,66 @@
 
                 </footer>
     </div>
+    <div class="modal login-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Đăng Nhập</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ Route('post_dang_nhap_user') }}" method="POST" enctype="multipart/form-data" class="form">
+                    @csrf
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Email address</label>
+                      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" placeholder="Enter email">
+                      <small id="emailHelp" class="form-text text-muted">Chúng tôi không bao giờ chia sẻ email của bạn với bất cứ ai khác.</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Mật Khẩu</label>
+                      <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password"  autocomplete="on">
+                    </div>
+                  </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Đăng Nhập</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+               </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    @if (session('message'))
+    <!-- Modal -->
+    @php
+        $type=session('message');
+    @endphp
+    <div  class="modal fade thongbao" id="thongbao" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title text-{{ $type["type"] }}" id="exampleModalCenterTitle">Thông Báo</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            <div class="text-{{ $type["type"] }}">{{ $type["msg"] }}</div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+
+            </div>
+        </div>
+        </div>
+    </div>
 
 
+
+
+    @endif
 
 
 
@@ -382,6 +457,13 @@
     <script>
         $(function(){
             $('.lazy').lazy();
+        });
+        $(document).ready(function(){
+            $("#thongbao").modal('show');
+            $(".login").click(function(event){
+                event.preventDefault();
+                $(".login-modal").modal('show');
+            });
         });
     </script>
 

@@ -14,10 +14,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 /*user */
+
+
+
 Route::get('/','Backend\HomeController@home')->name('home');
 //show sản phẩm
 
 Route::get('san-pham/{slug}','Backend\HomeController@productDetail')->name('productDetail');
+//bình luận sản phẩm
+
 /* admin */
 Route::get('admin','Frontend\loginAdminController@getLogin')->name('getLogin');
 Route::post('loginAdmin','Frontend\loginAdminController@loginAdmin')->name('loginAdmin');
@@ -45,7 +50,19 @@ Route::get('tin-tuc','Backend\HomeController@topic')->name('tin-thuc.index');
 Route::get('danh-muc-tin-tuc/{slug}','Backend\HomeController@topicPost')->name('topicPost');
 Route::get('bai-viet/{slug}','Backend\HomeController@postdetail')->name('postdetail');
 //end tin tức
-Route::get('lien-he','Backend\HomeController@contact')->name('contact');
+//đăng nhập
+Route::get('dang-nhap-khach-hang','Backend\HomeController@getdangnhap')->name('get_dang_nhap_user');
+Route::post('post-dang-nhap-user','Backend\HomeController@postdangnhap')->name('post_dang_nhap_user');
+//end đăng nhập
+Route::get('dang-xuat-khach-hang','Backend\HomeController@logoutUser')->name('logoutUser');
+Route::group(['middleware' => 'auth.user'], function () {
+    Route::get('lien-he','Backend\HomeController@contact')->name('contact');
+    Route::post('binh-luan/{id_products}','Backend\HomeController@commentProduct')->name('commentProduct');
+});
+
+
+        ///phần admin //
+
 Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
     Route::get('dashboard','Frontend\Backend@dashboard')->name('dashboard');
     Route::get('logOutAdmin','Frontend\Backend@logOutAdmin')->name('logOutAdmin');

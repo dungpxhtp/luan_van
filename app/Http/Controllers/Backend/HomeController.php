@@ -10,7 +10,9 @@ use App\Models\commentproducts;
 use App\Models\gendercategoryproducts;
 use App\Models\post;
 use App\Models\topic;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -30,7 +32,7 @@ class HomeController extends Controller
 
         return view('user.home',compact('productsnew'));
     }
-    public function productDetail($slug)
+    public function productDetail(Request $request,$slug)
     {
 
         $product=products::where([['products.status','=','1'],['products.slug','=',$slug]])
@@ -46,9 +48,30 @@ class HomeController extends Controller
                 'productssize.name as name_productssize','productwaterproorf.name as name_productwaterproorf','productglasses.name as name_productglasses',
                 'categoryproducts.name as name_categoryproducts','productborderscolor.name as name_productborderscolor','brandproducts.name as name_brandproducts','products.*','brandproducts.image as image_brandproducts','brandproducts.slug as slug_brandproducts' )
         ->firstOrFail();
-        $comment=commentproducts::where([['commentproducts.id_product','=',$product->id],['commentproducts.status','=','1']])->join('users','commentproducts.id_user','=','users.id')->select('commentproducts.*','users.name as nameuser')->orderBy('created_at','desc')->paginate(10);
-
+        $comment=commentproducts::where([['commentproducts.id_product','=',$product->id],['commentproducts.status','=','1']])->join('users','commentproducts.id_user','=','users.id')->select('commentproducts.*','users.name as nameuser')->orderBy('created_at','desc')->paginate(20);
+        if($request->ajax())
+        {
+            $comment=commentproducts::where([['commentproducts.id_product','=',$product->id],['commentproducts.status','=','1']])->join('users','commentproducts.id_user','=','users.id')->select('commentproducts.*','users.name as nameuser')->orderBy('created_at','desc')->paginate(20);
+            return view('user.layout.comment.replyComment',['comment'=>$comment])->render();
+        }
         return view('user.detail',compact('product','comment'));
+    }
+    public function commentProduct(Request $request, $idProducts)
+    {
+        if($request->ajax())
+        {
+        $commentproducts = new commentproducts;
+        $commentproducts->id_user=Auth::guard('khachhang')->user()->id;
+        $commentproducts->status=1;
+        $commentproducts->commentText=$request->get('input-comment');
+        $commentproducts->parentid=0;
+        $commentproducts->id_product=$idProducts;
+        $commentproducts->created_at=Carbon::now('Asia/Ho_Chi_Minh');
+        $commentproducts->save();
+        $comment=commentproducts::where([['commentproducts.id_product','=',$idProducts],['commentproducts.status','=','1']])->join('users','commentproducts.id_user','=','users.id')->select('commentproducts.*','users.name as nameuser')->orderBy('created_at','desc')->paginate(20);
+
+        return view('user.layout.comment.replyComment',['comment'=>$comment])->render();
+        }
     }
     // hãng parram slug //
     public function brands_products($slug,Request $request)
@@ -172,5 +195,35 @@ class HomeController extends Controller
     public function contact()
     {
         return view('user.lienhe');
+    }
+    public function getdangnhap()
+    {
+        return view('user.dangnhap');
+    }
+    function postdangnhap(Request $request){
+        $email = $request->get('email');
+        $password =$request->get('password');
+
+
+        if(Auth::guard('khachhang')->attempt(['email'=>$email,'password'=>$password]))
+        {
+            return redirect()->back()->with("message",["type"=>"success","msg"=>"Đăng Nhập Thành Công"]);
+        }else
+        {
+            return redirect()->back()->with("danger",["type"=>"success","msg"=>"Đăng Nhập Thất Bại"]);
+        }
+
+
+    }
+    public function logoutUser(Request $request)
+    {
+
+        if(Auth::guard('khachhang')->check())
+        {
+            Auth::guard('khachhang')->logout();
+
+            $request->session()->flush();
+            return  redirect()->route('home');
+        }
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class LoginAdmin
+class LoginUser
 {
     /**
      * Handle an incoming request.
@@ -14,21 +14,15 @@ class LoginAdmin
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next)
     {
-
-        if(Auth::guard('admin')->check())
+        if(Auth::guard('khachhang')->check())
         {
-
-            return $next($request);
-
-        }
-        else
+           return $next($request);
+        }else
         {
-            return redirect()->route('getLogin');
+            return redirect()->back()->with("message",["type"=>"danger","msg"=>"Yêu Cầu Đăng Nhập"]);
         }
-
-
 
     }
 }

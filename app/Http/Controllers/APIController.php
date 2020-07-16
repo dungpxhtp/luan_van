@@ -23,7 +23,9 @@ class APIController extends Controller
      */
 public function login(Request $request)
     {
-        $input = $request->only('email', 'password');
+        $email=$request->get('email');
+        $password=$request->get('password');
+        $input = ['email'=>$email, 'password'=>$password];
         $token = null;
         $findUser=User::where('email','=',$request->email)->firstOrFail();
         if (!$token = JWTAuth::attempt($input)) {

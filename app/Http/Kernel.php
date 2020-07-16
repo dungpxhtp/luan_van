@@ -66,5 +66,8 @@ class Kernel extends HttpKernel
         'auth.jwt'  =>  \Tymon\JWTAuth\Http\Middleware\Authenticate::class, // JWT middleware
         'auth.auth'=>\App\Http\Middleware\LoginAdmin::class,//Auth login middleware
 
+        //login user
+        'auth.user'=>\App\Http\Middleware\LoginUser::class,
+
     ];
 }
