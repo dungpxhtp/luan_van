@@ -25,7 +25,7 @@
                 </div>
                 <div class="row my-3">
                     <div class="col-md-12 text-center">
-                        <img class="lazy" data-src="{{ $brandShow->image }}" alt="{{ $brandShow->slug }}" style="height:180px;">
+                        <img class="lazy" data-src="{{ $brandShow->image }}" alt="{{ $brandShow->slug }}" style="height:180px; display: initial;">
                         <p> <i>
                             “Người ta vẫn thường nói “thời gian là vĩnh cữu”, mọi thứ trên thế giới này có thể bị lụi tàn hoặc thụt lùi, nhưng thời gian sẽ không bao giờ phai mờ. Chính vì thế, hãy trân trọng thời gian của mình đang có với một chiếc đồng hồ chính hãng (vật dùng để kiểm soát thời gian). Nếu bạn là phái mạnh, thì đồng hồ đeo tay nam chính hãng không chỉ đơn giản dùng để kiểm soát thời gian dành cho bạn mà còn phụ kiện để khẳng định địa vị trong xã hội. Nếu bạn là phái đẹp, thì đồng hồ đeo tay nữ chính hãng sẽ là phụ kiện thời trang sành điệu nhất trong những sự kiện quan trọng dành cho bạn….”
                         </i>

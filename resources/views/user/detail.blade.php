@@ -127,25 +127,7 @@
             </div>
         </div>
     </div>
-    <div class="modal modal-comment" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Modal title</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>Modal body text goes here.</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-          </div>
-        </div>
-    </div>
+
     @includeIf('user.layout.loading.loading');
 
 @endsection
@@ -153,6 +135,15 @@
     <script src="{{ asset('carousel/js/owl.carousel.min.js') }}"></script>
     <script>
         $(document).ready(function(){
+            function reloadComment(url) {
+                $.ajax({
+                    url : url
+                }).done(function (data) {
+                    $('#showcomment').html(data);
+                }).fail(function () {
+                    alert('Articles could not be loaded.');
+                });
+            };
             $(document).ajaxStart(function() {
                 $("#loading").show();
             });
@@ -190,17 +181,20 @@
                 owl.trigger('stop.owl.autoplay')
             });
 
-            $(document).on("click",".btn-reply",function(event){
-                event.preventDefault();
-                $(".modal-comment").modal("show");
-            });
+                $(document).on('click','.btn-reply',function(e){
+                    console.log('ok');
+                });
+
+
+
             $(document).on("click",".btn-submit-comment",function(event){
                 event.preventDefault();
                 var url = $(".btn-submit-comment").val();
-                var location=window.location.href;
-                console.log(location);
+                var locationhref=window.location.href;
+                console.log(locationhref);
+
                 var text=$(".input-comment").val();
-                console.log(text);
+
                 if(!$(".input-comment").val().length)
                 {
                     alert('Vui Lòng Nhập Nội Dung Bình Luận');
@@ -221,9 +215,29 @@
                     success:function(data)
                     {
 
+                        if(data.success)
+                        {
+                            $(".input-comment").val('');
+                            $('.text-message').append("<b>Bình Luận Thành Công</b>");
+                            $('.message').modal('show');
+                             setTimeout(function(){
 
+
+                                reloadComment(locationhref);
+                                $('.message').modal('hide');
+                                $(".text-message").empty();
+                            },2000);
+
+                        }else
+                        {
+                            alert(data.error);
+                        }
                     }
                 });
+
+
+
+
             }
 
             });
@@ -253,6 +267,9 @@
                 });
             }
         });
+
+        //show box comment
+
     </script>
     <script type="text/javascript" src="{{ asset('js/myJs/demsokitu.js') }}">
     </script>

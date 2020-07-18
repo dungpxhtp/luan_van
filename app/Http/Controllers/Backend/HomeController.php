@@ -11,6 +11,7 @@ use App\Models\gendercategoryproducts;
 use App\Models\post;
 use App\Models\topic;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -52,6 +53,7 @@ class HomeController extends Controller
         if($request->ajax())
         {
             $comment=commentproducts::where([['commentproducts.id_product','=',$product->id],['commentproducts.status','=','1']])->join('users','commentproducts.id_user','=','users.id')->select('commentproducts.*','users.name as nameuser')->orderBy('created_at','desc')->paginate(20);
+
             return view('user.layout.comment.replyComment',['comment'=>$comment])->render();
         }
         return view('user.detail',compact('product','comment'));
@@ -60,18 +62,30 @@ class HomeController extends Controller
     {
         if($request->ajax())
         {
-        $commentproducts = new commentproducts;
-        $commentproducts->id_user=Auth::guard('khachhang')->user()->id;
-        $commentproducts->status=1;
-        $commentproducts->commentText=$request->get('input-comment');
-        $commentproducts->parentid=0;
-        $commentproducts->id_product=$idProducts;
-        $commentproducts->created_at=Carbon::now('Asia/Ho_Chi_Minh');
-        $commentproducts->save();
-        $comment=commentproducts::where([['commentproducts.id_product','=',$idProducts],['commentproducts.status','=','1']])->join('users','commentproducts.id_user','=','users.id')->select('commentproducts.*','users.name as nameuser')->orderBy('created_at','desc')->paginate(20);
+            try{
+                if(Auth::guard('khachhang')->check())
+                {
+                $commentproducts = new commentproducts;
+                $commentproducts->id_user=Auth::guard('khachhang')->user()->id;
+                $commentproducts->status=1;
+                $commentproducts->commentText=$request->get('input-comment');
+                $commentproducts->parentid=0;
+                $commentproducts->id_product=$idProducts;
+                $commentproducts->created_at=Carbon::now('Asia/Ho_Chi_Minh');
+                $commentproducts->save();
+                return response()->json(['success'=>'Thêm Bình Luận']);
+                }else
+                {
+                    return response()->json(['error'=>'Đăng Nhập Để Bình Luận ']);
+                }
 
-        return view('user.layout.comment.replyComment',['comment'=>$comment])->render();
+
+            }catch(Exception $e)
+            {
+                return response()->json(['error'=>'Lỗi Server']);
+            }
         }
+
     }
     // hãng parram slug //
     public function brands_products($slug,Request $request)

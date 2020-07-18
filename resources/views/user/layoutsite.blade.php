@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{ asset('fontawesome/css/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('fontawesome/css/brands.css') }}">
     <link rel="stylesheet" href="{{ asset('fontawesome/css/solid.css') }}">
+    @yield('style')
     <style>
         .dropdown {
             position:static !important;
@@ -236,6 +237,12 @@
           .title-topic-new{
               text-transform: uppercase;
           }
+          .box-reply {
+            border: 1px solid #333333;
+          }
+
+
+
         </style>
     @yield('head')
 </head>
@@ -436,12 +443,26 @@
         </div>
         </div>
     </div>
-
-
-
-
     @endif
+    <div  class="modal fade message"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title text-success" id="exampleModalCenterTitle">Thông Báo</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            <div class="text-success text-message"></div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
 
+            </div>
+        </div>
+        </div>
+    </div>
 
 
     <script src="{{asset('js/jquery/jquery-3.5.1.slim.min.js')}}"></script>
@@ -457,9 +478,10 @@
     <script>
         $(function(){
             $('.lazy').lazy();
+            $(".thongbao").modal('show');
         });
         $(document).ready(function(){
-            $("#thongbao").modal('show');
+
             $(".login").click(function(event){
                 event.preventDefault();
                 $(".login-modal").modal('show');

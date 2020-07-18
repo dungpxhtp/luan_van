@@ -58,6 +58,7 @@ Route::get('dang-xuat-khach-hang','Backend\HomeController@logoutUser')->name('lo
 Route::group(['middleware' => 'auth.user'], function () {
     Route::get('lien-he','Backend\HomeController@contact')->name('contact');
     Route::post('binh-luan/{id_products}','Backend\HomeController@commentProduct')->name('commentProduct');
+    Route::post('tra-loi/{id_products}/{parentid}','Backend\HomeController@replyCommentProduct')->name('replyCommentProduct');
 });
 
 
