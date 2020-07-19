@@ -57,6 +57,10 @@ Route::post('post-dang-nhap-user','Backend\HomeController@postdangnhap')->name('
 Route::get('dang-xuat-khach-hang','Backend\HomeController@logoutUser')->name('logoutUser');
 Route::get('lien-he','Backend\HomeController@contact')->name('contact');
 Route::post('post-lien-he','Backend\HomeController@postContact')->name('postContact');
+//login facebook
+Route::get('/auth/facebook', 'SocialAuthController@redirectToProvider')->name('loginfacebook');
+Route::get('/auth/facebook/callback', 'SocialAuthController@handleProviderCallback');
+
 Route::group(['middleware' => 'auth.user'], function () {
     Route::post('binh-luan/{id_products}','Backend\HomeController@commentProduct')->name('commentProduct');
     Route::post('tra-loi/{id_products}/{parentid}','Backend\HomeController@replyCommentProduct')->name('replyCommentProduct');

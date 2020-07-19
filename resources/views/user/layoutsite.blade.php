@@ -411,9 +411,19 @@
                     </div>
                   </div>
             <div class="modal-footer">
+
               <button type="submit" class="btn btn-primary">Đăng Nhập</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
                </form>
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+            </div>
+            <div class="box-login">
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="{{ Route('loginfacebook') }}" class="btn btn-sm " style="background-color:#3578E5;color: #ebebeb; "> Đăng Nhập Facebook</a>
+                    </div>
+                </div>
             </div>
           </div>
         </div>
