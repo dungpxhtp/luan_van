@@ -250,7 +250,7 @@
     <div class="container-fluid">
                 <header>
                     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-                        <a class="navbar-brand" href="{{ route('home') }}">WatchStore</a>
+                        <a class="navbar-brand" href="{{ route('home') }}"><h1 style="font-size: 1.6rem;">WatchStore</h1></a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                           <span class="navbar-toggler-icon"></span>
                         </button>

@@ -55,8 +55,9 @@ Route::get('dang-nhap-khach-hang','Backend\HomeController@getdangnhap')->name('g
 Route::post('post-dang-nhap-user','Backend\HomeController@postdangnhap')->name('post_dang_nhap_user');
 //end đăng nhập
 Route::get('dang-xuat-khach-hang','Backend\HomeController@logoutUser')->name('logoutUser');
+Route::get('lien-he','Backend\HomeController@contact')->name('contact');
+Route::post('post-lien-he','Backend\HomeController@postContact')->name('postContact');
 Route::group(['middleware' => 'auth.user'], function () {
-    Route::get('lien-he','Backend\HomeController@contact')->name('contact');
     Route::post('binh-luan/{id_products}','Backend\HomeController@commentProduct')->name('commentProduct');
     Route::post('tra-loi/{id_products}/{parentid}','Backend\HomeController@replyCommentProduct')->name('replyCommentProduct');
 });

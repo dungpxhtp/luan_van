@@ -116,7 +116,7 @@
                             <div class="form-group">
                               <label for="exampleFormControlTextarea1">Bình Luận Về Sản Phẩm</label>
                               <textarea class="form-control counted input-comment" name="input-comment" placeholder="Mời Bạn Nhập Bình Luận Về Sản Phẩm" rows="3" ></textarea>
-                              <h6 class="pull-right" id="counter" style="margin-top: 10px;"></h6>
+                              <h6 class="pull-right counter"  style="margin-top: 10px; display: none;"></h6>
                             </div>
                             <button  value="{{ Route('commentProduct',['id_products'=>$product->id]) }}" class="btn btn-sm btn-success btn-submit-comment" >Bình Luận</button>
                         </form>
@@ -181,9 +181,10 @@
                 owl.trigger('stop.owl.autoplay')
             });
 
-                $(document).on('click','.btn-reply',function(e){
-                    console.log('ok');
-                });
+            $('.input-comment').focus(function(){
+                $('.counter').show();
+            });
+
 
 
 
@@ -252,7 +253,6 @@
                 $('#load').append('<i class="fas fa-spinner"></i>');
 
                 var url = $(this).attr('href');
-                console.log(url);
                 getArticles(url);
                 //window.history.pushState("", "", url);
             });

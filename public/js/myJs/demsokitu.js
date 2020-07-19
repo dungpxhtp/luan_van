@@ -86,5 +86,5 @@
                 };
 
                 })(jQuery);$(function() {
-                $(".counted").charCounter(200,{container: "#counter"});
+                    $(".counted").charCounter(200,{container: ".counter"});
                 });

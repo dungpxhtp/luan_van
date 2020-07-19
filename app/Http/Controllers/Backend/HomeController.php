@@ -11,6 +11,7 @@ use App\Models\gendercategoryproducts;
 use App\Models\post;
 use App\Models\topic;
 use Carbon\Carbon;
+use Validator;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,6 +64,17 @@ class HomeController extends Controller
         if($request->ajax())
         {
             try{
+                $v=Validator::make($request->all(),[
+                    'input-comment'=>'required',
+                ],[
+                    'input-comment.required'=>'Vui Lòng Nhập Nội Dung Bình Luận ',
+                ]);
+                if($v->fails())
+                {
+                    return response()->json(['error'=>'Vui Lòng Nhập Nội Dung Bình Luận ']);
+                }
+
+
                 if(Auth::guard('khachhang')->check())
                 {
                 $commentproducts = new commentproducts;
@@ -73,7 +85,7 @@ class HomeController extends Controller
                 $commentproducts->id_product=$idProducts;
                 $commentproducts->created_at=Carbon::now('Asia/Ho_Chi_Minh');
                 $commentproducts->save();
-                return response()->json(['success'=>'Thêm Bình Luận']);
+                return response()->json(['success'=>'Bình Luận Thành Công']);
                 }else
                 {
                     return response()->json(['error'=>'Đăng Nhập Để Bình Luận ']);
@@ -86,6 +98,45 @@ class HomeController extends Controller
             }
         }
 
+    }
+    public function replyCommentProduct($idProducts,$parentid,Request $request)
+    {
+        if($request->ajax())
+        {
+            try{
+                $v=Validator::make($request->all(),[
+                    'text-comment'=>'required',
+                ],[
+                    'text-comment.required'=>'Vui Lòng Nhập Nội Dung Bình Luận ',
+                ]);
+                if($v->fails())
+                {
+                    return response()->json(['error'=>'Vui Lòng Nhập Nội Dung Bình Luận ']);
+                }
+
+
+                if(Auth::guard('khachhang')->check())
+                {
+                $commentproducts = new commentproducts;
+                $commentproducts->id_user=Auth::guard('khachhang')->user()->id;
+                $commentproducts->status=1;
+                $commentproducts->commentText=$request->get('text-comment');
+                $commentproducts->parentid=$parentid;
+                $commentproducts->id_product=$idProducts;
+                $commentproducts->created_at=Carbon::now('Asia/Ho_Chi_Minh');
+                $commentproducts->save();
+                return response()->json(['success'=>'Bình Luận Thành Công']);
+                }else
+                {
+                    return response()->json(['error'=>'Đăng Nhập Để Bình Luận ']);
+                }
+
+
+            }catch(Exception $e)
+            {
+                return response()->json(['error'=>'Lỗi Server']);
+            }
+        }
     }
     // hãng parram slug //
     public function brands_products($slug,Request $request)
@@ -239,5 +290,9 @@ class HomeController extends Controller
             $request->session()->flush();
             return  redirect()->route('home');
         }
+    }
+    public function postContact(Request $request)
+    {
+        dd($request->all());
     }
 }
