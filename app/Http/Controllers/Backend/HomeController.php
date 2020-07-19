@@ -10,6 +10,8 @@ use App\Models\commentproducts;
 use App\Models\gendercategoryproducts;
 use App\Models\post;
 use App\Models\topic;
+use App\Models\contact;
+
 use Carbon\Carbon;
 use Validator;
 use Exception;
@@ -293,6 +295,42 @@ class HomeController extends Controller
     }
     public function postContact(Request $request)
     {
-        dd($request->all());
+        try{
+
+        $v=Validator::make($request->all(),[
+            'name'=>'required',
+            'email'=>'required|email',
+            'phone'=>'required',
+            'content'=>'required|min:20'
+        ],[
+            'name.required'=>'Không được bỏ trống',
+            'email.required'=>'Không được bỏ trống',
+            'email.email'=>'Kiểm tra lại định dạng email',
+            'phone.required'=>'Không được bỏ trống',
+            'content.required'=>'Không được bỏ trống',
+            'content.min'=>'Không được dưới 20 kí tự '
+
+        ]);
+        if($v->fails())
+        {
+            return redirect()->back()
+            ->withErrors($v)
+            ->withInput();
+        }
+        $newRow=new contact;
+        $newRow->contactText=$request->get('content');
+        $newRow->fullName=$request->get('name');
+        $newRow->phone=$request->get('phone');
+        $newRow->status=0;
+        $newRow->email=$request->get('email');
+
+        $newRow->created_at=Carbon::now('Asia/Ho_Chi_Minh');
+        $newRow->save();
+        return redirect()->back()->with("message",["type"=>"success","msg"=>"Xin chân thành cảm ơn  nhân viên sẽ liên hệ lại sau "]);
+        }catch(Exception $e)
+        {
+         return redirect()->back()->with("error",["type"=>"danger","msg"=>"Lỗi phát sinh vui lòng liên hệ admin"]);
+        }
+
     }
 }

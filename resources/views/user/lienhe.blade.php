@@ -24,23 +24,23 @@
                                 @csrf
                                 <div class="form-group">
                                   <label for="exampleFormControlInput1">Họ Và Tên * </label>
-                                  <input type="text" required class="form-control" id="exampleFormControlInput1" maxlength="50">
+                                  <input type="text" name="name" required class="form-control" id="exampleFormControlInput1" maxlength="50">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Email *</label>
-                                    <input type="email" class="form-control" id="exampleFormControlInput1" >
+                                    <input type="email" name="email" class="form-control" id="exampleFormControlInput1" >
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Số Điện Thoại * </label>
-                                    <input id="mobile" pattern="(03|07|08|09|01[2|6|8|9])+([0-9]{8})\b" required type="tel" class="form-control" placeholder="Số điện thoại">
+                                    <input id="mobile" name="phone" pattern="(03|07|08|09|01[2|6|8|9])+([0-9]{8})\b" required type="tel" class="form-control" placeholder="Số điện thoại">
                                     <small id="emailHelp" class="form-text text-muted">Định Dạng Số Điện Thoại 10 Số Ví Dụ 035xxxxxxx</small>
 
                                 </div>
                                 <div class="form-group">
                                   <label for="exampleFormControlTextarea1">Nội Dung *</label>
-                                  <textarea class="form-control counted" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                  <textarea class="form-control counted" id="exampleFormControlTextarea1" rows="3" minlength="20" name="content"></textarea>
                                    <h6 class="pull-right" id="counter" style="margin-top:10px;"></h6>
-
+                                  <small id="emailHelp" class="form-text text-muted">Nội dung không dưới 20 kí tự</small>
                                 </div>
                                 <button type="submit" class="btn btn-sm btn-success checkmobile">
                                         Liên Hệ
