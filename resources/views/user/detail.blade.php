@@ -5,9 +5,18 @@
 @section('head')
         <link rel="stylesheet" href="{{ asset('carousel/css/owl.carousel.min.css') }}">
         <link rel="stylesheet" href="{{ asset('carousel/css/owl.theme.default.min.css') }}">
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+<!-- Default theme -->
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+        <!-- Semantic UI theme -->
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+        <!-- Bootstrap theme -->
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
 
 @endsection
 @section('main')
+
+
     <div class="clearfix my-5">
         <div class="container">
             <div class="row">
@@ -53,11 +62,13 @@
                                         </p>
                                 </div>
                                   <div class="col-md-12 text-center ">
-                                     <a class ="btn btn-sm add-cart text-white text-uppercase hvr-grow ">Thêm Vào Giỏ Hàng</a>
+                                     <a href="{{ Route('cart-add',['id'=>$product->id]) }}" class ="btn btn-sm add-cart text-white text-uppercase hvr-grow ">Thêm Vào Giỏ Hàng</a>
                                      <span class="hotline">
                                          Gọi đặt mua: <a style="color: #c40d2e;" href="tel:0356581777">0356581777</a> (7:30-21:30)
                                      </span>
                                     </div>
+                                    {{--  Giỏ Hàng ({{ $cart->total_quanlity}})  --}}
+
                           </div>
                     </div>
                     @includeIf('user.layout.detail-right-product')
@@ -242,6 +253,7 @@
             }
 
             });
+
         });
 
 
@@ -271,6 +283,9 @@
         //show box comment
 
     </script>
+
     <script type="text/javascript" src="{{ asset('js/myJs/demsokitu.js') }}">
     </script>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
 @endsection

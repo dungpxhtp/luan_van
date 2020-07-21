@@ -5,7 +5,7 @@
 @section('main')
     @includeIf('user.layout.silder')
     {{--  đối tượng  --}}
-    @if (count($gendercategoryproducts))
+    @if (count($gendercategoryproducts) > 0)
             @foreach ($gendercategoryproducts as $item)
                 <div class="clearfix my-3">
                     <div class="container">
@@ -48,5 +48,5 @@
     </div>
 @endsection
 @section('script')
-    
+
 @endsection

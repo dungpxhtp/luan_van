@@ -1,6 +1,8 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+    <meta name="google-site-verification" content="TWntj5nlCHq2JTgPA6m8oFKvcoOpppzzHSPXXpbmCqs" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -21,6 +23,7 @@
     <link rel="stylesheet" href="{{ asset('fontawesome/css/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('fontawesome/css/brands.css') }}">
     <link rel="stylesheet" href="{{ asset('fontawesome/css/solid.css') }}">
+
     @yield('style')
     <style>
         .dropdown {
@@ -30,6 +33,11 @@
             box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15)!important;
             margin-top:0px !important;
             width:100% !important;
+        }
+        .dropdown-menu-cart{
+            box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15)!important;
+            margin-top:0px !important;
+            width: 50% !important;
         }
         .nav-item {
             margin: 0 10px;
@@ -100,10 +108,11 @@
         footer{
 
             position: relative;
-            background: #333333;
-            height: 150px;
+            background: #343A40;
+
             clear:both;
-            padding-top:20px;
+            padding-top: 50px;
+            padding-bottom: 104px;
 
             z-index: 50;
         }
@@ -130,6 +139,10 @@
             padding:10px;
             background: #990000;
 
+        }
+        .clear-cart{
+            padding:10px;
+            background: #990000;
         }
         .hvr-grow {
             display: inline-block;
@@ -240,9 +253,52 @@
           .box-reply {
             border: 1px solid #333333;
           }
+          .btn-facebook{
+              background-color: #3578E5;
+              color: #ffffff;
+              border-color: rgba(0,0,0,0.2);
+              font-size: 1.2rem;
+          }
+          .btn-google
+          {
+              background-color: #dd4b39;
+              color: #ffffff;
+              border-color: rgba(0,0,0,0.2);
+              font-size: 1.2rem;
+          }
+          .border-radius{
+            border-radius: 20px;
+          }
+          .footer-logo{
+              color: #ffff;
+              text-transform: uppercase;
+          }
+          .footer-copyright{
+                background: #333333;
+          }
+          .copyright-content{
+              color: #ffff;
+          }
+          .quantity{
+            background-color: #6394F8;
+            border-radius: 10px;
+            color: white;
+            display: inline-block;
+            font-size: 12px;
+            line-height: 1;
+            padding: 3px 7px;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+          }
+          .badge{
+              color: red;
+          }
+          .btn-checkout{
+              border-radius: 20px;
+              background-color: #990000;
 
-
-
+          }
         </style>
     @yield('head')
 </head>
@@ -360,6 +416,17 @@
                             @if (Auth::guard('khachhang')->check())
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-shopping-cart"></i>  Giỏ Hàng
+
+                                </a>
+                                <div class="dropdown-menu dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <div class="dropdown-item">
+                                                <div class="box-cart"></div>
+                                        </div>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                   <i class="fas fa-users"></i>  Xin Chào  {{
                                  Auth::guard('khachhang')->user()->name }}
 
@@ -369,7 +436,7 @@
                                   <a class="dropdown-item" href="#"><i class="fas fa-cogs "></i><span class="item-margin-5">Setting</span></a>
                                   <a class="dropdown-item" href="{{ Route('logoutUser') }}"><i class="fas fa-sign-out-alt"></i><span class="item-margin-5">Đăng Xuất</span></a>
                                 </div>
-                              </li>
+                            </li>
                             @endif
 
                           </ul>
@@ -380,13 +447,30 @@
                   @yield('main')
                 </main>
                 <footer class="container-fluid">
-                    <div class="row">
-                        <div class="col-3">
-                            This footer will always be positioned at the bottom of the page,
+                    <div class="row m-4">
+                        <div class="col-md-8">
+                            <h3 class="footer-logo">
+                                WatchStore
+                            </h3>
+                            <p class="content-footer">
+                                Luận Văn Xây Dựng Website Bán Đồng Hồ
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <h4 class="footer-logo">
+                                Thông Tin Liên Hệ
+                            </h4>
                         </div>
                     </div>
 
                 </footer>
+                <div class="coppy-right">
+                    <div class="row footer-copyright  ">
+                        <div class="col d-flex justify-content-center">
+                           <p class="copyright-content"> Copyright © Phạm Minh Thiện</p>
+                        </div>
+                    </div>
+                </div>
     </div>
     <div class="modal login-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -402,26 +486,33 @@
                     @csrf
                     <div class="form-group">
                       <label for="exampleInputEmail1">Email address</label>
-                      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" placeholder="Enter email">
+                      <input type="email" class="form-control border-radius" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" placeholder="Enter email">
                       <small id="emailHelp" class="form-text text-muted">Chúng tôi không bao giờ chia sẻ email của bạn với bất cứ ai khác.</small>
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword1">Mật Khẩu</label>
-                      <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password"  autocomplete="on">
+                      <input type="password" name="password" class="form-control border-radius" id="exampleInputPassword1" placeholder="Password"  autocomplete="on">
                     </div>
                   </div>
-            <div class="modal-footer">
+            <div  style="border-top: 1px solid #dee2e6;">
 
-              <button type="submit" class="btn btn-primary">Đăng Nhập</button>
+             <div class="row my-2">
+                 <div class="col-md-12 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary btn-login border-radius"> <i class="fas fa-sign-in-alt"></i> Đăng Nhập</button>
+                 </div>
+             </div>
 
                </form>
-               <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
 
             </div>
-            <div class="box-login">
-                <div class="row">
-                    <div class="col-md-12">
-                        <a href="{{ Route('loginfacebook') }}" class="btn btn-sm " style="background-color:#3578E5;color: #ebebeb; "> Đăng Nhập Facebook</a>
+            <div style="border-top: 1px solid #dee2e6;">
+                <div class="box-login" style="">
+                    <div class="row my-2">
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <a href="{{ Route('loginfacebook') }}" class="btn btn-sm btn-facebook border-radius"><i class="fab fa-facebook-square"></i> Đăng Nhập Facebook</a>
+                            <a href="{{ Route('logingoogle') }}" class="btn btn-sm btn-google  border-radius" > <i class="fab fa-google"></i> Đăng Nhập Google</a>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -486,6 +577,7 @@
     <script type="text/javascript" src="{{ asset('js/jquery/jquery.lazy.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jquery/jquery.lazy.plugins.min.js') }}"></script>
     <script>
+
         $(function(){
             $('.lazy').lazy();
             $(".thongbao").modal('show');
@@ -496,6 +588,93 @@
                 event.preventDefault();
                 $(".login-modal").modal('show');
             });
+            $('.cart-active').click(function(){
+                $('.bag-cart').show();
+            });
+            $(function(){
+                $.ajax({
+                    url:'{{ Route('gio-hang') }}',
+                    type:'GET',
+
+                }).done(function(data){
+
+                    $('.box-cart').html(data);
+                });
+            });
+            function getCart(){
+                $.ajax({
+                    url:'{{ Route('gio-hang') }}',
+                    type:'GET',
+
+                }).done(function(data){
+
+                    $('.box-cart').html(data);
+                });
+            };
+                  //add Cart shopping
+                  $(document).on('click','.add-cart',function(event){
+                    event.preventDefault();
+
+                    var url = $(this).attr('href');
+                    $.ajax({
+                        url:url,
+                        type:'GET',
+                        success:function(data)
+                        {
+                            alertify.success(data.success);
+                        }
+                    }).done(function(){
+                            getCart();
+                    });
+
+                });
+
+                //giam số lượng
+                $(document).on('click','.reduct-cart',function(event){
+                    event.preventDefault();
+                    var url=$(this).attr('href');
+                    $.ajax({
+                        url :url ,
+                        type:'GET',
+                        success:function(data)
+                        {
+                            alertify.success(data.success);
+                        }
+                    }).done(function(){
+                        getCart();
+                    });
+                });
+            // xóa sản phẩm
+                $(document).on('click','.remove-cart',function(event){
+                    event.preventDefault();
+                    var url =$(this).attr('href');
+                    $.ajax({
+                        url:url,
+                        type:'GET',
+                        success:function(data)
+                        {
+                            alertify.success(data.success);
+                        }
+                    }).done(function(){
+                        getCart();
+                    });
+                });
+
+             //xóa giỏ hàng
+                $(document).on('click','.clear-cart',function(event){
+                    event.preventDefault();
+                    var url =$(this).attr('href');
+                    $.ajax({
+                        url:url,
+                        type:'GET',
+                        success:function(data)
+                        {
+                            alertify.error(data.success);
+                        }
+                    }).done(function(){
+                        getCart();
+                    });
+                });
         });
     </script>
 

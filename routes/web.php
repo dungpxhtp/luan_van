@@ -32,7 +32,6 @@ Route::get('thuong-hieu/{slug}','Backend\HomeController@brands_products')->name(
 Route::get('filter/{slug}','Backend\HomeController@brands_filter_products')->name('brands_products.filter');
 //end show san pham theo hãng
 
-
 //show san pham theo loai san pham
 Route::get('loai-san-pham/{slug}','Backend\HomeController@category')->name('category_products.loai-san-pham');
 Route::get('filter-loai-san-pham/{slug}','Backend\HomeController@category_filter_products')->name('category.filter');
@@ -58,12 +57,19 @@ Route::get('dang-xuat-khach-hang','Backend\HomeController@logoutUser')->name('lo
 Route::get('lien-he','Backend\HomeController@contact')->name('contact');
 Route::post('post-lien-he','Backend\HomeController@postContact')->name('postContact');
 //login facebook
-Route::get('/auth/facebook', 'SocialAuthController@redirectToProvider')->name('loginfacebook');
-Route::get('/auth/facebook/callback', 'SocialAuthController@handleProviderCallback');
+Route::get('/auth/facebook/', 'SocialAuthController@redirectToProvider')->name('loginfacebook');
+Route::get('/auth/facebook/callback/', 'SocialAuthController@handleProviderCallback');
+Route::get('/auth/google/', 'SocialAuthController@redirectToGoogle')->name('logingoogle');
+Route::get('/auth/google/callback/', 'SocialAuthController@handleGoogleCallback');
 
 Route::group(['middleware' => 'auth.user'], function () {
     Route::post('binh-luan/{id_products}','Backend\HomeController@commentProduct')->name('commentProduct');
     Route::post('tra-loi/{id_products}/{parentid}','Backend\HomeController@replyCommentProduct')->name('replyCommentProduct');
+    Route::get('them-san-pham/{id}','Backend\CartController@add')->name('cart-add');
+    Route::get('gio-hang','Backend\CartController@showCartOrder')->name('gio-hang');
+    Route::get('cap-nhat/{id}/{quantity}','Backend\CartController@update')->name('giam-so-luong');
+    Route::get('xoa-san-pham/{id}','Backend\CartController@remove')->name('remove');
+    Route::get('huy-gio-hang','Backend\CartController@clear')->name('clear');
 });
 
 

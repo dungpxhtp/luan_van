@@ -135,7 +135,7 @@ class brandproductsController extends Controller
             $row->status=$status;
             $row->name=$request->name;
             $row->code=strtoupper($str_code);
-            $row->slug=Str::slug($request->name.'/'.$str_code,'-');
+            $row->slug=Str::slug($request->name);
             $row->image=$request->filepath;
             $row->metadesc=$request->metadesc;
             $row->metakey=$request->metakey;
@@ -210,7 +210,7 @@ class brandproductsController extends Controller
             $row->status=$status;
             $row->name=$request->name;
             $row->code=strtoupper($str_code);
-            $row->slug=Str::slug($request->name.'/'.$str_code,'-');
+            $row->slug=Str::slug($request->name);
             $row->image=$request->filepath;
             $row->metadesc=$request->metadesc;
             $row->metakey=$request->metakey;
