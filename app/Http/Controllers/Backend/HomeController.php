@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\library\Cart;
 use App\Models\products;
 use App\Models\brandproducts;
 use App\Models\categoryproducts;
@@ -90,7 +91,7 @@ class HomeController extends Controller
                 return response()->json(['success'=>'Bình Luận Thành Công']);
                 }else
                 {
-                    return response()->json(['error'=>'Đăng Nhập Để Bình Luận ']);
+                    return response()->json(['error'=>'Yêu Cầu Đăng Nhập']);
                 }
 
 
@@ -130,13 +131,13 @@ class HomeController extends Controller
                 return response()->json(['success'=>'Bình Luận Thành Công']);
                 }else
                 {
-                    return response()->json(['error'=>'Đăng Nhập Để Bình Luận ']);
+                    return response()->json(['success'=>'Đăng Nhập Để Bình Luận ']);
                 }
 
 
             }catch(Exception $e)
             {
-                return response()->json(['error'=>'Lỗi Server']);
+                return response()->json(['success'=>'Lỗi Server']);
             }
         }
     }
@@ -332,5 +333,9 @@ class HomeController extends Controller
          return redirect()->back()->with("error",["type"=>"danger","msg"=>"Lỗi phát sinh vui lòng liên hệ admin"]);
         }
 
+    }
+    public function paycart(Cart $cart)
+    {
+        return view('user.pay-cart',compact('cart'));
     }
 }

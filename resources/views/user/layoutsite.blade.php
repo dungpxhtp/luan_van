@@ -23,9 +23,19 @@
     <link rel="stylesheet" href="{{ asset('fontawesome/css/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('fontawesome/css/brands.css') }}">
     <link rel="stylesheet" href="{{ asset('fontawesome/css/solid.css') }}">
+    //aleartifyjs
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <!-- Default theme -->
+            <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+            <!-- Semantic UI theme -->
+            <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+            <!-- Bootstrap theme -->
+            <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
 
-    @yield('style')
     <style>
+        .cart-payment{
+            display: none;
+        }
         .dropdown {
             position:static !important;
         }
@@ -300,6 +310,7 @@
 
           }
         </style>
+        @yield('style')
     @yield('head')
 </head>
 <body>
@@ -414,7 +425,7 @@
                             </li>
                             @endif
                             @if (Auth::guard('khachhang')->check())
-                            <li class="nav-item dropdown">
+                            <li class="nav-item dropdown cart-detail">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-shopping-cart"></i>  Giỏ Hàng
 
@@ -565,7 +576,7 @@
         </div>
     </div>
 
-
+    @includeIf('user.layout.loading.loading')
     <script src="{{asset('js/jquery/jquery-3.5.1.slim.min.js')}}"></script>
     <script src="{{ asset('js/jquery/popper.min.js') }}"></script>
     <script src="{{ asset('js/jquery/jquery-3.5.1.min.js') }}" crossorigin="anonymous"></script>
@@ -576,6 +587,8 @@
     <script src="{{ asset('fontawesome/js/solid.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jquery/jquery.lazy.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jquery/jquery.lazy.plugins.min.js') }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
     <script>
 
         $(function(){
@@ -583,7 +596,12 @@
             $(".thongbao").modal('show');
         });
         $(document).ready(function(){
-
+            $(document).ajaxStart(function() {
+                $("#loading").show();
+            });
+            $(document).ajaxStop(function() {
+                $("#loading").hide();
+            });
             $(".login").click(function(event){
                 event.preventDefault();
                 $(".login-modal").modal('show');

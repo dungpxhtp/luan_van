@@ -23,7 +23,7 @@ class LoginUser
         {
            if($request->ajax())
            {
-               return response()->json(['error'=>'Yêu Cầu Đăng Nhập']);
+               return response()->json(['success'=>'Yêu Cầu Đăng Nhập']);
            }else
            {
             return redirect()->back()->with("message",["type"=>"danger","msg"=>"Yêu Cầu Đăng Nhập"]);

@@ -70,6 +70,7 @@ Route::group(['middleware' => 'auth.user'], function () {
     Route::get('cap-nhat/{id}/{quantity}','Backend\CartController@update')->name('giam-so-luong');
     Route::get('xoa-san-pham/{id}','Backend\CartController@remove')->name('remove');
     Route::get('huy-gio-hang','Backend\CartController@clear')->name('clear');
+    Route::get('thanh-toan','Backend\HomeController@paycart')->name('paycart');
 });
 
 

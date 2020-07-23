@@ -5,22 +5,34 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\library\Cart;
 use App\Models\products;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
+
     //
     public function add(Cart $cart ,$id)
     {
 
 
-        $product=products::find($id);
+            if(Auth::guard('khachhang')->check())
+            {
+                $product=products::find($id);
 
-        $cart->add($product);
-        if(session('cart',new Cart()))
-        {
-        return response()->json(['success'=>'Thêm Vào Giỏ Hàng Thành Công']);
-        }
+                $cart->add($product);
+                if(session('cart',new Cart()))
+                {
+                return response()->json(['success'=>'Thêm Vào Giỏ Hàng Thành Công']);
+                }
+            }else
+            {
+                return response()->json(['success'=>'Yêu Cầu Đăng Nhập']);
+
+            }
+
+
     }
     public function update(Cart $cart , $id,$quantity)
     {
@@ -56,4 +68,5 @@ class CartController extends Controller
         $cart->clear();
         return response()->json(['success'=>'Xóa Tất Cả Sản Phẩm Trong Giỏ Hàng']);
     }
+
 }

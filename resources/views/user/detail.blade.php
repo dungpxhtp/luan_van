@@ -5,13 +5,7 @@
 @section('head')
         <link rel="stylesheet" href="{{ asset('carousel/css/owl.carousel.min.css') }}">
         <link rel="stylesheet" href="{{ asset('carousel/css/owl.theme.default.min.css') }}">
-        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
-<!-- Default theme -->
-        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
-        <!-- Semantic UI theme -->
-        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
-        <!-- Bootstrap theme -->
-        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+
 
 @endsection
 @section('main')
@@ -155,12 +149,7 @@
                     alert('Articles could not be loaded.');
                 });
             };
-            $(document).ajaxStart(function() {
-                $("#loading").show();
-            });
-            $(document).ajaxStop(function() {
-                $("#loading").hide();
-            });
+
             $('.owl-carousel').owlCarousel({
                 loop:true,
                 lazyLoad:true,
@@ -229,20 +218,16 @@
 
                         if(data.success)
                         {
-                            $(".input-comment").val('');
-                            $('.text-message').append("<b>Bình Luận Thành Công</b>");
-                            $('.message').modal('show');
+                          $(".input-comment").val('');
+                           /* $('.text-message').append(data.success);
+                            $('.message').modal('show');*/
+                            alertify.success(data.success);
                              setTimeout(function(){
-
-
                                 reloadComment(locationhref);
                                 $('.message').modal('hide');
                                 $(".text-message").empty();
                             },2000);
 
-                        }else
-                        {
-                            alert(data.error);
                         }
                     }
                 });
@@ -286,6 +271,5 @@
 
     <script type="text/javascript" src="{{ asset('js/myJs/demsokitu.js') }}">
     </script>
-    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
 @endsection

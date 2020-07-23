@@ -112,7 +112,7 @@
                     success:function(data){
                         if(data.success)
                         {
-                            alert(data.success);
+                            alertify.success(data.success);
                              setTimeout(function(){
 
 
@@ -121,7 +121,7 @@
 
                         }else
                         {
-                            alert(data.error);
+                            alertify.success(data.success);
                         }
                     }
                 });
