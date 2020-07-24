@@ -12,3 +12,15 @@ Breadcrumbs::register('detail',function($trail,$gender,$slug){
     $trail->parent('home',$gender,$slug);
     $trail->push($slug,route('productDetail',['slug'=>$slug]));
 });
+Breadcrumbs::register('cart',function($trail,$name){
+    $trail->parent('home');
+    $trail->push($name);
+});
+Breadcrumbs::register('resetPassword',function($trail,$name){
+    $trail->parent('home');
+    $trail->push($name);
+});
+Breadcrumbs::register('account',function($trail,$name){
+    $trail->parent('home');
+    $trail->push($name);
+});

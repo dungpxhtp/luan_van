@@ -43,7 +43,9 @@ Route::get('doi-tuong/{slug}','Backend\HomeController@gender')->name('gender.ind
 Route::get('filter-doi-tuong/{slug}','Backend\HomeController@gender_filter_products')->name('gender.filter');
 
 //end show sản phẩm theo đối tượng
-
+//Quên mật khẩu reset password
+Route::get('quen-mat-khau','Backend\HomeController@resetPassword')->name('resetPassword');
+Route::post('send-quen-mat-khau','Backend\HomeController@postResetPassword')->name('postResetPassword');
 //tin tứcc
 Route::get('tin-tuc','Backend\HomeController@topic')->name('tin-thuc.index');
 Route::get('danh-muc-tin-tuc/{slug}','Backend\HomeController@topicPost')->name('topicPost');
@@ -71,6 +73,11 @@ Route::group(['middleware' => 'auth.user'], function () {
     Route::get('xoa-san-pham/{id}','Backend\CartController@remove')->name('remove');
     Route::get('huy-gio-hang','Backend\CartController@clear')->name('clear');
     Route::get('thanh-toan','Backend\HomeController@paycart')->name('paycart');
+    Route::post('post-thanh-toan','Backend\HomeController@postPayCart')->name('postPayCart');
+    Route::get('send-mail','Backend\HomeController@sendmail')->name('sendmail');
+    //thông tin tài khoản
+    Route::get('thong-tin-tai-khoan','Backend\HomeController@accountUser')->name('accountUser');
+    Route::post('post-thong-tin','Backend\HomeController@postAccountUser')->name('postAccountUser');
 });
 
 

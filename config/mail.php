@@ -30,7 +30,7 @@ return [
     |
     | Supported: "smtp", "sendmail", "mailgun", "ses",
     |            "postmark", "log", "array"
-    |
+    |587 468
     */
 
     'mailers' => [

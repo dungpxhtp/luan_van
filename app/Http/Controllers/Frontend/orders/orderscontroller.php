@@ -86,7 +86,7 @@ class orderscontroller extends Controller
         {
             $find=orders::findOrFail($id_orders);
             $find->status=2;
-            $find->created_by=Auth::guard('admin')->user()->id;
+            $find->updated_by=Auth::guard('admin')->user()->id;
             $find->save();
              return response()->json(['data'=>'success']);
         }

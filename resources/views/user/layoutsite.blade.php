@@ -443,7 +443,7 @@
 
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                  <a class="dropdown-item" href="#"><i class="fas fa-users"></i><span class="item-margin-5">Thông Tin</span></a>
+                                  <a class="dropdown-item" href="{{ Route('accountUser') }}"><i class="fas fa-users"></i><span class="item-margin-5">Thông Tin</span></a>
                                   <a class="dropdown-item" href="#"><i class="fas fa-cogs "></i><span class="item-margin-5">Setting</span></a>
                                   <a class="dropdown-item" href="{{ Route('logoutUser') }}"><i class="fas fa-sign-out-alt"></i><span class="item-margin-5">Đăng Xuất</span></a>
                                 </div>
@@ -454,7 +454,7 @@
                         </div>
                       </nav>
                 </header>
-                <main class="page-wrapper">
+                <main class="page-wrapper my-3">
                   @yield('main')
                 </main>
                 <footer class="container-fluid">
@@ -518,6 +518,11 @@
             </div>
             <div style="border-top: 1px solid #dee2e6;">
                 <div class="box-login" style="">
+                    <div class="row my-2">
+                        <div class="col-md-12">
+                            <a href="{{ Route('resetPassword') }}" class="btn btn-sm btn-warning">Quên Mật Khẩu</a>
+                        </div>
+                    </div>
                     <div class="row my-2">
                         <div class="col-md-12 d-flex justify-content-center">
                             <a href="{{ Route('loginfacebook') }}" class="btn btn-sm btn-facebook border-radius"><i class="fab fa-facebook-square"></i> Đăng Nhập Facebook</a>
@@ -693,6 +698,12 @@
                         getCart();
                     });
                 });
+
+             //thanh toán
+
+
+
+
         });
     </script>
 

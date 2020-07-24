@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\library\Cart;
+use App\library\library_my;
 use App\Models\products;
 use App\Models\brandproducts;
 use App\Models\categoryproducts;
@@ -12,12 +13,15 @@ use App\Models\gendercategoryproducts;
 use App\Models\post;
 use App\Models\topic;
 use App\Models\contact;
-
+use DB;
 use Carbon\Carbon;
 use Validator;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\orders;
+use App\Models\ordersproducts;
+use App\Models\users;
 
 class HomeController extends Controller
 {
@@ -278,7 +282,7 @@ class HomeController extends Controller
             return redirect()->back()->with("message",["type"=>"success","msg"=>"Đăng Nhập Thành Công"]);
         }else
         {
-            return redirect()->back()->with("danger",["type"=>"success","msg"=>"Đăng Nhập Thất Bại"]);
+            return redirect()->back()->with("message",["type"=>"danger","msg"=>"Sai mật khẩu hoặc tài khoản"]);
         }
 
 
@@ -338,4 +342,194 @@ class HomeController extends Controller
     {
         return view('user.pay-cart',compact('cart'));
     }
+     //send Mail
+    public function sendmail($details,$email)
+    {
+
+        \Mail::to($email)->send(new \App\Mail\SendMail($details));
+
+
+    }
+    /*
+    *
+    *
+    *       Bắt đầu transaction với DB::beginTransaction();
+    *        Việc thực hiện câu lệnh SQL DB::table('users')->update(['votes' => 1]); và DB::table('posts')->delete();  bỏ vào khối try catch
+    *       Nếu try thực hiện 2 lệnh thành công thì DB::commit(); => Xác nhận transaction hoàn thành và lưu lại các thay đổi trong database từ lệnh SQL update.
+    *
+    *        Nếu có lỗi và nhảy vào catch thì DB::rollBack(); => Quay lại từ lúc transaction chưa được thực hiện (không lưu các thay đổi trong database từ lệnh SQL update ) đồng thời bắn ra 1 exception.
+    */
+    public function postPayCart(Cart $cart,Request $request)
+    {
+
+        if($cart->total_quanlity>0)
+        {
+            $v=Validator::make($request->all(),[
+                'name'=>'required',
+                'phone'=>'required',
+                'address'=>'required',
+                'notes'=>'required',
+                'option'=>'required',
+
+            ],[
+                'name.required'=>'Không được bỏ trống',
+
+            ]);
+                if($v->fails())
+                {
+                    return response()->json('Vui lòng điền đầy đủ thông tin');
+                }
+
+                //try catch
+                // Bắt đầu các hành động trên CSDL
+                DB::beginTransaction();
+                try{
+
+                        $code_donhang=Auth::guard('khachhang')->user()->codeuser.'-'.rand();
+                        $orders=new orders();
+                        $orders->id_users=Auth::guard('khachhang')->user()->id;
+                        $orders->codeOder =$code_donhang;
+                        $orders->fullName=$request->get('name');
+                        $orders->phoneOder=$request->get('phone');
+                        $orders->Address=$request->get('address');
+                        $orders->notes=$request->get('notes');
+                        $orders->Payments=$request->get('option');
+                        $orders->status=1;
+                        $orders->created_at=Carbon::now('Asia/Ho_Chi_Minh');
+                        $orders->TotalOrder=$cart->total_price;
+                        $orders->save();
+                        //end
+                        $id=orders::where('codeOder','=',$code_donhang)->first();
+                        foreach($cart->items as $item)
+                        {
+                            $ordersproducts =new ordersproducts();
+                            $ordersproducts->id_orders=$id->id;
+                            $ordersproducts->id_products=$item['id'];
+                            $ordersproducts->price=$item['price'];
+                            $ordersproducts->quantity=$item['quantity'];
+                            $ordersproducts->TotalProducts=$item['quantity']*$item['price'];
+                            $ordersproducts->save();
+
+                        }
+
+
+                        $email=Auth::guard('khachhang')->user()->email;
+                        $details = [
+                            'title' => 'Xin Chân Thành Cảm Ơn Quý Khách Hàng  Đã Mua Hàng  Tại WatchStore',
+                            'payments'=>'Trả Tiền Mặt Khi Nhận Hàng',
+                            'codeorder'=>$code_donhang,
+                            'body' => 'Đơn Hàng Của Quý Khách Cần Thanh Toán  : '.library_my::formatMoney($cart->total_price).'VNĐ ',
+                            'product'=>$cart,
+                        ];
+                        $this->sendmail($details,$email);
+                        $cart->clear();
+                        DB::commit();
+                        //Commit dữ liệu khi hoàn thành kiểm tra
+                        return response()->json(['success'=>'Đặt Hàng Thành Công Nhân Viên Sẽ Liên Hệ Lại Sau']);
+
+
+                             //orders
+
+
+
+                }catch(Exception $e)
+                {
+                    //Gặp lỗi nào đó mới rollback
+                    DB::rollBack();
+                    return response()->json('Phát Sinh Lỗi Liên Hệ Với Nhân Viên Cửa Hàng');
+                }
+
+
+
+
+
+        }else
+        {
+            return response()->json(['success'=>'Hãy chọn cho mình 1 chiếc đồng hồ ưng ý trước khi thanh toán nhé ']);
+        }
+
+
+
+
+    }
+    //Quên Mật Khẩu
+    public function resetPassword()
+    {
+        return view('user.resetPassword');
+    }
+    public function postResetPassword(Request $request)
+    {
+      try{
+
+        $user=users::where([['email','=',$request->get('email')],['socialnetworks','=','0']])->first();
+        if(!$user)
+        {
+            return redirect()->back()->with("message",["type"=>"danger","msg"=>"Email Này Chưa Được Đăng Ký "]);
+
+
+        }
+        $newPass=rand ( 10000 , 99999 );
+        $user->password=bcrypt($newPass);
+        $detail=[
+            'passwordNew'=>$newPass,
+        ];
+        $user->save();
+
+        \Mail::to($request->get('email'))->send(new \App\Mail\resetPassword($detail));
+        return redirect()->back()->with("message",["type"=>"success",'msg'=>"Mật Khẩu Mới Đã Được Gửi Tới Email"]);
+      }catch(Exception $e )
+      {
+        return redirect()->back()->with("message",["type"=>"danger","msg"=>"Phát Sinh Lỗi Liên Hệ Với Nhân Viên Cửa Hàng"]);
+    }
+    }
+    //thông tin tài khoản
+    public function accountUser()
+    {
+        return view('user.thongtintaikhoan');
+    }
+    public function postAccountUser(Request $request )
+    {
+
+        try{
+            $v =Validator::make($request->all(),[
+                'name'=>'required',
+                'phone'=>'required',
+
+            ],[
+                'name.required'=>'Không Được Bỏ Trống',
+                'phone.required'=>'Không Được Bỏ Trống',
+
+            ]);
+            if($v->fails())
+            {
+                return redirect()->back()
+                ->withErrors($v)
+                ->withInput();
+            }
+            $user = users::findOrFail(Auth::guard('khachhang')->user()->id);
+            if($request->get('password-new')==null)
+            {
+                $user->name=$request->get('name');
+                $user->phoneuser=$request->get('phone');
+
+            }else
+
+            {
+                $user->name=$request->get('name');
+                $user->phoneuser=$request->get('phone');
+                $user->password=bcrypt($request->get('password-new'));
+
+            }
+                $user->save();
+
+            return redirect()->back()->with("message",["type"=>"success",'msg'=>"Cập Nhật Thành Công"]);
+        }catch(Exception $e)
+        {
+            return redirect()->back()->with("message",["type"=>"danger","msg"=>"Phát Sinh Lỗi Liên Hệ Với Nhân Viên Cửa Hàng"]);
+
+        }
+
+
+    }
+
 }
