@@ -277,12 +277,12 @@ class HomeController extends Controller
         $password =$request->get('password');
 
 
-        if(Auth::guard('khachhang')->attempt(['email'=>$email,'password'=>$password]))
+        if(Auth::guard('khachhang')->attempt(['email'=>$email,'password'=>$password,'status'=>1]))
         {
             return redirect()->back()->with("message",["type"=>"success","msg"=>"Đăng Nhập Thành Công"]);
         }else
         {
-            return redirect()->back()->with("message",["type"=>"danger","msg"=>"Sai mật khẩu hoặc tài khoản"]);
+            return redirect()->back()->with("message",["type"=>"danger","msg"=>"Tài Khoản Và Mật Khẩu Chưa Chính Xác "]);
         }
 
 
@@ -411,20 +411,45 @@ class HomeController extends Controller
                             $ordersproducts->save();
 
                         }
+                        if($request->get('option')==1)
+                        {
+                            $message='Trả Tiền Mặt Khi Nhận Hàng';
 
-
+                        }else
+                        {
+                            $message='Chuyển Khoản Ngân Hàng';
+                        }
                         $email=Auth::guard('khachhang')->user()->email;
                         $details = [
                             'title' => 'Xin Chân Thành Cảm Ơn Quý Khách Hàng  Đã Mua Hàng  Tại WatchStore',
-                            'payments'=>'Trả Tiền Mặt Khi Nhận Hàng',
+                            'payments'=>$message,
                             'codeorder'=>$code_donhang,
                             'body' => 'Đơn Hàng Của Quý Khách Cần Thanh Toán  : '.library_my::formatMoney($cart->total_price).'VNĐ ',
                             'product'=>$cart,
                         ];
+
+
+
                         $this->sendmail($details,$email);
                         $cart->clear();
                         DB::commit();
                         //Commit dữ liệu khi hoàn thành kiểm tra
+                        if($request->get('option')==2)
+                        {
+                            $response = \VNPay::purchase([
+                                'vnp_TxnRef' => $code_donhang,
+                                'vnp_OrderType' => 200000,
+                                'vnp_OrderInfo' => 'Thanh Toán Hóa Đơn Mua Hàng  : '.$code_donhang,
+                                'vnp_IpAddr' => '127.0.0.1',
+                                'vnp_Amount' => $cart->total_price,
+                                'vnp_ReturnUrl' => "https://watchstore.vn/kiem-tra-thanh-toan",
+                            ])->send();
+
+                            if ($response->isRedirect()) {
+                                $redirectUrl = $response->getRedirectUrl();
+                                return response()->json(['success'=>'Đặt Hàng Thành Công Chuyển Hướng Trang Thanh Toán','url'=>$redirectUrl]);
+                            }
+                        }
                         return response()->json(['success'=>'Đặt Hàng Thành Công Nhân Viên Sẽ Liên Hệ Lại Sau']);
 
 
@@ -528,8 +553,55 @@ class HomeController extends Controller
             return redirect()->back()->with("message",["type"=>"danger","msg"=>"Phát Sinh Lỗi Liên Hệ Với Nhân Viên Cửa Hàng"]);
 
         }
+    }
+    //Đăng Ký
+    public function register()
+    {
+        if(Auth::guard('khachhang')->check())
+        {
+
+            return  redirect()->route('home');
+        }
+        return view('user.dang_ky');
+    }
+    public function postRegister(Request $request)
+    {
+
+        try{
+
+            $v=Validator::make($request->all(),[
+                'name'=>'required',
+                'email'=>'required|unique:users',
+                'password'=>'required|min:11',
+                'phone'=>'required|min:10'
+            ],[
+                'name.required'=>'Không Được Bỏ Trống',
+                'email.required'=>'không Được Bỏ Trống',
+                'email.unique'=>'Email Đã Tồn Tại',
+                'password.required'=>'Không được bỏ Trống',
+                'password.min'=>'Không được dưới 11 kí tự ',
+                'phone.required'=>'Không được bỏ trống',
+                'phone.min'=>'Không đúng định dạng số điện thoại'
+            ]);
+            if($v->fails())
+            {
+                return redirect()->back()
+                ->withErrors($v)
+                ->withInput();
+            }
+                    $user = new users();
+                    $user->name = $request->name;
+                    $user->email = $request->email;
+                    $user->password = bcrypt($request->password);
+                    $user->phoneuser=$request->phone;
+                    $user->codeuser='W'.mt_rand();
+                    $user->save();
+             return redirect()->back()->with("message",["type"=>"success",'msg'=>"Đăng Ký Thành Công"]);
+        }catch(Exception $e)
+        {
+            return redirect()->back()->with("message",["type"=>"danger","msg"=>"Phát Sinh Lỗi Liên Hệ Với Nhân Viên Cửa Hàng"]);
+        }
 
 
     }
-
 }

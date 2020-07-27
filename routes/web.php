@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
+
 Route::get('/','Backend\HomeController@home')->name('home');
 //show sản phẩm
 
@@ -63,7 +64,9 @@ Route::get('/auth/facebook/', 'SocialAuthController@redirectToProvider')->name('
 Route::get('/auth/facebook/callback/', 'SocialAuthController@handleProviderCallback');
 Route::get('/auth/google/', 'SocialAuthController@redirectToGoogle')->name('logingoogle');
 Route::get('/auth/google/callback/', 'SocialAuthController@handleGoogleCallback');
-
+//route đăng ký
+Route::get('dang-ky','Backend\HomeController@register')->name('resgister');
+Route::post('post-dang-ky','Backend\HomeController@postRegister')->name('postRegister');
 Route::group(['middleware' => 'auth.user'], function () {
     Route::post('binh-luan/{id_products}','Backend\HomeController@commentProduct')->name('commentProduct');
     Route::post('tra-loi/{id_products}/{parentid}','Backend\HomeController@replyCommentProduct')->name('replyCommentProduct');
@@ -78,6 +81,12 @@ Route::group(['middleware' => 'auth.user'], function () {
     //thông tin tài khoản
     Route::get('thong-tin-tai-khoan','Backend\HomeController@accountUser')->name('accountUser');
     Route::post('post-thong-tin','Backend\HomeController@postAccountUser')->name('postAccountUser');
+    //Thanh Toán Online
+    Route::get('thanh-toan-vnpay','Backend\vnpayController@requestVnpay')->name('vnpay_create');
+    //return kết quả thanh toán
+
+    Route::get('kiem-tra-thanh-toan','Backend\vnpayController@complete_purchase')->name('complete_purchase')->middleware('completePurchase:VNPay');
+
 });
 
 

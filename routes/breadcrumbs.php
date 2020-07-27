@@ -24,3 +24,7 @@ Breadcrumbs::register('account',function($trail,$name){
     $trail->parent('home');
     $trail->push($name);
 });
+Breadcrumbs::register('resgister',function($trail,$name){
+    $trail->parent('home');
+    $trail->push($name);
+});

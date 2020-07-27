@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
 
         //login user
         'auth.user'=>\App\Http\Middleware\LoginUser::class,
-
+        //Check trạng thái giao dịch
+        'completePurchase' => \PHPViet\Laravel\Omnipay\Middleware\CompletePurchaseMiddleware::class,
     ];
 }

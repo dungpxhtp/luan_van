@@ -82,11 +82,7 @@
                              <input type="radio" name="option" class="form-check-input"  value="2">Chuyển Khoản Ngân Hàng
                              </label>
                          </div>
-                         <div class="form-check">
-                             <label class="form-check-label" for="radio2">
-                             <input type="radio" name="option" class="form-check-input" value="3">Thanh Toán Online
-                             </label>
-                         </div>
+
 
 
                              <button type="submit" name="option" class="btn btn-sm btn-success my-3" style="width: 100%;">Đặt Hàng</button>
@@ -131,10 +127,16 @@
                             {
                                 $(".form-order-payment")[0].reset();
                                 $('.cart-payment').hide();
+
                                 alertify.success(data.success);
                             }
-                    }).done(function(){
+                    }).done(function(data){
+
                         getCart();
+                        if(data.url)
+                        setTimeout(function(){
+                            window.location.href=data.url;
+                        },3000)
                     });
                 });
             });

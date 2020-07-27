@@ -115,10 +115,15 @@
         {
              color: #333333;
         }
+        .card-deck{
+            min-height: 480px;
+        }
         footer{
 
             position: relative;
             background: #343A40;
+            clip-path: polygon(53% 13%, 100% 28%, 100% 100%, 0 100%, 0 0);
+
 
             clear:both;
             padding-top: 50px;
@@ -418,8 +423,8 @@
                                      Đăng Nhập
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link nav__name" href="">
+                            <li class="nav-item resgister">
+                                <a class="nav-link nav__name" href="{{ Route('resgister') }}">
                                         Đăng Ký
                                 </a>
                             </li>
