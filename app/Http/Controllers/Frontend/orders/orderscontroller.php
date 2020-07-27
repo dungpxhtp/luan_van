@@ -27,7 +27,7 @@ class orderscontroller extends Controller
 
         if($request->ajax())
         {
-        $getData=orders::where('orders.status','=',1)->join('users','orders.id_users','=','users.id')->select('orders.*','users.codeuser as codeuser','users.email','users.phoneuser','users.name as tenkhachhang','users.codeuser as codeuser')->orderBy('orders.created_at','desc')->get();
+        $getData=orders::where([['orders.status','<>',3]])->join('users','orders.id_users','=','users.id')->select('orders.*','users.codeuser as codeuser','users.email','users.phoneuser','users.name as tenkhachhang','users.codeuser as codeuser')->orderBy('orders.created_at','desc')->get();
 
             return Datatables::of($getData)
             ->addColumn('codeOder',function($getData){
@@ -65,9 +65,24 @@ class orderscontroller extends Controller
                     return $span;
                 }
             })->addColumn('status',function($getData){
-                if($getData->status ==1){
-                        $status='<span class="bg-warning"><i class="fas fa-pause"></i>Đang Chờ</span>';
-                        return $status;
+                if($getData->Payments ==1)
+                {
+                    if($getData->status	==1)
+                    {
+                        $status	='<span class="btn-warning btn btn-sm disabled ">Đang Xử Lý</span>';
+                    }
+                    return $status	;
+                }else
+                {
+                    if($getData->status	==2)
+                    {
+                        $status	='<span class="btn btn-sm btn-success disabled "><i class="fas fa-money-check-alt"></i> Đã Thanh Toán</span>';
+                    }
+                    else
+                    {
+                        $status	='<span class="btn-danger btn btn-sm text-white disabled" >Chưa Thanh Toán</span>';
+                    }
+                    return $status	;
                 }
             })->addColumn('action',function($getData){
                 $action='<div class="col">';
@@ -85,7 +100,7 @@ class orderscontroller extends Controller
         if($request->ajax())
         {
             $find=orders::findOrFail($id_orders);
-            $find->status=2;
+            $find->status=3;
             $find->updated_by=Auth::guard('admin')->user()->id;
             $find->save();
              return response()->json(['data'=>'success']);
@@ -95,7 +110,7 @@ class orderscontroller extends Controller
     {
         if($request->ajax())
         {
-        $getData=orders::where('orders.status','=',2)->join('users','orders.id_users','=','users.id')->select('orders.*','users.codeuser as codeuser','users.email','users.phoneuser','users.name as tenkhachhang','users.codeuser as codeuser')->orderBy('orders.created_at','desc')->get();
+        $getData=orders::where('orders.status','=',3)->join('users','orders.id_users','=','users.id')->select('orders.*','users.codeuser as codeuser','users.email','users.phoneuser','users.name as tenkhachhang','users.codeuser as codeuser')->orderBy('orders.created_at','desc')->get();
 
             return Datatables::of($getData)
             ->addColumn('codeOder',function($getData){
@@ -133,7 +148,7 @@ class orderscontroller extends Controller
                     return $span;
                 }
             })->addColumn('status',function($getData){
-                if($getData->status ==2){
+                if($getData->status ==3){
                         $status='<span class="bg-warning"><i class="fas fa-shipping-fast"></i>Đã Xác Nhận</span>';
                         return $status;
                 }

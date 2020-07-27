@@ -152,7 +152,7 @@
 
 
 
- @includeIf('user.layout.loading.loading');
+ @includeIf('user.layout.loading.loading')
 
 @includeIf('admin.public.js.scripts')
 

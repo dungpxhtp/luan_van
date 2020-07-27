@@ -10,17 +10,17 @@ use Illuminate\Support\Facades\Auth;
 
 class vnpayController extends Controller
 {
-    //
-    /*
-    public function requestVnpay(Request $request)
+
+    public function requestVnpay(Request $request,$codeOder)
     {
+        $orders=orders::where('codeOder','=',$codeOder)->firstOrFail();
 
         $response = \VNPay::purchase([
-            'vnp_TxnRef' => time(),
+            'vnp_TxnRef' => $codeOder,
             'vnp_OrderType' => 200000,
-            'vnp_OrderInfo' => time(),
+            'vnp_OrderInfo' => 'Thanh Toán Hóa Đơn Mua Hàng  : '.$codeOder,
             'vnp_IpAddr' => '127.0.0.1',
-            'vnp_Amount' => 1000000,
+            'vnp_Amount' => $orders->TotalOrder,
             'vnp_ReturnUrl' => "https://watchstore.vn/kiem-tra-thanh-toan",
         ])->send();
 
@@ -30,7 +30,7 @@ class vnpayController extends Controller
             return redirect($redirectUrl);
         }
 
-    }*/
+    }
 
     public function complete_purchase(Request $request)
     {

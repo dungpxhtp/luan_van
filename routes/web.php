@@ -82,10 +82,15 @@ Route::group(['middleware' => 'auth.user'], function () {
     Route::get('thong-tin-tai-khoan','Backend\HomeController@accountUser')->name('accountUser');
     Route::post('post-thong-tin','Backend\HomeController@postAccountUser')->name('postAccountUser');
     //Thanh Toán Online
-    Route::get('thanh-toan-vnpay','Backend\vnpayController@requestVnpay')->name('vnpay_create');
+    Route::get('thanh-toan-vnpay/{codeOder}','Backend\vnpayController@requestVnpay')->name('vnpay_create');
     //return kết quả thanh toán
-
     Route::get('kiem-tra-thanh-toan','Backend\vnpayController@complete_purchase')->name('complete_purchase')->middleware('completePurchase:VNPay');
+    //đơn hàng đã mua
+    Route::get('don-hang-da-mua','Backend\HomeController@cart_order_user')->name('cart_order_user');
+    Route::get('fetch-don-hang-all','Backend\HomeController@fetch_order')->name('fetch_don_hang_all');
+    Route::get('danh-sach-san-pham/{id}','Backend\HomeController@ds_order')->name('ds_order');
+    Route::get('danh-sach-san-pham-accept','Backend\HomeController@fetch_order_accept')->name('fetch_order_accept');
+    Route::get('danh-sach-san-pham-error','Backend\HomeController@fetch_order_error')->name('fetch_order_error');
 
 });
 

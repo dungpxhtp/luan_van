@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\orders;
 use App\Models\ordersproducts;
 use App\Models\users;
+use Yajra\Datatables\Datatables;
 
 class HomeController extends Controller
 {
@@ -447,7 +448,7 @@ class HomeController extends Controller
 
                             if ($response->isRedirect()) {
                                 $redirectUrl = $response->getRedirectUrl();
-                                return response()->json(['success'=>'Đặt Hàng Thành Công Chuyển Hướng Trang Thanh Toán','url'=>$redirectUrl]);
+                                return response()->json(['success'=>'Đặt Hàng Thành Công Chuyển Hướng Sang Trang Thanh Toán ','url'=>$redirectUrl]);
                             }
                         }
                         return response()->json(['success'=>'Đặt Hàng Thành Công Nhân Viên Sẽ Liên Hệ Lại Sau']);
@@ -603,5 +604,203 @@ class HomeController extends Controller
         }
 
 
+    }
+    //đơn hàng đã mua
+    public function cart_order_user()
+    {
+        return view('user.don_hang_da_mua');
+    }
+    public function fetch_order(Request $request)
+    {
+        if($request->ajax())
+        {
+            $getData=orders::where([['id_users','=',Auth::guard('khachhang')->user()->id],['status','<>','3']])->get();
+            return Datatables::of($getData)->setRowAttr(['align'=>'center'])
+            ->addColumn('codeOder',function($getData){
+                return $getData->codeOder;
+            })->addColumn('fullName',function($getData){
+                return $getData->fullName;
+            })->addColumn('phoneOder',function($getData){
+                return $getData->phoneOder;
+            })->addColumn('TotalOrder',function($getData){
+                return library_my::formatMoney($getData->TotalOrder);
+            })->addColumn('Address',function($getData){
+                return $getData->Address;
+            })->addColumn('notes',function($getData){
+                return $getData->notes;
+            })->addColumn('Payments',function($getData){
+                if($getData->Payments ==1)
+                {
+                    $span='Trả Tiền Mặt Khi Nhận Hàng ';
+                    return $span;
+                }else
+                {
+                    $span='<span class="" style="color:#005aab;"><i class="fab fa-cc-amazon-pay"></i> Chuyển Khoản Ngân Hàng</span>';
+                    return $span;
+                }
+
+            })->addColumn('status',function($getData){
+                if($getData->Payments ==1)
+                {
+                    if($getData->status	==1)
+                    {
+                        $status	='<span class="btn-warning btn btn-sm disabled ">Đang Xử Lý</span>';
+                    }else
+                    {
+                        $status	='<span class="btn btn-sm btn-success btn-default disabled ">Đã Xác Nhận</span>';
+                    }
+                    return $status	;
+                }else
+                {
+                    if($getData->status	==2)
+                    {
+                        $status	='<span class="btn btn-sm btn-success disabled "><i class="fas fa-money-check-alt"></i> Đã Thanh Toán</span>';
+                    }
+                    else
+                    {
+                        $status	='<a class="btn-danger btn btn-sm text-white " href="thanh-toan-vnpay/'.$getData->codeOder.'">Chưa Thanh Toán</a>';
+                    }
+                    return $status	;
+                }
+
+            })->addColumn('created_at',function($getData){
+                $time=  \Carbon\Carbon::parse($getData->created_at)->format('d/m/Y');
+                return $time;
+            })->addColumn('action',function($getData){
+                $button='<a class="btn btn-sm btn-info view_order" href="danh-sach-san-pham/'.$getData->id.'"><i class="fas fa-eye"></i></a>';
+                return $button;
+            })
+            ->rawColumns(['codeOder','fullName','phoneOder','TotalOrder','Address','notes','Payments','status','action'])
+            ->make('true');
+        }
+    }
+    public function fetch_order_accept(Request $request)
+    {
+        if($request->ajax())
+        {
+            $getData=orders::where([['id_users','=',Auth::guard('khachhang')->user()->id],['status','=','3']])->get();
+            return Datatables::of($getData)->setRowAttr(['align'=>'center'])
+            ->addColumn('codeOder',function($getData){
+                return $getData->codeOder;
+            })->addColumn('fullName',function($getData){
+                return $getData->fullName;
+            })->addColumn('phoneOder',function($getData){
+                return $getData->phoneOder;
+            })->addColumn('TotalOrder',function($getData){
+                return library_my::formatMoney($getData->TotalOrder);
+            })->addColumn('Address',function($getData){
+                return $getData->Address;
+            })->addColumn('notes',function($getData){
+                return $getData->notes;
+            })->addColumn('Payments',function($getData){
+                if($getData->Payments ==1)
+                {
+                    $span='Trả Tiền Mặt Khi Nhận Hàng ';
+                    return $span;
+                }else
+                {
+                    $span='<span class="" style="color:#005aab;"><i class="fab fa-cc-amazon-pay"></i> Chuyển Khoản Ngân Hàng</span>';
+                    return $span;
+                }
+
+            })->addColumn('status',function($getData){
+                if($getData->Payments ==1)
+                {
+                    if($getData->status	==1)
+                    {
+                        $status	='<span class="btn-warning btn btn-sm disabled ">Đang Xử Lý</span>';
+                    }else
+                    {
+                        $status	='<span class="btn btn-sm btn-success btn-default disabled ">Đã Xác Nhận</span>';
+                    }
+                    return $status	;
+                }else
+                {
+                    if($getData->status	==2)
+                    {
+                        $status	='<span class="btn btn-sm btn-success disabled "><i class="fas fa-money-check-alt"></i> Đã Thanh Toán</span>';
+                    }
+                    if($getData->status=3)
+                    {
+                        $status	='<span class="btn btn-sm btn-success btn-default disabled ">Đã Xác Nhận</span>';
+
+                    }
+                    else
+                    {
+                        $status	='<a class="btn-danger btn btn-sm text-white " href="thanh-toan-vnpay/'.$getData->codeOder.'">Chưa Thanh Toán</a>';
+                    }
+                    return $status	;
+                }
+
+            })->addColumn('created_at',function($getData){
+                $time=  \Carbon\Carbon::parse($getData->created_at)->format('d/m/Y');
+                return $time;
+            })->addColumn('action',function($getData){
+                $button='<a class="btn btn-sm btn-info view_order" href="danh-sach-san-pham/'.$getData->id.'"><i class="fas fa-eye"></i></a>';
+                return $button;
+            })
+            ->rawColumns(['codeOder','fullName','phoneOder','TotalOrder','Address','notes','Payments','status','action'])
+            ->make('true');
+        }
+    }
+    public function fetch_order_error(Request $request)
+    {
+        if($request->ajax()){
+            $getData=orders::where([['id_users','=',Auth::guard('khachhang')->user()->id],['status','=','0']])->get();
+            return Datatables::of($getData)->setRowAttr(['align'=>'center'])
+            ->addColumn('codeOder',function($getData){
+                return $getData->codeOder;
+            })->addColumn('fullName',function($getData){
+                return $getData->fullName;
+            })->addColumn('phoneOder',function($getData){
+                return $getData->phoneOder;
+            })->addColumn('TotalOrder',function($getData){
+                return library_my::formatMoney($getData->TotalOrder);
+            })->addColumn('Address',function($getData){
+                return $getData->Address;
+            })->addColumn('notes',function($getData){
+                return $getData->notes;
+            })->addColumn('Payments',function($getData){
+                if($getData->Payments ==1)
+                {
+                    $span='Trả Tiền Mặt Khi Nhận Hàng ';
+                    return $span;
+                }else
+                {
+                    $span='<span class="" style="color:#005aab;"><i class="fab fa-cc-amazon-pay"></i> Chuyển Khoản Ngân Hàng</span>';
+                    return $span;
+                }
+
+            })->addColumn('status',function($getData){
+
+                if($getData->status==0)
+                {
+                    $status='<span class="btn-danger btn btn-sm disabled ">Đơn hàng Lỗi</span>';
+                }
+
+
+                    return $status;
+
+
+            })->addColumn('created_at',function($getData){
+                $time=  \Carbon\Carbon::parse($getData->created_at)->format('d/m/Y');
+                return $time;
+            })->addColumn('action',function($getData){
+                $button='<a class="btn btn-sm btn-info view_order" href="danh-sach-san-pham/'.$getData->id.'"><i class="fas fa-eye"></i></a>';
+                return $button;
+            })
+            ->rawColumns(['codeOder','fullName','phoneOder','TotalOrder','Address','notes','Payments','status','action'])
+            ->make('true');
+        }
+    }
+    public function ds_order(Request $request,$id)
+    {
+        if($request->ajax())
+        {
+            $ordersproducts=ordersproducts::where('ordersproducts.id_orders','=',$id)
+            ->join('products','ordersproducts.id_products','=','products.id')->select('ordersproducts.*','products.name as nameproducts')
+            ->paginate(4);
+            return view('user.layout.don_hang.danhsach',['ordersproducts'=>$ordersproducts])->render();
+        }
     }
 }

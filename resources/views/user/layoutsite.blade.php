@@ -32,6 +32,7 @@
             <!-- Bootstrap theme -->
             <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
 
+
     <style>
         .cart-payment{
             display: none;
@@ -449,7 +450,7 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                   <a class="dropdown-item" href="{{ Route('accountUser') }}"><i class="fas fa-users"></i><span class="item-margin-5">Thông Tin</span></a>
-                                  <a class="dropdown-item" href="#"><i class="fas fa-cogs "></i><span class="item-margin-5">Setting</span></a>
+                                  <a class="dropdown-item" href="{{ Route('cart_order_user') }}"><i class="fas fa-notes-medical"></i><span class="item-margin-5">Đơn Hàng</span></a>
                                   <a class="dropdown-item" href="{{ Route('logoutUser') }}"><i class="fas fa-sign-out-alt"></i><span class="item-margin-5">Đăng Xuất</span></a>
                                 </div>
                             </li>
@@ -462,6 +463,34 @@
                 <main class="page-wrapper my-3">
                   @yield('main')
                 </main>
+                <div class="fb-chat">
+                    <!-- Load Facebook SDK for JavaScript -->
+                        <div id="fb-root"></div>
+                        <script>
+                            window.fbAsyncInit = function() {
+                            FB.init({
+                                xfbml            : true,
+                                version          : 'v7.0'
+                            });
+                            };
+
+                            (function(d, s, id) {
+                            var js, fjs = d.getElementsByTagName(s)[0];
+                            if (d.getElementById(id)) return;
+                            js = d.createElement(s); js.id = id;
+                            js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+                            fjs.parentNode.insertBefore(js, fjs);
+                        }(document, 'script', 'facebook-jssdk'));</script>
+
+                        <!-- Your Chat Plugin code -->
+                        <div class="fb-customerchat"
+                            attribution=setup_tool
+                            page_id="340207426736206"
+                    theme_color="#fa3c4c"
+                    logged_in_greeting="Bạn Cần Giúp Gì"
+                    logged_out_greeting="Bạn Cần Giúp Gì">
+                        </div>
+                </div>
                 <footer class="container-fluid">
                     <div class="row m-4">
                         <div class="col-md-8">
