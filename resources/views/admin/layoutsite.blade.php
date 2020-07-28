@@ -90,7 +90,7 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                   <a class="dropdown-item" href="{{ Route('orders') }}">Danh Sách Đơn Hàng</a>
-
+                                  <a class="dropdown-item" href="{{ Route('view_exportorders') }}">Danh Sách Hóa Đơn </a>
 
                                 </div>
                               </li>

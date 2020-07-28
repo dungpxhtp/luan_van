@@ -170,6 +170,8 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::get('update_status_orders/{id_orders}','Frontend\orders\orderscontroller@update_status_orders')->name('update_status_orders');
         Route::get('export-pdf-order/{id_orders}/hoadon','Frontend\orders\orderscontroller@export_pdf_order')->name('export_pdf_order');
         Route::post('post-export-pdf-order/{id_orders}','Frontend\orders\orderscontroller@post_export_pdf_order')->name('post_export_pdf_order');
+        Route::get('view-exportorders','Frontend\orders\orderscontroller@view_exportorders')->name('view_exportorders');
+        Route::get('fetch-view-exportorders','Frontend\orders\orderscontroller@fetch_view_export_orders')->name('fetch_view_export_orders');
         Route::get('export/{id}','Frontend\orders\orderscontroller@export')->name('export');
     });
     //Quản Lý User

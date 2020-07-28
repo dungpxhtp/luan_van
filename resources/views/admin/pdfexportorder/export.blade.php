@@ -18,16 +18,26 @@
         .text-right {
             text-align: right;
         }
-
-
+        .text-left{
+            text-align: left;
+        }
+        input {
+            background-color:transparent;
+            border: 0px solid;
+            height:30px;
+            width:260px;
+        }
+        input:focus {
+            outline:none;
+        }
     </style>
 
 
 
 </head>
-<body class="login-page">
+<body class="login-page " style="margin: 10px 10px; ">
+    <div class="container" style="border: 1px solid #f75990;">
 
-    <div>
         <div class="row">
             <div class="col-xs-7">
                 <strong> Cửa Hàng</strong>
@@ -51,9 +61,29 @@
             <div class="col-xs-6">
                 <h4>Khách Hàng</h4>
                 <address>
-                    <strong>{{ $orders->fullName }}</strong><br>
-                    <span>{{ $orders->phoneOder }}</span> <br>
-                    <span>{{ $orders->Address }}.</span>
+                    <div class="form-group row">
+                        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Tên Khách Hàng :</label>
+                        <div class="col-sm-10">
+                         {{ $ordersexport->fullName }}
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Số Điện Thoại</label>
+                        <div class="col-sm-10">
+                         {{ $ordersexport->phoneOder }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm" >Địa Chỉ</label>
+                        <div class="col-sm-10">
+                          {{$ordersexport->Address }}
+
+                        </div>
+                    </div>
+
                 </address>
             </div>
 
@@ -62,11 +92,11 @@
                     <tbody>
                         <tr>
                             <th>Mã Hóa Đơn:</th>
-                            <td class="text-right">{{ $orders->codeOder }}</td>
+                            <td class="text-right">{{ $ordersexport->codeOder }}</td>
                         </tr>
                         <tr>
                             <th> Ngày Xuất Hóa Đơn: </th>
-                            <td class="text-right">{{ \Carbon\Carbon::parse(\Carbon\Carbon::now())->format('d m Y H:i:s') }}</td>
+                            <td class="text-right">{{ \Carbon\Carbon::parse(\Carbon\Carbon::now('Asia/Ho_Chi_Minh'))->format('d m Y H:i:s') }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -77,7 +107,7 @@
                     <tbody>
                         <tr class="well" style="padding: 5px">
                             <th style="padding: 5px"><div> Tổng Hóa Đơn </div></th>
-                            <td style="padding: 5px" class="text-right"><strong> {{ \App\library\library_my::formatMoney($orders->TotalOrder)}} VNĐ </strong></td>
+                            <td style="padding: 5px" class="text-right"><strong> {{ \App\library\library_my::formatMoney($ordersexport->totalOrder)}} VNĐ </strong></td>
                         </tr>
                     </tbody>
                 </table>
@@ -89,27 +119,36 @@
                 <tr>
                     <th>Danh Sách Sản Phẩm</th>
                     <th>SeriNumber </th>
-
+                    <th>Số Lượng</th>
                     <th class="text-right">Thành Tiền</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($ordersproducts as $item )
+                @foreach($exportproducts as $item )
 
-                @for($i=0 ;$i<$item->quantity ; $i++)
-            <tr>
-                  <td><div><strong>{{ $item->nameproducts }}</strong></div>
-                    <p>{{ $item->codeproducts }}</p></td>
-                    @if (empty($item->serinumber))
-                      <td> Chưa Nhập Seri</td>
-                    @else
-                    <td>{{ $item->serinumber }}</td>
+                                <tr>
+                                    <td>
+                                        <div style="width:100%">
+                                         {{ $item->nameproducts }}
 
-                    @endif
-                    <td class="text-right">{{ $item->price }} VNĐ</td>
-            </tr>
-                @endfor
-            @endforeach
+                                        </div>
+                                            <p style="color: #9df9ef;">
+                                                {{ $item->codeproducts }}
+
+                                            </p>
+                                    </td>
+
+                                        <td>{{ $item->serinumber }}</td>
+                                        <td style="width: 30%">{{ $item->quantity }}</td>
+
+
+                                        <td class="text-right">{{ $item->price }} VNĐ
+
+                                        </td>
+                                </tr>
+
+
+                @endforeach
             </tbody>
         </table>
 
@@ -120,7 +159,7 @@
                         <tbody>
                             <tr class="well" style="padding: 5px">
                                 <th style="padding: 5px"><div> Tổng Hóa Đơn </div></th>
-                                <td style="padding: 5px" class="text-right"><strong>  {{ \App\library\library_my::formatMoney($orders->TotalOrder)}} VNĐ </strong></td>
+                                <td style="padding: 5px" class="text-right"><strong>  {{ \App\library\library_my::formatMoney($ordersexport->totalOrder)}}VNĐ </strong></td>
                             </tr>
                         </tbody>
                     </table>
@@ -135,24 +174,50 @@
                     <br>
                 <strong> Phương Thức Thanh Toán</strong>
                     <p>
-                        @if ($orders->Payments ==1)
-                        Thanh Toán Trực Tiếp
-                    @else
-                        Thanh Toán Online
-                    @endif
+                        {{ $ordersexport->payments }}
+
                     </p>
                 </div>
             </div>
             <div class="row">
+
                 <div class="col-xs-10 text-right">
 
-                    <h4>Nhân Viên </h4>
+                    <h4>Nhân Viên WatchStore</h4>
+                    <br>
+                    <small>Ký , ghi , rõ họ ,tên </small>
                     <p>
                         {{ Auth::guard('admin')->user()->fullname }}
                     </p>
                 </div>
             </div>
-
+            <br>
+            <br>
+            <br>
+            <div class="row " style="margin: 20px 0;">
+                <div class="col-xs-6 text-left">
+                        Nhân Viên Giao Hàng <br>
+                        <small>Ký , ghi , rõ họ ,tên </small>
+                </div>
+                <div class="col-xs-6">
+                          Khách hàng<br>
+                        <small>Ký , ghi , rõ họ ,tên </small>
+                </div>
+            </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+               <div class="row">
+                    <div class="col-xs-12" style="text-align: center;">
+                        <small>Hóa Đơn Này Chỉ Có Tính Chất Tham Khảo Vui Lòng Không Sao Chép Dưới Bất Kì Hình Thức Nào</small>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </body>

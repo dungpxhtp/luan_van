@@ -18,16 +18,22 @@
         .text-right {
             text-align: right;
         }
-
-
+        input {
+            background-color:transparent;
+            border: 0px solid;
+            height:30px;
+            width:260px;
+        }
+        input:focus {
+            outline:none;
+        }
     </style>
 
 
 
 </head>
-<body class="login-page">
-
-    <div>
+<body class="login-page " style="margin: 10px 10px; ">
+    <div class="container" style="border: 1px solid;">
         <form method="POST" enctype="multipart/form-data" action="{{ Route('post_export_pdf_order',['id_orders'=>$orders->id]) }}">
             @csrf
         <div class="row">
@@ -56,19 +62,30 @@
                     <div class="form-group row">
                         <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Tên Khách Hàng :</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control form-control-sm" name="fullName" value="{{ $orders->fullName }}">
+                          <input type="text" class="form-control form-control-sm" name="fullName" value="{{ $orders->fullName }}" required>
+                        </div>
+                        <div>
+                            @if ($errors->has('fullName'))
+                            <span class="text-danger">{{ $errors->first('fullName') }}</span>
+                            @endif
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Số Điện Thoại</label>
                         <div class="col-sm-10">
                           <input type="text" class="form-control form-control-sm" name="phoneOder" value="{{ $orders->phoneOder }}" readonly>
+                          @if ($errors->has('phoneOder'))
+                          <span class="text-danger">{{ $errors->first('phoneOder') }}</span>
+                          @endif
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Địa Chỉ</label>
+                        <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm" >Địa Chỉ</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control form-control-sm" name="Address" value="{{ $orders->Address }}">
+                          <input type="text" class="form-control form-control-sm" name="Address" value="{{ $orders->Address }}"     required>
+                          @if ($errors->has('Address'))
+                          <span class="text-danger">{{ $errors->first('Address') }}</span>
+                          @endif
                         </div>
                     </div>
 
@@ -117,25 +134,56 @@
 
                             @for($i=0 ;$i<$item->quantity ; $i++)
                                 <tr>
-                                    <td><div><strong>{{ $item->nameproducts }}</strong></div>
-                                        <p>{{ $item->codeproducts }}</p></td>
+                                    <td>
+                                        <div style="width:100%">
+                                            <textarea class="form-control" name="name_product[]" readonly rows="3" >{{ $item->nameproducts }}</textarea>
+                                            @if ($errors->has('name_product[]'))
+                                            <span class="text-danger">{{ $errors->first('name_product[]') }}</span>
+                                            @endif
+                                        </div>
+                                            <p><textarea class="form-control"  name="codeproduct[]"  required readonly rows="2">{{ $item->codeproducts }}</textarea>
+                                                @if ($errors->has('codeproduct[]'))
+                                                <span class="text-danger">{{ $errors->first('codeproduct[]') }}</span>
+                                                @endif
+                                            </p>
+                                    </td>
 
-                                        <td><input type="text" name="serinumber" placeholder="Nhập Số Serinumber" /></td>
-                                        <td>1</td>
+                                        <td><textarea class="form-control " name="serinumber[]" placeholder="Nhập Số Serinumber" required  rows="3"></textarea></td>
+                                        <td style="width: 30%"> <input type="text" name="quantity[]" value="1" required readonly style="width: 100%;"></td>
 
-                                        <td class="text-right">{{ $item->price }} VNĐ</td>
+
+                                        <td class="text-right"><input type="text" name="price[]" value="{{ $item->price }}" readonly> VNĐ
+                                            @if ($errors->has('price[]'))
+                                            <span class="text-danger">{{ $errors->first('price[]') }}</span>
+                                            @endif
+                                        </td>
                                 </tr>
                             @endfor
                     @else
                     <tr>
-                        <td><div><strong>{{ $item->nameproducts }}</strong></div>
-                            <p>{{ $item->codeproducts }}</p></td>
+                        <td>
+                            <div style="width:100%">
+                                <textarea class="form-control" name="name_product[]" readonly rows="3" >{{ $item->nameproducts }}</textarea>
+                            </div>
+                            <p><input type="text" name="codeproduct[]" value="{{ $item->codeproducts }}" required readonly></p></td>
 
-                            <td><input type="text" name="serinumber" value="Không Có Số Serinumber" readonly /></td>
-                            <td>{{ $item->quantity }}</td>
+                            <td style="width: 100%">
+                                <input type="text" name="serinumber[]" value="Không Có Số Serinumber" readonly  style="width: 100%;"/>
+                                    @if ($errors->has('serinumber[]'))
+                                    <span class="text-danger">{{ $errors->first('serinumber[]') }}</span>
+                                    @endif
+                            </td>
+                            <td style="width: 100%"> <input type="text" name="quantity[]" value="{{ $item->quantity }}" required readonly style="width: 100%;"></td>
+                            @if ($errors->has('quantity[]'))
+                            <span class="text-danger">{{ $errors->first('quantity[]') }}</span>
+                            @endif
 
+                            <td class="text-right"><input type="text" name="price[]" value="{{ $item->price }}" readonly> VNĐ
+                                @if ($errors->has('price[]'))
+                                <span class="text-danger">{{ $errors->first('quantity[]') }}</span>
+                                @endif
+                            </td>
 
-                            <td class="text-right">{{ $item->price }} VNĐ</td>
                     </tr>
                     @endif
                 @endforeach
@@ -165,9 +213,10 @@
                 <strong> Phương Thức Thanh Toán</strong>
                     <p>
                         @if ($orders->Payments ==1)
-                            Thanh Toán Trực Tiếp
+                         <input type="text" name="payments " readonly  required value=" Trả Tiền Mặt Khi Nhận Hàng" style="width: 60%;">
                         @else
-                            Thanh Toán Online
+
+                        <input type="text" name="payments " readonly  required value=" Chuyển Khoản Ngân Hàng" style="width: 60%;">
                         @endif
 
                     </p>
@@ -176,7 +225,7 @@
             <div class="row">
                 <div class="col-xs-10 text-right">
 
-                    <h4>Nhân Viên </h4>
+                    <h4>Nhân Viên WatchStore</h4>
                     <p>
                         {{ Auth::guard('admin')->user()->fullname }}
                     </p>
