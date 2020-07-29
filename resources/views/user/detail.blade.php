@@ -49,7 +49,18 @@
                                         </span>
                                         </span>
                                         <p class="price-product">
-                                           <span> {{ number_format($product->price) }} VNĐ </span>
+                                            @if (isset($product->pricesale))
+                                           <div> <span> {{ number_format($product->price) }} VNĐ </span></div>
+                                            <div>
+                                                <span style="color: #FA5130; font-size: 1.3rem;"> {{ number_format($product->pricesale) }} VNĐ </span>
+                                                {{-- ROUND làm tròn số --}}
+                                                <span style="display: inline-block; background-color: #FA5130; color: white; padding: 5px 5px;font-weight: 700;">  {{round( ( ( $product->price - $product->pricesale ) / $product->price ) * 100 ) }} % GIẢM</span>
+                                            </div>
+                                           @else
+                                           <div> <span style="color: #FA5130; font-size: 1.3rem;"> {{ number_format($product->price) }} VNĐ </span> </div>
+
+                                            @endif
+
                                         </p>
                                         <p class="description">
                                             <span class="desc">{{$product->metadesc}}</span>

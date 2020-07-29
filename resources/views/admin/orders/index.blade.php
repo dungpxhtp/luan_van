@@ -60,6 +60,7 @@
                                 <table class="table table-bordered table-hover table-striped " id="table_index">
                                     <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th scope="col">Tên Sản Phẩm</th>
                                         <th scope="col">Hình</th>
                                         <th scope="col">Số Lượng</th>
@@ -109,14 +110,43 @@
         </div>
     </div>
 </div>
+@if (session('message'))
+<!-- Modal -->
+@php
+    $type=session('message');
+@endphp
+<div  class="modal fade thongbao" id="thongbao" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title text-{{ $type["type"] }}" id="exampleModalCenterTitle">Thông Báo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        <div class="text-{{ $type["type"] }}">{{ $type["msg"] }}</div>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+
+        </div>
+    </div>
+    </div>
+</div>
+@endif
 
 @endsection
 @section('script')
 
         <script>
-            $(document).ready(function(){
-                var Vietnamese ="{{ asset('jtable/Vietnamese.json') }}";
+            $(function(){
 
+                $(".thongbao").modal('show');
+            });
+            $(document).ready(function(){
+
+                var Vietnamese ="{{ asset('jtable/Vietnamese.json') }}";
                 $('#table_index').DataTable({
                     processing:true,
                     serverSide:true,
@@ -125,6 +155,9 @@
                     },
                     ajax: '{{ Route('fetchorders') }}',
                     columns:[
+                        {data:'stt',render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }},
                         {data:'codeOder',name:'codeOder'},
                         {data:'fullName',name:'fullName'},
                         {data:'codeuser',name:'codeuser'},
@@ -142,6 +175,8 @@
 
                     ]
                 });
+
+                // đơn hàng duyệt
                 var Vietnamese ="{{ asset('jtable/Vietnamese.json') }}";
 
                 $('#table_confirm').DataTable({
@@ -152,6 +187,9 @@
                     },
                     ajax: '{{ Route('fetchordersconfirm') }}',
                     columns:[
+                        {data:'stt',render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }},
                         {data:'codeOder',name:'codeOder'},
                         {data:'fullName',name:'fullName'},
                         {data:'codeuser',name:'codeuser'},
@@ -161,7 +199,7 @@
                         {data:'Address',name:'Address'},
                         {data:'Payments',name:'Payments'},
                         {data:'status',name:'status'},
-
+                        {data:'fullnameadmin',name:'fullnameadmin'},
                         {data:'action',name:'action',orderable: false},
 
 
@@ -202,7 +240,7 @@
                     }
                 });
             });
-
+            //duyệt đơn hàng
             $(document).on('click','.confirm-order',function(event){
                     event.preventDefault();
                     var id = $(this).attr("href");

@@ -107,7 +107,7 @@
                     <tbody>
                         <tr class="well" style="padding: 5px">
                             <th style="padding: 5px"><div> Tổng Hóa Đơn </div></th>
-                            <td style="padding: 5px" class="text-right"><strong> {{ \App\library\library_my::formatMoney($ordersexport->totalOrder)}} VNĐ </strong></td>
+                            <td style="padding: 5px" class="text-right"><strong> {{ \App\library\library_my::formatMoney($ordersexport->TotalOrder)}} VNĐ </strong></td>
                         </tr>
                     </tbody>
                 </table>
@@ -120,7 +120,8 @@
                     <th>Danh Sách Sản Phẩm</th>
                     <th>SeriNumber </th>
                     <th>Số Lượng</th>
-                    <th class="text-right">Thành Tiền</th>
+                    <th>Giá Gốc 1/sp</th>
+                    <th>Thành Tiền(giá mua)</th>
                 </tr>
             </thead>
             <tbody>
@@ -140,9 +141,9 @@
 
                                         <td>{{ $item->serinumber }}</td>
                                         <td style="width: 30%">{{ $item->quantity }}</td>
+                                        <td>{{ $item->pricecost }}</td>
 
-
-                                        <td class="text-right">{{ $item->price }} VNĐ
+                                        <td>{{ $item->price }} VNĐ
 
                                         </td>
                                 </tr>
@@ -159,7 +160,7 @@
                         <tbody>
                             <tr class="well" style="padding: 5px">
                                 <th style="padding: 5px"><div> Tổng Hóa Đơn </div></th>
-                                <td style="padding: 5px" class="text-right"><strong>  {{ \App\library\library_my::formatMoney($ordersexport->totalOrder)}}VNĐ </strong></td>
+                                <td style="padding: 5px" class="text-right"><strong>  {{ \App\library\library_my::formatMoney($ordersexport->TotalOrder)}}VNĐ </strong></td>
                             </tr>
                         </tbody>
                     </table>
@@ -174,7 +175,11 @@
                     <br>
                 <strong> Phương Thức Thanh Toán</strong>
                     <p>
-                        {{ $ordersexport->payments }}
+                       @if ( $ordersexport->Payments ==1)
+                          Trả Tiền Mặt Khi Nhận Hàng
+                        @else
+                            Chuyển Khoản Ngân Hàng
+                       @endif
 
                     </p>
                 </div>

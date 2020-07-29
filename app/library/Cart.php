@@ -27,7 +27,8 @@ class Cart
             'id'=>$product->id,
             'name'=>$product->name,
             //giá khuyến mãi nếu có thì lấy ok không thì lấy giá gốc :<3
-            'price'=>$product->pricesale ?$product->price:$product->price,
+            'price'=>$product->pricesale?$product->pricesale:$product->price,
+            'pricecost'=>$product->price,
             'image'=>$product->image,
             'quantity'=>$quantity,
         ];

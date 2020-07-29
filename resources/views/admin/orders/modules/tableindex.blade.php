@@ -5,6 +5,7 @@
                 <table class="table table-bordered table-hover table-striped " id="table_index">
                     <thead>
                     <tr>
+                        <th scope="col">#</th>
                         <th scope="col">Mã Hóa Đơn</th>
                         <th scope="col">Tên người nhận</th>
                         <th scope="col">Mã Khách Hàng</th>

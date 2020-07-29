@@ -159,6 +159,7 @@
 </body>
 
     <script>
+
         $(document).ready(function(){
             $(document).ajaxStart(function() {
                 $("#loading").show();

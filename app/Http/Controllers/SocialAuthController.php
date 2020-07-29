@@ -41,7 +41,6 @@ class SocialAuthController extends Controller
               $user->name     = $getInfo->name;
                 $user->email    = $getInfo->email;
                 $user->provider_id = $getInfo->id;
-                $user->gender=0;
                 $user->created_at=Carbon::now('Asia/Ho_Chi_Minh');
                 $user->codeuser='FB'.$getInfo->id;
                 $user->socialnetworks='Facebook';
@@ -71,7 +70,7 @@ class SocialAuthController extends Controller
                 $user->name     = $getInfo->name;
                 $user->email    = $getInfo->email;
                 $user->provider_id = $getInfo->id;
-                $user->gender=0;
+
                 $user->created_at=Carbon::now('Asia/Ho_Chi_Minh');
                 $user->codeuser='GG'.$getInfo->id;
                 $user->socialnetworks='Google';

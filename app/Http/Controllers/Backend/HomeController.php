@@ -407,6 +407,7 @@ class HomeController extends Controller
                             $ordersproducts->id_orders=$id->id;
                             $ordersproducts->id_products=$item['id'];
                             $ordersproducts->price=$item['price'];
+                            $ordersproducts->pricecost=$item['pricecost'];
                             $ordersproducts->quantity=$item['quantity'];
                             $ordersproducts->TotalProducts=$item['quantity']*$item['price'];
                             $ordersproducts->save();

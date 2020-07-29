@@ -16,6 +16,7 @@ use Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Exception;
 use PDF;
 class orderscontroller extends Controller
 {
@@ -97,22 +98,24 @@ class orderscontroller extends Controller
 
         }
     }
+    //Cập nhật đơn hàng thành công
     public function update_status_orders($id_orders,Request $request)
     {
         if($request->ajax())
         {
             $find=orders::findOrFail($id_orders);
             $find->status=3;
-            $find->updated_by=Auth::guard('admin')->user()->id;
+            $find->id_admin=Auth::guard('admin')->user()->id;
             $find->save();
-             return response()->json(['data'=>'success']);
+            return response()->json(['data'=>'success']);
         }
     }
     public function fetchordersconfirm(Request $request)
     {
         if($request->ajax())
         {
-        $getData=orders::where('orders.status','=',3)->join('users','orders.id_users','=','users.id')->select('orders.*','users.codeuser as codeuser','users.email','users.phoneuser','users.name as tenkhachhang','users.codeuser as codeuser')->orderBy('orders.created_at','desc')->get();
+        $getData=orders::where('orders.status','=',3)->join('users','orders.id_users','=','users.id')->join('admin','orders.id_admin','=','admin.id')
+        ->select('orders.*','users.codeuser as codeuser','users.email','users.phoneuser','users.name as tenkhachhang','users.codeuser as codeuser','admin.fullname as fullnameadmin')->orderBy('orders.created_at','desc')->get();
 
             return Datatables::of($getData)
             ->addColumn('codeOder',function($getData){
@@ -154,7 +157,11 @@ class orderscontroller extends Controller
                         $status='<span class="bg-warning"><i class="fas fa-shipping-fast"></i>Đã Xác Nhận</span>';
                         return $status;
                 }
-            })->addColumn('action',function($getData){
+            })->addColumn('fullnameadmin',function($getData){
+                $span=$getData->fullnameadmin;
+                return $span;
+            })
+            ->addColumn('action',function($getData){
                 $action='<a type="button" href="'.$getData->id.'" name="viewOrder"   class="viewOrder btn bg-info  text-white  btn-sm"><i class="fas fa-box-open"></i> Xem</a>';
                 $action.='<a type="button" href="export-pdf-order/'.$getData->id.'/hoadon"   class=" btn bg-info  text-white  btn-sm"><i class="fas fa-people-carry"></i> Tạo Hóa Đơn</a>';
                 return $action;
@@ -206,81 +213,88 @@ class orderscontroller extends Controller
     public function export_pdf_order($id_orders)
     {
         $orders=orders::findOrFail($id_orders);
-        $ordersproducts=ordersproducts::where([['ordersproducts.id_orders','=',$orders->id]])->join('products','ordersproducts.id_products','=','products.id')->select('ordersproducts.*','products.name as nameproducts','products.code as codeproducts','products.serinumber as serinumber')->get();
+        $ordersproducts=ordersproducts::where([['ordersproducts.id_orders','=',$orders->id]])->join('products','ordersproducts.id_products','=','products.id')->select('ordersproducts.*','products.name as nameproducts','products.code as codeproducts','products.serinumber as serinumber','products.id as id_products')->get();
         return view('admin.pdfexportorder.index',compact('orders','ordersproducts'));
     }
     public function post_export_pdf_order(Request $request,$id_order)
     {
 
-        $v=Validator::make($request->all(), [
-            'fullName'=>'required',
-            'phoneOder'=>'required',
-            'Address'=>'required',
-            'name_product'=>'required',
-            'serinumber'=>'required',
-            'quantity'=>'required',
-            'price'=>'required',
-            'payments_'=>'required'
+        try{
+            $v=Validator::make($request->all(), [
+                'fullName'=>'required',
+                'phoneOder'=>'required',
+                'Address'=>'required',
+                'name_product'=>'required',
+                'serinumber'=>'required',
+                'quantity'=>'required',
+                'price'=>'required',
+                'payments_'=>'required'
 
 
 
 
-        ], [
-            'fullName.required'=>'Không Được Bỏ Trống',
-            'phoneOder.required'=>'Không Được Bỏ Trống',
-            'Address.required'=>'Không Được Bỏ Trống',
-            'name_product.required'=>'Không Được Bỏ Trống',
-            'serinumber.required'=>'Không Được Bỏ Trống',
-            'quantity.required'=>'Không Được Bỏ Trống',
-            'price.required'=>'Không Được Bỏ Trống',
-            'payments_.required'=>'Không Được Bỏ Trống',
+            ], [
+                'fullName.required'=>'Không Được Bỏ Trống',
+                'phoneOder.required'=>'Không Được Bỏ Trống',
+                'Address.required'=>'Không Được Bỏ Trống',
+                'name_product.required'=>'Không Được Bỏ Trống',
+                'serinumber.required'=>'Không Được Bỏ Trống',
+                'quantity.required'=>'Không Được Bỏ Trống',
+                'price.required'=>'Không Được Bỏ Trống',
+                'payments_.required'=>'Không Được Bỏ Trống',
 
 
 
 
 
-        ]);
-        if($v->fails())
+            ]);
+            if($v->fails())
+            {
+                return redirect()->back()
+                    ->withErrors($v)
+                    ->withInput();
+            }
+            $orders=orders::findOrfail($id_order);
+            $orders->fullName=$request->get('fullName');
+            $orders->phoneOder=$request->get('phoneOder');
+            $orders->Address=$request->get('Address');
+            $orders->exportDate=Carbon::now('Asia/Ho_Chi_Minh');
+            $orders->save();
+            $id=$orders->id;
+
+            $codeproduct=$request->get('codeproduct');
+            $serinumber=$request->get('serinumber');
+            $quantity=$request->get('quantity');
+            $price=$request->get('price');
+            $pricecost=$request->get('pricecost');
+            $id_products=$request->get('id_product');
+            $result=exportproducts::where('id_order','=',$id)->delete();
+
+            foreach($request->get('name_product') as $key=>$value)
+            {
+                $exportproducts=new exportproducts;
+                $exportproducts->codeproducts=$codeproduct[$key];
+                $exportproducts->nameproducts=$value;
+                $exportproducts->serinumber=$serinumber[$key];
+                $exportproducts->quantity=$quantity[$key];
+                $exportproducts->price=$price[$key];
+                $exportproducts->pricecost=$pricecost[$key];
+                $exportproducts->id_products=$id_products[$key];
+                $exportproducts->id_order=$id;
+                $exportproducts->save();
+            }
+            return redirect()->route('orders')->with("message",["type"=>"success","msg"=>"Tạo Hóa Đơn Thành Công"]);
+        }catch(Exception $e)
         {
-            return redirect()->back()
-                ->withErrors($v)
-                ->withInput();
+            return redirect()->route('orders')->with("danger",["type"=>"success","msg"=>"Lỗi Không Tạo Được Hóa Đơn"]);
         }
-        $orders=orders::findOrfail($id_order);
-        $exportorders=new exportorders;
-        $exportorders->id_admin=Auth::guard('admin')->user()->id;
-        $exportorders->codeOder=$orders->codeOder;
-        $exportorders->fullName=$request->get('fullName');
-        $exportorders->phoneOder=$request->get('phoneOder');
-        $exportorders->totalOrder=$orders->TotalOrder;
-        $exportorders->Address=$request->get('Address');
-        $exportorders->exportDate=Carbon::now('Asia/Ho_Chi_Minh');
-        $exportorders->payments=$request->get('payments_');
-        $exportorders->save();
-        $id_exportOrders=$exportorders->id;
-        $codeproduct=$request->get('codeproduct');
-        $serinumber=$request->get('serinumber');
-        $quantity=$request->get('quantity');
-        $price=$request->get('price');
-        foreach($request->get('name_product') as $key=>$value)
-        {
-            $exportproducts=new exportproducts;
-            $exportproducts->codeproducts=$codeproduct[$key];
-            $exportproducts->nameproducts=$value;
-            $exportproducts->serinumber=$serinumber[$key];
-            $exportproducts->quantity=$quantity[$key];
-            $exportproducts->price=$price[$key];
-            $exportproducts->id_exportOrders=$id_exportOrders;
-            $exportproducts->save();
-        }
-        return redirect()->back()->with("message",["type"=>"success","msg"=>"Tạo Hóa Đơn Thành Công"]);
 
 
     }
     public function export($id_order)
     {
-        $ordersexport=exportorders::findOrFail($id_order);
-        $exportproducts=exportproducts::where('id_exportOrders','=',$id_order)->get();
+        $ordersexport=orders::findOrFail($id_order);
+        $exportproducts=exportproducts::where('exportproducts.id_order','=',$id_order)->join('products','exportproducts.id_products','products.id')->select('exportproducts.*','products.name as nameproducts')->get();
         $pdf = PDF::loadView('admin.pdfexportorder.export', compact('ordersexport','exportproducts') );
         return $pdf->stream();
     }
@@ -292,7 +306,7 @@ class orderscontroller extends Controller
     {
         if($request->ajax())
         {
-            $getData=exportorders::where('status','=',1)->get();
+            $getData=orders::where('orders.status','=',3)->join('admin','orders.id_admin','=','admin.id')->select('orders.*','admin.fullname as fullNameAdmin')->get();
             return Datatables::of($getData)
             ->setRowAttr(['align'=>'center'])
             ->addColumn('codeOder',function($getData){
@@ -305,7 +319,7 @@ class orderscontroller extends Controller
                 $span=$getData->phoneOder;
                 return $span;
             })->addColumn('totalOrder',function($getData){
-                $span=$getData->totalOrder;
+                $span=$getData->TotalOrder;
                 return $span;
 
             })->addColumn('Address',function($getData){
@@ -317,9 +331,17 @@ class orderscontroller extends Controller
             })->addColumn('exportDate',function($getData){
                 $span=$getData->exportDate;
                 return $span;
-            })->addColumn('payments',function($getData){
-                $span=$getData->payments;
-                return $span;
+            })->addColumn('Payments',function($getData){
+               if($getData->Payments==1)
+               {
+                $span='Trả Tiền Mặt Khi Nhận Hàng';
+
+               }else
+               {
+                $span='Chuyển Khoản Ngân Hàng';
+
+               }
+               return $span;
             })->addColumn('action',function($getData){
                 $button='<a href="export/'.$getData->id.'" class="btn btn-sm btn-success">Xuất Hóa Đơn</a>';
                 return $button;

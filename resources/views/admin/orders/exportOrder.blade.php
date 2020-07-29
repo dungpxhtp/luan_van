@@ -28,7 +28,7 @@
                             <th scope="col"><i class="fas fa-money-check-alt"></i> Tổng Hóa Đơn</th>
                             <th scope="col"><i class="fas fa-clock"></i> Thời Gian Tạo Hóa Đơn</th>
                             <th scope="col"><i class="fas fa-cash-register"></i> Thanh toán</th>
-                            <th scope="col">Tên Người Quản Trị</th>
+                            <th scope="col">Nhân Viên</th>
                             <th scope="col">Hành Động</th>
 
                           </tr>
@@ -64,7 +64,7 @@
                     {data:'Address',name:'Address'},
                     {data:'totalOrder',name:'totalOrder'},
                     {data:'exportDate',name:'exportDate'},
-                    {data:'payments',name:'payments'},
+                    {data:'Payments',name:'Payments'},
                     {data:'fullNameAdmin',name:'fullNameAdmin'},
                     {data:'action',name:'action'},
 

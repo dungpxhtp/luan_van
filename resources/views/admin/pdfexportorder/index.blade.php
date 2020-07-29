@@ -73,7 +73,7 @@
                     <div class="form-group row">
                         <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Số Điện Thoại</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control form-control-sm" name="phoneOder" value="{{ $orders->phoneOder }}" readonly>
+                          <input type="text" class="form-control form-control-sm" name="phoneOder" value="{{ $orders->phoneOder }}" required>
                           @if ($errors->has('phoneOder'))
                           <span class="text-danger">{{ $errors->first('phoneOder') }}</span>
                           @endif
@@ -125,7 +125,8 @@
                     <th>Danh Sách Sản Phẩm</th>
                     <th>SeriNumber </th>
                     <th>Số Lượng</th>
-                    <th class="text-right">Thành Tiền</th>
+                    <th>Giá Gốc 1/sp</th>
+                    <th>Thành Tiền(giá mua)</th>
                 </tr>
             </thead>
             <tbody>
@@ -145,14 +146,18 @@
                                                 @if ($errors->has('codeproduct[]'))
                                                 <span class="text-danger">{{ $errors->first('codeproduct[]') }}</span>
                                                 @endif
+                                                <input type="hidden" name="id_product[]" value="{{ $item->id_products }}">
                                             </p>
                                     </td>
 
                                         <td><textarea class="form-control " name="serinumber[]" placeholder="Nhập Số Serinumber" required  rows="3"></textarea></td>
-                                        <td style="width: 30%"> <input type="text" name="quantity[]" value="1" required readonly style="width: 100%;"></td>
+                                        <td style="width: 20%"> <input type="text" name="quantity[]" value="1" required readonly style="width: 100%;"></td>
+                                        <td style="width: 20%">
+                                            <input type="text" name="pricecost[]" value="{{ $item->pricecost }}" readonly style="width: 100%;"> VNĐ
+                                        </td>
 
-
-                                        <td class="text-right"><input type="text" name="price[]" value="{{ $item->price }}" readonly> VNĐ
+                                        <td class="text-right" style="width: 10%;display: inline-block;">
+                                            <input type="text" name="price[]" value="{{ $item->price }}" readonly> VNĐ
                                             @if ($errors->has('price[]'))
                                             <span class="text-danger">{{ $errors->first('price[]') }}</span>
                                             @endif
@@ -165,20 +170,26 @@
                             <div style="width:100%">
                                 <textarea class="form-control" name="name_product[]" readonly rows="3" >{{ $item->nameproducts }}</textarea>
                             </div>
-                            <p><input type="text" name="codeproduct[]" value="{{ $item->codeproducts }}" required readonly></p></td>
+                            <p><input type="text" name="codeproduct[]" value="{{ $item->codeproducts }}" required readonly>
+                                <input type="hidden" name="id_product[]" value="{{ $item->id_products }}">
 
-                            <td style="width: 100%">
+                            </p></td>
+
+                            <td style="width: 20%">
                                 <input type="text" name="serinumber[]" value="Không Có Số Serinumber" readonly  style="width: 100%;"/>
                                     @if ($errors->has('serinumber[]'))
                                     <span class="text-danger">{{ $errors->first('serinumber[]') }}</span>
                                     @endif
                             </td>
-                            <td style="width: 100%"> <input type="text" name="quantity[]" value="{{ $item->quantity }}" required readonly style="width: 100%;"></td>
+                            <td style="width: 20%"> <input type="text" name="quantity[]" value="{{ $item->quantity }}" required readonly style="width: 100%;"></td>
                             @if ($errors->has('quantity[]'))
                             <span class="text-danger">{{ $errors->first('quantity[]') }}</span>
                             @endif
-
-                            <td class="text-right"><input type="text" name="price[]" value="{{ $item->price }}" readonly> VNĐ
+                            <td style="width: 30%">
+                                <input type="text" name="pricecost[]" value="{{ $item->pricecost }}" readonly style="width: 100%;"> VNĐ
+                            </td>
+                            <td class="text-right"  style="width: 10%;display: inline-block;">
+                                <input type="text" name="price[]" value="{{ $item->price }}" readonly> VNĐ
                                 @if ($errors->has('price[]'))
                                 <span class="text-danger">{{ $errors->first('quantity[]') }}</span>
                                 @endif
@@ -208,7 +219,10 @@
 
             <div class="row">
                 <div class="col-xs-8 invbody-terms">
-                    Cảm Ơn Bạn Đã Tin Tưởng Lựa Chọn Dịch Vụ Của Chúng Tôi. <br>
+                    Cảm Ơn Bạn Đã Tin Tưởng Lựa Chọn Dịch Vụ Của Chúng Tôi.
+                    <br>
+                    Miễn Phí Vận Chuyển
+                    <br>
                     <br>
                 <strong> Phương Thức Thanh Toán</strong>
                     <p>
@@ -225,10 +239,7 @@
             <div class="row">
                 <div class="col-xs-10 text-right">
 
-                    <h4>Nhân Viên WatchStore</h4>
-                    <p>
-                        {{ Auth::guard('admin')->user()->fullname }}
-                    </p>
+
                 </div>
             </div>
             <div class="row " style="margin: 20px 0;">

@@ -6,6 +6,7 @@
                 <table class="table table-bordered table-hover table-striped " id="table_confirm">
                     <thead>
                     <tr>
+                        <th scope="col">#</th>
                         <th scope="col">Mã Hóa Đơn</th>
                         <th scope="col">Tên người nhận</th>
                         <th scope="col">Mã Khách Hàng</th>
@@ -15,6 +16,7 @@
                         <th scope="col">Địa Chỉ</th>
                         <th scope="col">Hình Thức</th>
                         <th scope="col">Trạng Thái</th>
+                        <th scope="col">Tên Xác Nhận Đơn</th>
                         <th scope="col">Chức Năng</th>
                     </tr>
                     </thead>
