@@ -71,6 +71,26 @@
                 ]
             });
            });
+           $(document).on('click','.update_erorr_products',function(event){
+            event.preventDefault();
+            var id=$(this).attr('href');
+            let url ="{{ Route('update_erorr_products',':id') }}";
+            url =url.replace(':id',id);
+                $.ajax({
+                    url:url,
+                    type:"GET",
+                    success:function(data)
+                    {
 
+                        alertify.success(data.success);
+                        setTimeout(function(){
+                            $('#table_index').DataTable().ajax.reload();
+
+
+
+                        }, 1000);
+                    }
+                });
+           });
        </script>
 @endsection

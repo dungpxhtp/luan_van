@@ -17,6 +17,17 @@
     <link rel="stylesheet" href="{{ asset('fontawesome/css/brands.css') }}">
     <link rel="stylesheet" href="{{ asset('fontawesome/css/solid.css') }}">
     <link rel="stylesheet" href="{{ asset('jtable/jquery.dataTables.min.css') }}">
+
+        {{--  //aleartifyjs  --}}
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+        <!-- Default theme -->
+      <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+      <!-- Semantic UI theme -->
+      <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+      <!-- Bootstrap theme -->
+      <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+
+
     <style>
         #loading {
             background-color:white;
@@ -40,6 +51,9 @@
             -webkit-transform: translateX(-50%) translateY(-50%);
             position: absolute;
             z-index: 999;
+          }
+          .btn{
+              border-radius: 20px;
           }
     </style>
     @yield('head')
@@ -65,7 +79,7 @@
                               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="{{ Route('productindex') }}">Danh Sách Sản Phẩm</a>
                                 <a class="dropdown-item" href="{{ Route('getSaveProducts') }}">Thêm Sản Phẩm</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                                <a class="dropdown-item" href="{{ Route('view_product_quantity') }}">Thêm Số Lượng Sản Phẩm</a>
                               </div>
                             </li>
                             {{-- End Quản Lý Sản Phẩm --}}
@@ -169,5 +183,6 @@
             });
         });
     </script>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 @yield('script')
 </html>

@@ -119,6 +119,8 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         //Thêm Sản Phẩm
         Route::get('index_save','Frontend\Product\product@getSaveProducts')->name('getSaveProducts');
         Route::post('post_index_save','Frontend\Product\product@postSaveProducts')->name('post_index_save');
+        //thêm số lượng sản phẩm
+        Route::get('products-quantity-view','Frontend\Product\product@view_product_quantity')->name('view_product_quantity');
 
     });
     Route::group(['prefix' => 'brandproducts'], function () {
@@ -170,9 +172,16 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::get('update_status_orders/{id_orders}','Frontend\orders\orderscontroller@update_status_orders')->name('update_status_orders');
         Route::get('export-pdf-order/{id_orders}/hoadon','Frontend\orders\orderscontroller@export_pdf_order')->name('export_pdf_order');
         Route::post('post-export-pdf-order/{id_orders}','Frontend\orders\orderscontroller@post_export_pdf_order')->name('post_export_pdf_order');
+        //danh sách đơn hàng duyệt đơn
         Route::get('view-exportorders','Frontend\orders\orderscontroller@view_exportorders')->name('view_exportorders');
         Route::get('fetch-view-exportorders','Frontend\orders\orderscontroller@fetch_view_export_orders')->name('fetch_view_export_orders');
         Route::get('export/{id}','Frontend\orders\orderscontroller@export')->name('export');
+        ///Báo lỗi đơn hàng lúc liên hệ
+        Route::get('order-error/{id}','Frontend\orders\orderscontroller@update_erorr')->name('update_erorr');
+        Route::get('error-order','Frontend\orders\orderscontroller@error_order')->name('error_order');
+        Route::get('fetch-error-order','Frontend\orders\orderscontroller@fetch_error_order')->name('fetch_error_order');
+        //Báo lỗi đơn hàng sau khi duyệt xong
+        Route::get('cancel-orders-quantity/{id}','Frontend\orders\orderscontroller@update_erorr_products')->name('update_erorr_products');
     });
     //Quản Lý User
     Route::group(['prefix' => 'users'], function () {

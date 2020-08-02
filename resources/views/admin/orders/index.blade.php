@@ -6,6 +6,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 @endsection
+
 @section('main')
 <nav aria-label="Page breadcrumb" class="my-3">
     <div class="container">
@@ -17,6 +18,15 @@
     </div>
 
 </nav>
+<div class="container my-3">
+    <div class="row">
+        <div class="col-md-6">
+               <a href="{{ Route('error_order') }}" class="btn btn-danger"> Danh sách đơn hàng bị lỗi</a>
+               <a href="{{ Route('view_exportorders') }}" class="btn btn-primary"> Danh Sách Hóa Đơn Xuất</a>
+        </div>
+    </div>
+
+</div>
     <div class="container my-3">
         <div class="row">
             <div class="col">
@@ -60,7 +70,7 @@
                                 <table class="table table-bordered table-hover table-striped " id="table_index">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
+
                                         <th scope="col">Tên Sản Phẩm</th>
                                         <th scope="col">Hình</th>
                                         <th scope="col">Số Lượng</th>
@@ -110,31 +120,7 @@
         </div>
     </div>
 </div>
-@if (session('message'))
-<!-- Modal -->
-@php
-    $type=session('message');
-@endphp
-<div  class="modal fade thongbao" id="thongbao" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-        <h5 class="modal-title text-{{ $type["type"] }}" id="exampleModalCenterTitle">Thông Báo</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        </div>
-        <div class="modal-body">
-        <div class="text-{{ $type["type"] }}">{{ $type["msg"] }}</div>
-        </div>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
-
-        </div>
-    </div>
-    </div>
-</div>
-@endif
+@includeIf('admin.message.message');
 
 @endsection
 @section('script')
@@ -208,7 +194,7 @@
                     ]
                 });
             });
-
+            //xem danh sách đơn hàng
             $(document).on('click','.viewOrder',function(event){
                 $('.btn-exit').text('Thoát');
                 event.preventDefault();
@@ -253,16 +239,24 @@
                         success:function(data)
                         {
 
-                              $("#thongbao").modal('show');
-                              setTimeout(function(){
-                                    $('#table_index').DataTable().ajax.reload();
-                                    $('#table_confirm').DataTable().ajax.reload();
-                                    $("#thongbao").modal('hide');
-                              },1500);
 
+                               if(data.success)
+                               {
+                                alertify.success(data.success);
+                               }else
+                               {
+                                alertify.error(data.danger);
+                               }
 
                         }
-                    })
+                    }).done(function(data){
+                        setTimeout(function(){
+                            $('#table_index').DataTable().ajax.reload();
+                            $('#table_confirm').DataTable().ajax.reload();
+
+                      },1500);
+
+                    });
             });
 
             $(document).on('click','.updateQuantity',function(event){
@@ -290,13 +284,18 @@
                             dataType:'JSON',
                             success:function(data)
                             {
-                                setTimeout(function(){
+                                if(data.success)
+                                {
+                                 alertify.success(data.success);
+                                 setTimeout(function(){
                                     $('#confirmModal').modal('hide');
                                     $('#table_index').DataTable().ajax.reload();
                                     $('#table_confirm').DataTable().ajax.reload();
-                                    alert(data.success);
+
 
                                 }, 1000);
+                                }
+
                             }
 
                     });
@@ -308,6 +307,36 @@
 
 
             });
+            //báo lỗi đơn hàng
+            $(document).on('click','.error-btn',function(event){
+                event.preventDefault();
+                var id=$(this).attr('href');
+                let url="{{ Route('update_erorr',':id') }}";
+                url = url.replace(':id', id);
+                console.log(url);
+                $.ajax({
+                    url :url,
+                    type:'GET',
+                    success:function(data)
+                    {
+                        if(data.success)
+                        {
+                            alertify.success(data.success);
+                            setTimeout(function(){
+                                $('#confirmModal').modal('hide');
+                                $('#table_index').DataTable().ajax.reload();
+                                $('#table_confirm').DataTable().ajax.reload();
+
+
+                            }, 1000);
+                        }
+                    }
+                });
+
+
+            });
+
+
         </script>
 
 

@@ -19,6 +19,7 @@ use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Yajra\Datatables\Datatables;
 
 class product extends Controller
 {
@@ -329,5 +330,16 @@ class product extends Controller
         $row->created_at=Carbon::now('Asia/Ho_Chi_Minh');
         $row->save();
         return redirect()->back()->with("message",["type"=>"success","msg"=>"Thêm Thành Công"]);
+    }
+    public function view_product_quantity()
+    {
+        return view('admin.products.products_quantity');
+    }
+    public function fetch_view_product_quantity(Request $request)
+    {
+        if($request->ajax())
+        {
+
+        }
     }
 }
