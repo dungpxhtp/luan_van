@@ -491,23 +491,8 @@ class orderscontroller extends Controller
                     return $span;
                 }
             })->addColumn('status',function($getData){
-                if($getData->Payments ==1)
                 {
-                    if($getData->status	==1)
-                    {
-                        $status	='<span class="btn-warning btn btn-sm disabled ">Đang Xử Lý</span>';
-                    }
-                    return $status	;
-                }else
-                {
-                    if($getData->status	==2)
-                    {
-                        $status	='<span class="btn btn-sm btn-success disabled "><i class="fas fa-money-check-alt"></i> Đã Thanh Toán</span>';
-                    }
-                    else
-                    {
-                        $status	='<span class="btn-danger btn btn-sm text-white disabled" >Chưa Thanh Toán</span>';
-                    }
+                    $status='<span class="btn btn-sm btn-danger ">Đơn Hàng Lỗi</span>';
                     return $status	;
                 }
             })->addColumn('action',function($getData){

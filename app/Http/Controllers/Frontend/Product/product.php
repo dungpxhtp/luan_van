@@ -15,6 +15,7 @@ use App\Models\products;
 use App\Models\productssize;
 use App\Models\productwaterproorf;
 use Carbon\Carbon;
+use Exception;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -339,7 +340,42 @@ class product extends Controller
     {
         if($request->ajax())
         {
-
+            $getData=products::where('status','=','1')->orderBy('created_at','desc')->get();
+            return Datatables::of($getData)
+            ->addColumn('name',function($getData){
+                $name=$getData->name;
+                return $name;
+            })->addColumn('code',function($getData){
+                $code=$getData->code;
+                return $code;
+            })
+            ->addColumn('image',function($getData){
+                $image='<img src="'.$getData->image.'"  style="width:100px; height:100px;"/>';
+                return $image;
+            })->addColumn('quantity',function($getData){
+                $quantity=$getData->quantity;
+                return $quantity;
+            })->addColumn('action',function($getData){
+                $button='<a href="'.$getData->id.'" class="btn btn-sm btn-success update_quantity" style="color:white;">Nhập Thêm Số Lượng</a>';
+                return $button;
+            })
+            ->rawColumns(['name','code','image','quantity','action'])->make('true');
         }
+    }
+    public function update_quantity(Request $request ,$id_product)
+    {
+            if($request->ajax())
+            {
+               try{
+                $products=products::find($id_product);
+                $products->quantity= $products->quantity+ $request->get('quantity');
+                $products->save();
+                return response()->json(['success'=>'Thêm số lượng thành công']);
+               }catch(Exception $e)
+               {
+                return response()->json(['danger'=>'Thêm số lượng không thành công']);
+
+               }
+            }
     }
 }

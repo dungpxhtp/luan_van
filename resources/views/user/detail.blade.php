@@ -8,6 +8,21 @@
 
 
 @endsection
+@section('style')
+    <style>
+
+        .nav-link-details{
+
+            text-decoration: none;
+        }
+        .hvr-grow{
+            color: rgb(0, 0, 0);
+
+            font-size: 1.3rem;
+
+        }
+    </style>
+@endsection
 @section('main')
 
 
@@ -85,19 +100,19 @@
             <div class="row">
                 <div class="col-md-12">
                 <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                       <a class="nav-link btn-btn-sm hvr-grow active" data-toggle="tab" href="#home">Chi Tiết Sản Phẩm</a>
+                    <li class="nav-link-details nav-item">
+                       <a class=" btn-btn-sm hvr-grow active" data-toggle="tab" href="#home">Chi Tiết Sản Phẩm</a>
                     </li>
                     <li class="nav-item">
-                       <a class="nav-link hvr-grow" data-toggle="tab" href="#menu1">Mô Tả</a>
+                       <a class="nav-link-details hvr-grow" data-toggle="tab" href="#menu1">Mô Tả</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link hvr-grow" data-toggle="tab" href="#menu2">Chế Độ Bảo Hành Và Hậu Mãi</a>
+                        <a class="nav-link-details hvr-grow" data-toggle="tab" href="#menu2">Chế Độ Bảo Hành Và Hậu Mãi</a>
                     </li>
                 </ul>
                 <div class="tab-content my-3">
                     <div id="home" class="container tab-pane active"><br>
-                        @includeIf('user.layout.detail-title-description');
+                        @includeIf('user.layout.detail-title-description')
                     </div>
                     <div id="menu1" class="container tab-pane fade">
                         <div class="container">
@@ -112,7 +127,7 @@
 
                     </div>
                     <div id="menu2" class="container tab-pane fade">
-                            @includeIf('user.layout.detail-guarantee');
+                            @includeIf('user.layout.detail-guarantee')
                     </div>
                 </div>
                 </div>

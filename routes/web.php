@@ -121,6 +121,8 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::post('post_index_save','Frontend\Product\product@postSaveProducts')->name('post_index_save');
         //thêm số lượng sản phẩm
         Route::get('products-quantity-view','Frontend\Product\product@view_product_quantity')->name('view_product_quantity');
+        Route::get('fetch-products-quantity-view','Frontend\Product\product@fetch_view_product_quantity')->name('fetch_view_product_quantity');
+        Route::post('update-quantity-product/{id}','Frontend\Product\product@update_quantity')->name('update_quantity');
 
     });
     Route::group(['prefix' => 'brandproducts'], function () {

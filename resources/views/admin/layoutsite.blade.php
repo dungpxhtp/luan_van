@@ -8,6 +8,7 @@
 
     <title>@yield('title')</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,500;1,700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('css/bs4/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style/normalize.min.css') }}">
@@ -29,6 +30,15 @@
 
 
     <style>
+        html{
+            font-size: 62.5%;
+            line-height: 1.6rem;
+            font-family: 'Roboto', sans-serif;
+
+        }
+        body{
+            background-color: #F7F7F7;
+        }
         #loading {
             background-color:white;
             position: fixed;

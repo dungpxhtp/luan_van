@@ -2,8 +2,14 @@
 @section('title')
     Trang Chủ
 @endsection
+@section('style')
+
+@endsection
+@section('banner')
+@includeIf('user.layout.silder')
+@endsection
 @section('main')
-    @includeIf('user.layout.silder')
+
     {{--  đối tượng  --}}
     @if (count($gendercategoryproducts) > 0)
             @foreach ($gendercategoryproducts as $item)
