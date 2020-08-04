@@ -10,9 +10,10 @@
     <h3>
         Cửa Hàng WatchStore
     </h3>
-    <p>Xin chào, mật khẩu của bạn được yêu cầu thay đổi (từ chức năng Quên mật khẩu của website):
+    <p>
+        {{$detail['title'] }}
     </p>
-    <p>Mật khẩu mới:</p>
+    <p>{{ $detail['content'] }}</p>
     <p>
         {{ $detail['passwordNew'] }}
     </p>

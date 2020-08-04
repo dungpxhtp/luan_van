@@ -67,6 +67,8 @@ Route::get('/auth/google/callback/', 'SocialAuthController@handleGoogleCallback'
 //route đăng ký
 Route::get('dang-ky','Backend\HomeController@register')->name('resgister');
 Route::post('post-dang-ky','Backend\HomeController@postRegister')->name('postRegister');
+Route::post('xac-thuc-email','Backend\HomeController@xacthucgmail')->name('active_email');
+
 Route::group(['middleware' => 'auth.user'], function () {
     Route::post('binh-luan/{id_products}','Backend\HomeController@commentProduct')->name('commentProduct');
     Route::post('tra-loi/{id_products}/{parentid}','Backend\HomeController@replyCommentProduct')->name('replyCommentProduct');
@@ -190,7 +192,16 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::get('users','Frontend\UserController@index')->name('users.view');
         Route::get('FetchUsersList','Frontend\UserController@fetchUserAjax')->name('users.FetchAjax');
     });
-
+    //Quản Lý Chủ Đề Tin Tức
+    Route::group(['prefix' => 'news'], function () {
+        Route::get('all-topic','Frontend\Topic\topicController@index')->name('index.Topic');
+        //jdatatable
+        Route::get('fetch-all-topic','Frontend\Topic\topicController@fetchindex')->name('fetchindex');
+        //update status
+        Route::get('update-status/{id}','Frontend\Topic\topicController@update_status')->name('update_status');
+        //xóa topic
+        Route::get('delete-topic/{id}','Frontend\Topic\topicController@delete_topic')->name('delete_topic');
+    });
 
 });
 Route::group(['prefix' => 'laravel-filemanager','middleware'=>'auth.auth'], function () {

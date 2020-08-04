@@ -443,7 +443,7 @@ class HomeController extends Controller
                                 'vnp_OrderType' => 200000,
                                 'vnp_OrderInfo' => 'Thanh Toán Hóa Đơn Mua Hàng  : '.$code_donhang,
                                 'vnp_IpAddr' => '127.0.0.1',
-                                'vnp_Amount' => $cart->total_price,
+                                'vnp_Amount' => $cart->total_price.'00',
                                 'vnp_ReturnUrl' => "https://watchstore.vn/kiem-tra-thanh-toan",
                             ])->send();
 
@@ -498,6 +498,8 @@ class HomeController extends Controller
         $newPass=rand ( 10000 , 99999 );
         $user->password=bcrypt($newPass);
         $detail=[
+            'title'=>'Xin chào, mật khẩu của bạn được yêu cầu thay đổi (từ chức năng Quên mật khẩu của website):',
+            'content'=>'Mật khẩu mới:',
             'passwordNew'=>$newPass,
         ];
         $user->save();
@@ -571,40 +573,67 @@ class HomeController extends Controller
 
         try{
 
-            $v=Validator::make($request->all(),[
-                'name'=>'required',
-                'email'=>'required|unique:users',
-                'password'=>'required|min:11',
-                'phone'=>'required|min:10'
-            ],[
-                'name.required'=>'Không Được Bỏ Trống',
-                'email.required'=>'không Được Bỏ Trống',
-                'email.unique'=>'Email Đã Tồn Tại',
-                'password.required'=>'Không được bỏ Trống',
-                'password.min'=>'Không được dưới 11 kí tự ',
-                'phone.required'=>'Không được bỏ trống',
-                'phone.min'=>'Không đúng định dạng số điện thoại'
-            ]);
-            if($v->fails())
+            if($request->ajax())
             {
-                return redirect()->back()
-                ->withErrors($v)
-                ->withInput();
+
+                $v=Validator::make($request->all(),[
+                    'name'=>'required',
+                    'email'=>'required|unique:users',
+                    'password'=>'required|min:11',
+                    'phone'=>'required|min:10'
+                ],[
+                    'name.required'=>'Không Được Bỏ Trống',
+                    'email.required'=>'không Được Bỏ Trống',
+                    'email.unique'=>'Email Đã Tồn Tại',
+                    'password.required'=>'Không được bỏ Trống',
+                    'password.min'=>'Không được dưới 11 kí tự ',
+                    'phone.required'=>'Không được bỏ trống',
+                    'phone.min'=>'Không đúng định dạng số điện thoại'
+                ]);
+                if($v->fails())
+                {
+                    return response()->json(['danger'=>$v->errors()]);
+                }
+                    $verification =rand(1000,9999);
+                        $user = new users();
+                        $user->name = $request->get('name');
+                        $user->email = $request->get('email');
+                        $user->password = bcrypt($request->get('password'));
+                        $user->phoneuser=$request->get('password');
+                        $user->codeuser='W'.mt_rand();
+                        $user->verification=$verification;
+                        $user->created_at=Carbon::now('Asia/Ho_Chi_Minh');
+                        $user->status=0;
+                        $user->save();
+
+                        $detail=[
+                            'title'=>'Xin chào Bạn Đã Đăng Ký Tài Khoản Tại WatchStore:',
+                            'content'=>'Mã Xác Thực Của Bạn Là :',
+                            'passwordNew'=>$verification,
+                        ];
+                        $user->save();
+
+                        \Mail::to($request->get('email'))->send(new \App\Mail\resetPassword($detail));
+                return response()->json(['success'=>'Bạn Hãy Nhập Mã Xác Thực']);
             }
-                    $user = new users();
-                    $user->name = $request->name;
-                    $user->email = $request->email;
-                    $user->password = bcrypt($request->password);
-                    $user->phoneuser=$request->phone;
-                    $user->codeuser='W'.mt_rand();
-                    $user->save();
-             return redirect()->back()->with("message",["type"=>"success",'msg'=>"Đăng Ký Thành Công"]);
         }catch(Exception $e)
         {
             return redirect()->back()->with("message",["type"=>"danger","msg"=>"Phát Sinh Lỗi Liên Hệ Với Nhân Viên Cửa Hàng"]);
         }
 
 
+    }
+    public function xacthucgmail(Request $request)
+    {
+        if($request->ajax())
+        {
+           $email=$request->get('email_active');
+           $user=users::where('email','=',$email)->first();
+           $user->status=1;
+           $user->save();
+           Auth::guard('khachhang')->login($user);
+           return response()->json(['success'=>'Xác Thực Thành Công Tài Khoản ! Chuyển Hướng Trang Chủ']);
+        }
     }
     //đơn hàng đã mua
     public function cart_order_user()
@@ -805,3 +834,4 @@ class HomeController extends Controller
         }
     }
 }
+

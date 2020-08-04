@@ -3,7 +3,7 @@
     Đơn Hàng Đặt Mua
 @endsection
 @section('head')
-     // datatable
+     {{--  // datatable  --}}
      <link rel="stylesheet" href="{{ asset('jtable/jquery.dataTables.min.css') }}">
 @endsection
 @section('main')

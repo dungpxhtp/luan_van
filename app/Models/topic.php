@@ -8,5 +8,7 @@ class topic extends Model
 {
     //
     protected $table='topic';
+    public $timestamps = FALSE;
+
 
 }

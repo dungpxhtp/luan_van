@@ -58,7 +58,7 @@ class vnpayController extends Controller
 
         }else if($complete->isCancelled())
         {
-            return redirect()->route('home')->with("message",["type"=>"danger","msg"=>"Quý khách đã hủy thành toán đơn hàng"]);
+            return redirect()->route('home')->with("message",["type"=>"danger","msg"=>"Quý khách đã hủy thành toán đơn hàng !  Đơn hàng sẽ bị tạm giữ cho đến khi xác nhận thanh toán hoàn thành. "]);
         }else
         {
             return redirect()->route('home')->with("message",["type"=>"danger","msg"=>"Thanh Toán Không Thành Công"]);
