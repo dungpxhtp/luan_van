@@ -190,6 +190,8 @@ class product extends Controller
         $row->slug=Str::slug($request->name);
         $row->image=$request->filepath;
         $row->price=$request->price;
+        $row->pricesale=$request->price_km;
+
         $row->serinumber=$serinumber;
         $row->id_brandproducts=$request->id_brandproducts;
         $row->id_productboder=$request->id_productboder;
@@ -256,7 +258,7 @@ class product extends Controller
             'id_productboder'=>'required',
             'id_brandproducts'=>'required',
 
-            'price'=>'required',
+            'price'=>'required|regex:/^\d+(\.\d{1,2})?$/',
         ],
         [
             'name.required'=>'Tên Không Được Bỏ Trống',
@@ -271,7 +273,8 @@ class product extends Controller
             'id_productglasses.required'=>'Không Được Bỏ Trống',
             'id_categoryproducts.required'=>'Không Được Bỏ Trống',
             'id_productboder.required'=>'Không Được Bỏ Trống',
-                'price.required'=>'Không Được Bỏ Trống',
+            'price.required'=>'Không Được Bỏ Trống',
+            'price.regex'=>''
 
         ] );
         if($v->fails())
@@ -315,6 +318,7 @@ class product extends Controller
         $row->slug=Str::slug($request->name);
         $row->image=$request->filepath;
         $row->price=$request->price;
+        $row->pricesale=$request->price_km;
         $row->serinumber=$serinumber;
         $row->id_brandproducts=$request->id_brandproducts;
         $row->id_productboder=$request->id_productboder;

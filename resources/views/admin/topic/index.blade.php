@@ -16,6 +16,11 @@ Quản Lý Chủ Đề
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
+            <a href="#" class="btn btn-sm btn-success insert-topic-btn">Thêm Chủ Đề</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <div class="table-responsive">
                 <table class="table" id="table_index">
                     <thead>
@@ -37,6 +42,67 @@ Quản Lý Chủ Đề
         </div>
     </div>
 </div>
+<div class="modal insert_topic" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Thêm chủ đề</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <span id="form_result"></span>
+            <form id="insert_topic">
+             {{ csrf_field() }}
+             <div class="row">
+                 <div class="col-md-12">
+                     <div class="form-group">
+                         <label>Tên Chủ Đề</label>
+                         <input name="name" class="form-control" type="text" value="{{ old('name') }}" required>
+
+
+
+                     </div>
+
+
+                     <div class="form-group">
+                         <label>Từ Khóa Meta Desc</label>
+                         <textarea name="metadesc" class="form-control" rows="3" required minlength="11">{{ old('metadesc') }}</textarea>
+
+
+                     </div>
+                     <div class="form-group">
+                         <label>Từ Khóa Meta Key</label>
+                         <textarea name="metakey" class="form-control" rows="3" required minlength="11">{{ old('metakey') }}</textarea>
+
+
+                     </div>
+                     <div class="form-group text-center">
+                         <label>Trạng Thái</label>
+                         <div class="custom-control custom-switch">
+                             <input type="checkbox" class="custom-control-input" name="status" id="status" >
+                             <label class="custom-control-label" for="status"></label>
+                         </div>
+
+                     </div>
+
+                     <div class="form-group text-center">
+                         <button type="submit" name="ok_button" id="btn_submit" class="btn btn-success">Thêm</button>
+
+
+                     </div>
+                 </div>
+             </div>
+         </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection
 @section('script')
     <script>
@@ -126,6 +192,44 @@ Quản Lý Chủ Đề
             event.preventDefault();
             console.log('ok');
         });
+        $(document).on('click','.insert-topic-btn',function(event){
+            event.preventDefault();
+            $('.insert_topic').modal('show');
+        });
+        $(document).on('submit','#insert_topic',function(event){
+            event.preventDefault();
+            var url= "{{ Route('insert.topic') }}";
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url:url,
+                type:"POST",
+                dataType:"JSON",
+                data:$(this).serialize(),
+                success:function(data)
+                {
+                    if(data.success)
+                    {
+                        alertify.success(data.success);
+                        setTimeout(function(){
+                            $("#insert_topic")[0].reset();
+                            $('#table_index').DataTable().ajax.reload();
+
+
+
+                        }, 1000);
+                    }else
+                    {
+                        $.each(data.danger,function(key,val){
+                            alertify.error(val[0]);
+                        })
+                    }
+                }
+            });
+        })
     });
     </script>
 @endsection

@@ -29,6 +29,9 @@ class HomeController extends Controller
     //
     public function __construct()
     {
+
+
+
         $brandsproducts=brandproducts::where('status','=','1')->get();
         $categoryproducts=categoryproducts::where('status','=','1')->get();
         $gendercategoryproducts=gendercategoryproducts::where('status','=','1')->get();
@@ -273,13 +276,22 @@ class HomeController extends Controller
     {
         return view('user.dangnhap');
     }
+    //đăng nhập
     function postdangnhap(Request $request){
         $email = $request->get('email');
         $password =$request->get('password');
 
 
-        if(Auth::guard('khachhang')->attempt(['email'=>$email,'password'=>$password,'status'=>1]))
+        if(Auth::guard('khachhang')->attempt(['email'=>$email,'password'=>$password]))
         {
+            if(Auth::guard('khachhang')->user()->status==0)
+            {   $emailLogin=Auth::guard('khachhang')->user()->email;
+                Auth::guard('khachhang')->logout();
+
+                $request->session()->flush();
+                return redirect()->route('getxacthuc')->with("message",["type"=>"danger","msg"=>"Yêu Cầu Nhập Mã Xác Thực"])->with('emailLogin',$emailLogin);
+            }
+
             return redirect()->back()->with("message",["type"=>"success","msg"=>"Đăng Nhập Thành Công"]);
         }else
         {
@@ -287,6 +299,10 @@ class HomeController extends Controller
         }
 
 
+    }
+    public function getxacthuc()
+    {
+        return view('user.getxacthuc');
     }
     public function logoutUser(Request $request)
     {
@@ -627,12 +643,18 @@ class HomeController extends Controller
     {
         if($request->ajax())
         {
+
            $email=$request->get('email_active');
-           $user=users::where('email','=',$email)->first();
-           $user->status=1;
-           $user->save();
-           Auth::guard('khachhang')->login($user);
-           return response()->json(['success'=>'Xác Thực Thành Công Tài Khoản ! Chuyển Hướng Trang Chủ']);
+           $user=users::where([['email','=',$email],['verification','=',$request->get('code_active')]])->first();
+            if($user)
+            {
+                $user->status=1;
+                $user->save();
+                Auth::guard('khachhang')->login($user);
+                return response()->json(['success'=>'Xác Thực Thành Công Tài Khoản ! Chuyển Hướng Trang Chủ']);
+            }
+            return response()->json(['danger'=>'Sai mã xác thực nhập lại']);
+
         }
     }
     //đơn hàng đã mua
@@ -833,5 +855,25 @@ class HomeController extends Controller
             return view('user.layout.don_hang.danhsach',['ordersproducts'=>$ordersproducts])->render();
         }
     }
+
+    //tìm kiếm sản phẩm auto complete
+    //đầu vào name đầu ra json
+    public function search_complete(Request $request)
+    {
+        if($request->ajax())
+        {
+            $keyword=$request->input('keyword');
+            $products=products::where([['name','LIKE',"%$keyword%"]])->select('products.name')->get();
+            return response()->json($products);
+        }
+    }
+    public function view_search_result(Request $request)
+    {
+       $keyword=$request->get('keyword');
+       $products=products::where([['name','LIKE',"%$keyword%"]])->get();
+       return view('user.search_show',compact('products'));
+
+    }
+
 }
 

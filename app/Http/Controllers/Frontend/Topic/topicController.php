@@ -5,9 +5,13 @@ namespace App\Http\Controllers\Frontend\Topic;
 use App\Http\Controllers\Controller;
 use App\Models\post;
 use App\Models\topic;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Validator;
 use Yajra\Datatables\Datatables;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class topicController extends Controller
 {
@@ -90,6 +94,50 @@ class topicController extends Controller
             {
                 return response()->json(['danger'=>'Không thể xóa do còn bài viết liên quan ']);
             }
+        }
+    }
+    public function insert(Request $request)
+    {
+        if($request->ajax()){
+
+            $v=Validator::make($request->all(),[
+                'name'=>'required|unique:topic',
+                'metadesc'=>'required|min:11',
+                'metakey'=>'required|min:11',
+
+            ],[
+                'name.required'=>'Không Được Bỏ Trống',
+                'name.unique'=>'Đề tài đã có',
+                'metakey.required'=>'không Được Bỏ Trống',
+                'metadesc.min'=>"Số ký tự ít nhất 11",
+                'metakey.min'=>"Số ký tự ít nhất 11",
+
+                'metadesc.required'=>'không Được Bỏ Trống',
+
+            ]);
+            if($v->fails())
+            {
+                return response()->json(['danger'=>$v->errors()]);
+            }
+            if($request->status=='on')
+            {
+                $status=1;
+
+            }else
+            {
+                $status=0;
+            }
+            $new=new topic;
+            $new->admin=Auth::guard('admin')->user()->id;
+            $new->name=$request->get('name');
+            $new->slug=Str::slug($request->get('name'));
+            $new->metadesc=$request->get('metadesc');
+            $new->metakey=$request->get('metakey');
+            $new->status=$status;
+            $new->created_at=Carbon::now('Asia/Ho_Chi_Minh');
+            $new->created_by=Auth::guard('admin')->user()->id;
+            $new->save();
+            return response()->json(['success'=>'Thêm thành công']);
         }
     }
 }

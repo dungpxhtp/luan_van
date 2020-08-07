@@ -101,6 +101,7 @@
         </div>
       </div>
 @endsection
+{{--  Admin Xác Thực  --}}
 @section('script')
     <script>
         function myFunction() {
@@ -174,6 +175,9 @@
 
                             );
 
+                        }else if(data.danger)
+                        {
+                            alertify.error(data.danger);
                         }
                     }
                 });

@@ -223,27 +223,7 @@
                         @endif
 
                     </div>
-                    <div class="form-group ">
-                        <label>Loại Đồng Hồ</label>
-                        <select name="id_categoryproducts" class="form-control">
-                         @foreach($categoryproducts as $idcategoryproducts)
 
-
-                             <option value="{{ $idcategoryproducts->id }}">{{ $idcategoryproducts->name }}</option>
-
-
-
-
-
-
-
-                         @endforeach
-                        </select>
-                        @if ($errors->has('id_categoryproducts'))
-                        <span class="text-danger">{{ $errors->first('id_categoryproducts') }}</span>
-                        @endif
-
-                    </div>
 
                     <div class="form-group ">
                         <label>Màu Sắc Đồng Hồ</label>
@@ -324,6 +304,14 @@
                                <span class="text-danger">{{ $errors->first('price') }}</span>
                                @endif
                        </div>
+                       <div class="form-group">
+                            <label>Giá Giảm</label>
+                            <input name="price_km" class="form-control" id="price_km" type="number" min="10000" value="{{ old('price_km') }}" >
+                            <label class="price-formart-km"></label>
+                            @if ($errors->has('price'))
+                            <span class="text-danger">{{ $errors->first('price_km') }}</span>
+                            @endif
+                    </div>
 
                         <div class="form-group">
                             <label>Chọn Ảnh Đại Diện</label>

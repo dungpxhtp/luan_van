@@ -18,7 +18,11 @@ class LoginUser
     {
         if(Auth::guard('khachhang')->check())
         {
+
            return $next($request);
+
+
+
         }else
         {
            if($request->ajax())

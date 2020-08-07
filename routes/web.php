@@ -36,8 +36,9 @@ Route::get('filter/{slug}','Backend\HomeController@brands_filter_products')->nam
 //show san pham theo loai san pham
 Route::get('loai-san-pham/{slug}','Backend\HomeController@category')->name('category_products.loai-san-pham');
 Route::get('filter-loai-san-pham/{slug}','Backend\HomeController@category_filter_products')->name('category.filter');
-
-
+//tìm kiếm
+Route::get('auto-complete-search','Backend\HomeController@search_complete')->name('search_complete');
+Route::get('view-search','Backend\HomeController@view_search_result')->name('view_search_result');
 //end show sanpham theo loai
 //show san pham theo đối tượgn
 Route::get('doi-tuong/{slug}','Backend\HomeController@gender')->name('gender.index');
@@ -68,7 +69,7 @@ Route::get('/auth/google/callback/', 'SocialAuthController@handleGoogleCallback'
 Route::get('dang-ky','Backend\HomeController@register')->name('resgister');
 Route::post('post-dang-ky','Backend\HomeController@postRegister')->name('postRegister');
 Route::post('xac-thuc-email','Backend\HomeController@xacthucgmail')->name('active_email');
-
+Route::get('xac-thuc','Backend\HomeController@getxacthuc')->name('getxacthuc');
 Route::group(['middleware' => 'auth.user'], function () {
     Route::post('binh-luan/{id_products}','Backend\HomeController@commentProduct')->name('commentProduct');
     Route::post('tra-loi/{id_products}/{parentid}','Backend\HomeController@replyCommentProduct')->name('replyCommentProduct');
@@ -193,7 +194,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::get('FetchUsersList','Frontend\UserController@fetchUserAjax')->name('users.FetchAjax');
     });
     //Quản Lý Chủ Đề Tin Tức
-    Route::group(['prefix' => 'news'], function () {
+    Route::group(['prefix' => 'topic'], function () {
         Route::get('all-topic','Frontend\Topic\topicController@index')->name('index.Topic');
         //jdatatable
         Route::get('fetch-all-topic','Frontend\Topic\topicController@fetchindex')->name('fetchindex');
@@ -201,8 +202,16 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::get('update-status/{id}','Frontend\Topic\topicController@update_status')->name('update_status');
         //xóa topic
         Route::get('delete-topic/{id}','Frontend\Topic\topicController@delete_topic')->name('delete_topic');
+        Route::post('insert-new','Frontend\Topic\topicController@insert')->name('insert.topic');
     });
+    //Quản Lý Tin Tức
+    Route::group(['prefix' => 'news'], function () {
+        Route::get('all-post','Frontend\post\postController@index')->name('index.post');
+        Route::get('fetch-all-post','Frontend\post\postController@fetchindex')->name('fetchindex.post');
+        Route::get('update-status/{id}','Frontend\post\postController@update_status')->name('update_status.post');
+        Route::get('delete-news/{id}','Frontend\post\postController@delete_news')->name('delete_news.post');
 
+    });
 });
 Route::group(['prefix' => 'laravel-filemanager','middleware'=>'auth.auth'], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();

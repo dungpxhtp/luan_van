@@ -250,7 +250,12 @@
                                <span class="text-danger">{{ $errors->first('price') }}</span>
                                @endif
                        </div>
+                       <div class="form-group">
+                            <label>Giá Giảm</label>
+                            <input name="price_km" class="form-control" id="price_km" required type="number" min="10000" value="{{ old('price',$products->pricesale) }}" >
+                            <label class="price-formart-km"></label>
 
+                         </div>
                         <div class="form-group">
                             <label>Chọn Ảnh Đại Diện</label>
                             <div class="input-group">

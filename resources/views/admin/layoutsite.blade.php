@@ -142,7 +142,7 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                   <a class="dropdown-item" href="{{ Route('index.Topic') }}">Quản Lý Chủ Đề Tin Tức</a>
-                                  <a class="dropdown-item" href="">Quản Lý Bài Viết</a>
+                                  <a class="dropdown-item" href="{{ Route('index.post') }}">Quản Lý Bài Viết</a>
 
 
                                 </div>
