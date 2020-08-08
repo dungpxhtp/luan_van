@@ -202,7 +202,10 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::get('update-status/{id}','Frontend\Topic\topicController@update_status')->name('update_status');
         //xóa topic
         Route::get('delete-topic/{id}','Frontend\Topic\topicController@delete_topic')->name('delete_topic');
-        Route::post('insert-new','Frontend\Topic\topicController@insert')->name('insert.topic');
+        Route::get('find-topic/{id}','Frontend\Topic\topicController@find')->name('find.topic');
+        Route::post('insert-topic','Frontend\Topic\topicController@insert')->name('insert.topic');
+        //cập nhật topic
+        Route::post('update-topic/{id}','Frontend\Topic\topicController@update')->name('update.topic');
     });
     //Quản Lý Tin Tức
     Route::group(['prefix' => 'news'], function () {

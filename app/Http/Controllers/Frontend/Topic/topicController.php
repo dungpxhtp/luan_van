@@ -140,4 +140,31 @@ class topicController extends Controller
             return response()->json(['success'=>'Thêm thành công']);
         }
     }
+    public function find(Request $request , $id)
+    {
+        try{
+            if($request->ajax())
+            {
+                $find=topic::find($id);
+                return response()->json(['success'=>$find]);
+            }
+        }catch(Exception $e)
+        {
+            return response()->json(['danger'=>'Không tìm thấy ']);
+        }
+    }
+    public function update(Request $request , $id)
+    {
+        if($request->ajax())
+        {   $find=topic::find($id);
+            $find->name=$request->get('name_update');
+            $find->slug=Str::slug($request->get('name_update'));
+            $find->metadesc=$request->get('metadesc_update');
+            $find->metakey=$request->get('metakey_update');
+            $find->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
+            $find->updated_by=Auth::guard('admin')->user()->id;
+            $find->save();
+            return response()->json(['success'=>'Cập nhật thành công']);
+        }
+    }
 }

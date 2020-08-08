@@ -103,6 +103,62 @@ Quản Lý Chủ Đề
       </div>
     </div>
   </div>
+
+  {{--  modal update  --}}
+  <div class="modal update_topic" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Thêm chủ đề</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <span id="form_result"></span>
+            <form id="update_topic">
+             {{ csrf_field() }}
+             <div class="row">
+                 <div class="col-md-12">
+                     <div class="form-group">
+                         <label>Tên Chủ Đề</label>
+                         <input name="name_update" class="form-control" type="text" value="{{ old('name') }}" required>
+                        <input type="hidden" name="id_update" >
+
+
+                     </div>
+
+
+                     <div class="form-group">
+                         <label>Từ Khóa Meta Desc</label>
+                         <textarea name="metadesc_update" class="form-control" rows="3" required minlength="11">{{ old('metadesc') }}</textarea>
+
+
+                     </div>
+                     <div class="form-group">
+                         <label>Từ Khóa Meta Key</label>
+                         <textarea name="metakey_update" class="form-control" rows="3" required minlength="11">{{ old('metakey') }}</textarea>
+
+
+                     </div>
+
+
+                     <div class="form-group text-center">
+                         <button type="submit" name="ok_button"  class="btn btn-success">Chỉnh Sửa</button>
+
+
+                     </div>
+                 </div>
+             </div>
+         </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection
 @section('script')
     <script>
@@ -188,10 +244,60 @@ Quản Lý Chủ Đề
                 }
             });
         });
+        //chỉnh sữa topic
         $(document).on('click','.edit',function(event){
             event.preventDefault();
-            console.log('ok');
+            var id=$(this).attr('href');
+            let url ="{{ Route('find.topic',':id') }}";
+
+            url =url.replace(':id',id);
+            $.ajax({
+                url:url,
+                type:"GET",
+                success:function(data)
+                {   if(data.success)
+                    {
+                        var response=data.success;
+
+                    $('input[name="id_update"]').val(response.id);
+                    $('input[name="name_update"]').val(response.name);
+                    $('textarea[name="metadesc_update"]').val(response.metadesc);
+                    $('textarea[name="metakey_update"]').val(response.metakey);
+                    $('.update_topic').modal('show');
+                    }
+                }
+            });
         });
+        // update
+        $(document).on('submit','#update_topic',function(event){
+            event.preventDefault();
+            var id=$('input[name="id_update"]').val();
+            let url = "{{ Route('update.topic',':id') }}";
+            url=url.replace(':id',id);
+            $.ajax({
+                url:url,
+                type:"POST",
+                dataType:"JSON",
+                data:$(this).serialize(),
+                success:function(data){
+                      if(data.success)
+                        {
+                        alertify.success(data.success);
+                        setTimeout(function(){
+                            $('#table_index').DataTable().ajax.reload();
+
+
+
+                        }, 1000);
+                    }else
+                    {
+                        alertify.error(data.danger);
+
+                    }
+                }
+            });
+        });
+        // thêm chủ đề
         $(document).on('click','.insert-topic-btn',function(event){
             event.preventDefault();
             $('.insert_topic').modal('show');
