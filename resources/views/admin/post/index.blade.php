@@ -14,7 +14,11 @@ Quản Lý Bài Viết
 
 </nav>
 <div class="container-fluid">
-
+    <div class="row">
+        <div class="col-md-12">
+            <a href="{{ Route('insert.getPost') }}" class="btn btn-sm btn-success">Thêm Bài Viết</a>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-12">
             <div class="table-responsive">
@@ -126,10 +130,7 @@ Quản Lý Bài Viết
                 }
             });
         });
-        $(document).on('click','.edit',function(event){
-            event.preventDefault();
-            console.log('ok');
-        });
+
     });
     </script>
 @endsection

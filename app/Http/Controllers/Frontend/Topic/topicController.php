@@ -52,7 +52,22 @@ class topicController extends Controller
                     $action.='<a href="'.$getData->id.'" class="btn btn-sm btn-danger delete">Xóa </a> ';
                     return $action;
                 })
-                ->rawColumns(['nameadmin','name','created_at','status','action'])->make('true');
+                ->addColumn('update',function($getData){
+                    $status=$getData->nameAdminUpdate;
+                    if($status)
+
+                    {
+                        $update='<span>'.$status->fullname.'</span>';
+                        $update.='<br>'.$getData->updated_at;
+                        return $update;
+                    }else
+                    {
+                        $status="chưa cập nhật";
+                        return $status;
+
+                    }
+                })
+                ->rawColumns(['nameadmin','name','created_at','status','action','update'])->make('true');
 
 
         }
@@ -67,11 +82,15 @@ class topicController extends Controller
                 if($topic->status ==1 )
                 {
                     $topic->status= 0;
+                    $topic->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
+                    $topic->updated_by=Auth::guard('admin')->user()->id;
                     $topic->save();
                     return response()->json(['success'=>'Tắt Hoạt Động Chủ Đề Bài Viết Thành Công']);
                 }else if($topic->status==0)
                 {
                     $topic->status= 1;
+                    $topic->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
+                    $topic->updated_by=Auth::guard('admin')->user()->id;
                     $topic->save();
                     return response()->json(['success'=>'Bật Lại Hoạt Động Chủ Đề']);
                 }

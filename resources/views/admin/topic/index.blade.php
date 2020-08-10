@@ -30,6 +30,7 @@ Quản Lý Chủ Đề
                         <th scope="col">Đề Tài</th>
                         <th scope="col">Thời Gian Tạo</th>
                         <th scope="col">Trạng Thái</th>
+                        <th scope="col">Nhân Viên Cập Nhật</th>
                         <th scope="col">Chức năng</th>
 
                       </tr>
@@ -180,6 +181,7 @@ Quản Lý Chủ Đề
                 {data:'name',name:'name'},
                 {data:'created_at',name:'created_at'},
                 {data:'status',name:'status'},
+                {data:'update',name:'update'},
                 {data:'action',name:'action'},
 
 

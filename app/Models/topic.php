@@ -10,5 +10,8 @@ class topic extends Model
     protected $table='topic';
     public $timestamps = FALSE;
 
-
+    public function nameAdminUpdate()
+    {
+        return $this->belongsTo('App\Models\admin', 'updated_by', 'id');
+    }
 }

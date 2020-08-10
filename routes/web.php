@@ -213,7 +213,12 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::get('fetch-all-post','Frontend\post\postController@fetchindex')->name('fetchindex.post');
         Route::get('update-status/{id}','Frontend\post\postController@update_status')->name('update_status.post');
         Route::get('delete-news/{id}','Frontend\post\postController@delete_news')->name('delete_news.post');
-
+        //Thêm
+        Route::get('insert-new','Frontend\post\postController@insert')->name('insert.getPost');
+        Route::post('post-insert-new','Frontend\post\postController@postInsert')->name('insert.postPost');
+        //sửa
+        Route::get('update-news-detail/{slug}/{id}','Frontend\post\postController@get_update')->name('get_update.post');
+        Route::post('post-update-detail/{id}','Frontend\post\postController@post_update')->name('post_update.post');
     });
 });
 Route::group(['prefix' => 'laravel-filemanager','middleware'=>'auth.auth'], function () {
