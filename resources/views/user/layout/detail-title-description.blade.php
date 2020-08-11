@@ -11,7 +11,7 @@
                   <strong>Giới Tính: </strong><span class="text-description">{{ $product->name_gendercategoryproducts }}</span>
               </p>
               <p class="title-description text-uppercase">
-                  <strong>Máy : </strong><span class="text-description">{{ $product->name_productmodel }}</span>
+                  <strong>Dây Đồng Hồ : </strong><span class="text-description">{{ $product->name_productmodel }}</span>
               </p>
               <p class="title-description text-uppercase">
                   <strong>Kính : </strong><span class="text-description">{{ $product->name_productglasses }}</span>

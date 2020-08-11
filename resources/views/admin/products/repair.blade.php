@@ -110,7 +110,7 @@
                                 @endif
                        </div>
                        <div class="form-group ">
-                        <label>Bộ Máy Đồng Hồ</label>
+                        <label>Dây Đồng Hồ</label>
                         <select name="id_productmodel" class="form-control">
                          @foreach($Model as $idModel)
                                 @if ($products->id_productmodel==$idModel->id)
@@ -252,7 +252,7 @@
                        </div>
                        <div class="form-group">
                             <label>Giá Giảm</label>
-                            <input name="price_km" class="form-control" id="price_km" required type="number" min="10000" value="{{ old('price',$products->pricesale) }}" >
+                            <input name="price_km" class="form-control" id="price_km"  type="number" min="10000" value="{{ old('price',$products->pricesale) }}" >
                             <label class="price-formart-km"></label>
 
                          </div>

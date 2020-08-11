@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 
 
 
-
 Route::get('/','Backend\HomeController@home')->name('home');
 //show sản phẩm
 
@@ -219,6 +218,14 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         //sửa
         Route::get('update-news-detail/{slug}/{id}','Frontend\post\postController@get_update')->name('get_update.post');
         Route::post('post-update-detail/{id}','Frontend\post\postController@post_update')->name('post_update.post');
+    });
+    // quản lý admin
+    Route::group(['prefix' => 'admin'], function () {
+        Route::get('admin-all','Frontend\Admin\admin@index')->name('admin.index');
+        Route::get('fetch-data-admin','Frontend\Admin\admin@fetchindex')->name('admin.fetchIndex');
+        Route::get('update-status-admin/{id}','Frontend\Admin\admin@update_status')->name('admin.updateStatus');
+        Route::get('find-admin/{id}','Frontend\Admin\admin@find')->name('admin.find');
+        Route::post('update-admin/{id}','Frontend\Admin\admin@update_admin')->name('admin.update_admin');
     });
 });
 Route::group(['prefix' => 'laravel-filemanager','middleware'=>'auth.auth'], function () {

@@ -14,11 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});*/
-
-
+});
+/*
 Route::post('dang-nhap', 'ApiController@login')->name('loginuser');
 Route::post('dang-ky-user', 'ApiController@register');
 
@@ -38,3 +37,4 @@ Route::fallback(function(){
     return response()->json([
         'message' => 'Page Not Found. If error persists, contact thien.phamminhstu@gmail.com'], 404);
 });
+*/

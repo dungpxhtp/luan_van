@@ -9,7 +9,7 @@
 <nav aria-label="Page breadcrumb" class="my-3">
     <div class="container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item breadcrumb-customer"><i class="fas fa-tachometer-alt"></i>Cập Nhật Hãng {{ $getData->name }}</li>
+                <li class="breadcrumb-item breadcrumb-customer"><i class="fas fa-tachometer-alt"></i>Cập Nhật Loại {{ $getData->name }}</li>
              {{-- <li class="breadcrumb-item active">Sản Phẩm </li> --}}
 
             </ol>

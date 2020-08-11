@@ -337,7 +337,7 @@ Quản Lý Chủ Đề
                     }
                 }
             });
-        })
+        });
     });
     </script>
 @endsection

@@ -14,10 +14,10 @@
                     <h5 class="card-title text-center">{{ $item->name }}</h5>
                         <div class="text-center">
                             @if (isset($item->pricesale))
-                            <div> <span> {{ number_format($item->price) }} VNĐ </span></div>
+                            <div> <span class="price"> {{ number_format($item->price) }} VNĐ </span></div>
                              <div>
 
-                                 <span style="color: #FA5130; font-size: 1.3rem;"> {{ number_format($item->pricesale) }} VNĐ </span>
+                                 <span class="price-sales" style="color: #FA5130; font-size: 1.3rem;"> {{ number_format($item->pricesale) }} VNĐ </span>
                                  {{-- ROUND làm tròn số --}}
                                  <span style="display: inline-block; background-color: #FA5130; color: white; padding: 5px 5px;font-weight: 700;">  {{round( ( ( $item->price - $item->pricesale ) / $item->price ) * 100 ) }} % GIẢM</span>
                              </div>

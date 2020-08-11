@@ -81,24 +81,17 @@
                 </div>
                    <div class="form-group">
                            <label>Chi Tiết Đồng Hồ</label>
-                           <textarea id="my-editor" name="detail" class="form-control">
-                               {{ old('detail') }}
-                           </textarea>
+                           <textarea id="my-editor" name="detail" class="form-control">{{ old('detail') }}</textarea>
 
                    </div>
                    <div class="form-group">
                            <label>Từ Khóa Meta Key</label>
-                           <textarea name="metakey" class="form-control" rows="2" >
-                            {{ old('metakey') }}
-                           </textarea>
+                           <textarea name="metakey" class="form-control" rows="2" >{{ old('metakey') }}</textarea>
 
                    </div>
                    <div class="form-group">
                            <label>Từ Khóa Meta Desc</label>
-                           <textarea name="metadesc" class="form-control" rows="2"  >
-                            {{ old('metakey') }}
-                           </textarea>
-
+                           <textarea name="metadesc" class="form-control" rows="2"  >{{ old('metakey') }}</textarea>
                    </div>
                    <div class="form-group text-center">
                     <label>Trạng Thái</label>
@@ -141,7 +134,7 @@
 
                        </div>
                        <div class="form-group ">
-                        <label>Bộ Máy Đồng Hồ</label>
+                        <label>Dây Đồng Hồ</label>
                         <select name="id_productmodel" class="form-control">
                          @foreach($Model as $idModel)
 

@@ -6,16 +6,18 @@
 
 @endsection
 @section('main')
-        <div class="row">
 
-            <div class="col-md-12 d-flex justify-content-center">
-                <div id="loading" style="display:none">
-                    <img src="https://kiemtiencenter.com/wp-content/uploads/2018/08/loading-2.gif" alt="Loading..."/>
-                </div>
-            </div>
-        </div>
         <div class="clearfix my-5">
+
             <div class="container">
+                <div class="row">
+
+                    <div class="col-md-12 d-flex justify-content-center">
+                        <div id="loading" style="display:none">
+                            <img src="https://kiemtiencenter.com/wp-content/uploads/2018/08/loading-2.gif" alt="Loading..."/>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-12 text-center ">
                         <h3 class="title-product text-uppercase">
@@ -34,7 +36,7 @@
                 @if (count($products)>0)
                      <div class="row my-3">
                         <div class="col-md-4">
-                            Điều Kiện Lọc
+                           <span class="filter-dk"> Điều Kiện Lọc</span>
                             <div class="input-group mb-3">
                                 <select class="custom-select" id="input-filter">
                                   <option value="0"  selected>Lọc Sản Phẩm Theo Giá </option>
@@ -44,8 +46,40 @@
                                 </select>
                               </div>
                         </div>
-                    </div>
 
+                    </div>
+                    {{-- <div class="row my-3">
+                        <div class="col-md-4">
+                            <div class="box-filter">
+                                <span class="filter-dk"> Độ Chống Nước</span>
+                                <div class="form-check checkbox">
+                                    <input class="form-check-input" type="checkbox" name="exampleRadios" value="option1">
+                                    <label class="form-check-label" for="exampleRadios1">
+                                      Default radio
+                                    </label>
+                                  </div>
+                                  <div class="form-check checkbox">
+                                    <input class="form-check-input" type="checkbox" name="exampleRadios"  value="option2">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                      Second default radio
+                                    </label>
+                                  </div>
+                                  <div class="form-check checkbox">
+                                    <input class="form-check-input" type="checkbox" name="exampleRadios" value="option1">
+                                    <label class="form-check-label" for="exampleRadios1">
+                                      Default radio
+                                    </label>
+                                  </div>
+                                  <div class="form-check checkbox">
+                                    <input class="form-check-input" type="checkbox" name="exampleRadios"  value="option2">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                      Second default radio
+                                    </label>
+                                  </div>
+                            </div>
+                        </div>
+
+                    </div> --}}
                     <div id="pagination_show">
                         @includeIf('user.layout.loaiSanPham.loai_pagination')
                     </div>
@@ -92,9 +126,10 @@
 
         function getArticles(url) {
             $.ajax({
-                url : url
-            }).done(function (data) {
-                $('#pagination_show').html(data);
+                url : url,
+                success:function(data){
+                    $('#pagination_show').html(data);
+                }
             }).fail(function () {
                 alert('Articles could not be loaded.');
             });
@@ -127,6 +162,7 @@
             });
            }
 
-       })
+       });
+
         </script>
 @endsection

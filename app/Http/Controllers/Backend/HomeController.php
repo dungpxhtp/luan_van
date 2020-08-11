@@ -27,19 +27,7 @@ use Yajra\Datatables\Datatables;
 class HomeController extends Controller
 {
     //
-    public function __construct()
-    {
 
-
-
-        $brandsproducts=brandproducts::where('status','=','1')->get();
-        $categoryproducts=categoryproducts::where('status','=','1')->get();
-        $gendercategoryproducts=gendercategoryproducts::where('status','=','1')->get();
-        $topic=topic::where('status','=','1')->get();
-        $postnew=post::where([['status','=',1]])->orderBy('created_at','asc')->take(5)->get();
-
-        \View::share(['brandsproducts'=> $brandsproducts,'categoryproducts'=>$categoryproducts,'gendercategoryproducts'=>$gendercategoryproducts,'topic'=>$topic,'postnew'=>$postnew]);
-    }
     public function home(){
         $productsnew=products::where([['status','=','1']])->orderBy('created_at','desc')->take(4)->get();
 
@@ -161,8 +149,11 @@ class HomeController extends Controller
         }
         return view('user.brands-show',compact('brandShow','products'));
     }
+    // điều kiện lọc filter của hãng
     public function brands_filter_products($slug,Request $request)
     {
+        $brandShow=brandproducts::where([['slug','=',$slug],['status','=','1']])->firstOrFail();
+        $products=products::where([['status','=','1'],['id_brandproducts','=',$brandShow->id]])->orderBy('price','asc')->paginate(8);
         if($request->ajax()){
             if($request->get('filter')==1)
             {
@@ -174,8 +165,8 @@ class HomeController extends Controller
                 $products=products::where([['status','=','1'],['id_brandproducts','=',$brandShow->id]])->orderBy('price','desc')->paginate(8);
                 return view('user.layout.brands-show-pagination',['brandShow'=>$brandShow,'products'=>$products])->render();
             }
-
         }
+        return view('user.layout.brands-show-pagination',compact('brandShow','products'));
     }
     //loai san pham
     public function category($slug,Request $request){
@@ -188,8 +179,11 @@ class HomeController extends Controller
         }
         return view('user.loai-san-pham',compact('loaisanpham','products'));
     }
+    //lọc filter cho loại sản phẩm
     public function category_filter_products($slug,Request $request)
     {
+        $loaisanpham=categoryproducts::where([['slug','=',$slug],['status','=','1']])->firstOrFail();
+        $products=products::where([['status','=','1'],['id_categoryproducts','=',$loaisanpham->id]])->orderBy('created_at','desc')->paginate(8);
         if($request->ajax())
         {
             if($request->get('filter')==1)
@@ -206,7 +200,10 @@ class HomeController extends Controller
 
             }
         }
+        return view('user.layout.loaiSanPham.loai_pagination',compact('loaisanpham','products'))->render();
+
     }
+    // đối tượng
     public function gender($slug , Request $request)
     {
         $doituong=gendercategoryproducts::where([['slug','=',$slug],['status','=','1']])->firstOrFail();
@@ -218,8 +215,11 @@ class HomeController extends Controller
         }
         return view('user.doituong',compact('doituong','products'));
     }
+    //lọc theo đối tượng
     public function gender_filter_products($slug , Request $request)
     {
+        $doituong=gendercategoryproducts::where([['slug','=',$slug],['status','=','1']])->firstOrFail();
+        $products=products::where([['status','=','1'],['id_gendercategoryproducts','=',$doituong->id]])->orderBy('created_at','desc')->paginate(8);
         if($request->ajax())
         {
             if($request->get('filter')==1)
@@ -236,6 +236,7 @@ class HomeController extends Controller
 
             }
         }
+        return view('user.layout.doiTuong.doituong_pagination',compact('doituong','products'));
     }
     //tin tuc index
     public function topic(Request $request)

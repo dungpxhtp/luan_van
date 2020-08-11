@@ -31,7 +31,7 @@
 
     <style>
         html{
-            font-size: 62.5%;
+            font-size: 14px;
             line-height: 1.6rem;
             font-family: 'Roboto', sans-serif;
 
@@ -69,7 +69,7 @@
     @yield('head')
 </head>
 <body>
-    <div class="app" style="height: 1000px;">
+    <div class="app container-fluid">
                 <header>
                     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -143,27 +143,28 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                   <a class="dropdown-item" href="{{ Route('index.Topic') }}">Quản Lý Chủ Đề Tin Tức</a>
                                   <a class="dropdown-item" href="{{ Route('index.post') }}">Quản Lý Bài Viết</a>
-
-
                                 </div>
                               </li>
                             {{-- End Quản Lý Đơn Hàng --}}
                           </ul>
-                          <ul class="navbar-nav ml-md-auto account">
+                          <ul class="navbar-nav ml-auto account">
 
-                              <li class="nav-item dropdown">
+                              <li class="nav-item dropdown" style="width: 300px;">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                   <i class="fas fa-users"></i> {{ Auth::guard('admin')->user()->fullname }}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                   <a class="dropdown-item" href="#"><i class="fas fa-users"></i><span class="item-margin-5">Thông Tin</span></a>
+                                  @if (Auth::guard('admin')->user()->access ==1 )
+
+                                  <a class="dropdown-item" href="{{ Route('admin.index') }}"><i class="fas fa-users"></i><span class="item-margin-5">Quản Lý Nhân Viên</span></a>
+
+                                  @endif
                                   <a class="dropdown-item" href="#"><i class="fas fa-cogs "></i><span class="item-margin-5">Setting</span></a>
                                   <a class="dropdown-item" href="{{ Route('logOutAdmin') }}"><i class="fas fa-sign-out-alt"></i><span class="item-margin-5">Đăng Xuất</span></a>
                                 </div>
                               </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="#">Pricing</a>
-                              </li>
+
                           </ul>
                         </div>
                       </nav>

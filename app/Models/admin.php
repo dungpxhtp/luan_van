@@ -34,4 +34,13 @@ class admin extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function nameAdminCreated()
+    {
+        return $this->belongsTo('App\Models\admin', 'created_by', 'id');
+    }
+    public function nameAdminUpdated()
+    {
+        return $this->belongsTo('App\Models\admin', 'updated_by', 'id');
+    }
+
 }
