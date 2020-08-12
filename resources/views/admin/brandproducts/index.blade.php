@@ -143,9 +143,10 @@
                         {data:'name',name:'name'},
                         {data:'code',name:'code'},
                         {data:'status_brandproduct',name:'status_brandproduct'},
+                        {data:'soluong',name:'soluong'},
+
                         {data:'created_at_brandproduct',name:'created_at_brandproduct'},
                         {data:'image_brands',name:'image_brands',orderable:false},
-
                         {data:'action',name:'action',orderable: false},
 
 

@@ -307,31 +307,16 @@ class orderscontroller extends Controller
     }
     public function post_export_pdf_order(Request $request,$id_order)
     {
+        dd($request->all());
 
         try{
             $v=Validator::make($request->all(), [
-                'fullName'=>'required',
-                'phoneOder'=>'required',
-                'Address'=>'required',
-                'name_product'=>'required',
-                'serinumber'=>'required',
-                'quantity'=>'required',
-                'price'=>'required',
-                'payments_'=>'required'
+
 
 
 
 
             ], [
-                'fullName.required'=>'Không Được Bỏ Trống',
-                'phoneOder.required'=>'Không Được Bỏ Trống',
-                'Address.required'=>'Không Được Bỏ Trống',
-                'name_product.required'=>'Không Được Bỏ Trống',
-                'serinumber.required'=>'Không Được Bỏ Trống',
-                'quantity.required'=>'Không Được Bỏ Trống',
-                'price.required'=>'Không Được Bỏ Trống',
-                'payments_.required'=>'Không Được Bỏ Trống',
-
 
 
 
@@ -351,23 +336,14 @@ class orderscontroller extends Controller
             $orders->save();
             $id=$orders->id;
 
-            $codeproduct=$request->get('codeproduct');
             $serinumber=$request->get('serinumber');
-            $quantity=$request->get('quantity');
-            $price=$request->get('price');
-            $pricecost=$request->get('pricecost');
             $id_products=$request->get('id_product');
             $result=exportproducts::where('id_order','=',$id)->delete();
 
             foreach($request->get('name_product') as $key=>$value)
             {
                 $exportproducts=new exportproducts;
-                $exportproducts->codeproducts=$codeproduct[$key];
-                $exportproducts->nameproducts=$value;
                 $exportproducts->serinumber=$serinumber[$key];
-                $exportproducts->quantity=$quantity[$key];
-                $exportproducts->price=$price[$key];
-                $exportproducts->pricecost=$pricecost[$key];
                 $exportproducts->id_products=$id_products[$key];
                 $exportproducts->id_order=$id;
                 $exportproducts->save();

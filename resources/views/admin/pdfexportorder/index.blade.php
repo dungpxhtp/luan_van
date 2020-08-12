@@ -34,7 +34,8 @@
 </head>
 <body class="login-page " style="margin: 10px 10px; ">
     <div class="container" style="border: 1px solid;">
-        <form method="POST" enctype="multipart/form-data" action="{{ Route('post_export_pdf_order',['id_orders'=>$orders->id]) }}">
+
+        <form method="POST" action="{{ Route('post_export_pdf_order',['id_orders'=>$orders->id]) }}" enctype="multipart/form-data" onsubmit=" return validate()">
             @csrf
         <div class="row">
             <div class="col-xs-7">
@@ -62,30 +63,23 @@
                     <div class="form-group row">
                         <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Tên Khách Hàng :</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control form-control-sm" name="fullName" value="{{ $orders->fullName }}" required>
+                         {{ $orders->fullName }}
                         </div>
                         <div>
-                            @if ($errors->has('fullName'))
-                            <span class="text-danger">{{ $errors->first('fullName') }}</span>
-                            @endif
+
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Số Điện Thoại</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control form-control-sm" name="phoneOder" value="{{ $orders->phoneOder }}" required>
-                          @if ($errors->has('phoneOder'))
-                          <span class="text-danger">{{ $errors->first('phoneOder') }}</span>
-                          @endif
+                       {{  $orders->phoneOder }}
+
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm" >Địa Chỉ</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control form-control-sm" name="Address" value="{{ $orders->Address }}"     required>
-                          @if ($errors->has('Address'))
-                          <span class="text-danger">{{ $errors->first('Address') }}</span>
-                          @endif
+                         {{  $orders->Address }}
                         </div>
                     </div>
 
@@ -125,7 +119,6 @@
                     <th>Danh Sách Sản Phẩm</th>
                     <th>SeriNumber </th>
                     <th>Số Lượng</th>
-                    <th>Giá Gốc 1/sp</th>
                     <th>Thành Tiền(giá mua)</th>
                 </tr>
             </thead>
@@ -150,11 +143,9 @@
                                             </p>
                                     </td>
 
-                                        <td><textarea class="form-control " name="serinumber[]" placeholder="Nhập Số Serinumber" required  rows="3"></textarea></td>
+                                        <td><textarea class="form-control  serinumber" name="serinumber[]" placeholder="Nhập Số Serinumber" required  rows="3"></textarea></td>
                                         <td style="width: 20%"> <input type="text" name="quantity[]" value="1" required readonly style="width: 100%;"></td>
-                                        <td style="width: 20%">
-                                            <input type="text" name="pricecost[]" value="{{ $item->pricecost }}" readonly style="width: 100%;"> VNĐ
-                                        </td>
+
 
                                         <td class="text-right" style="width: 10%;display: inline-block;">
                                             <input type="text" name="price[]" value="{{ $item->price }}" readonly> VNĐ
@@ -185,9 +176,7 @@
                             @if ($errors->has('quantity[]'))
                             <span class="text-danger">{{ $errors->first('quantity[]') }}</span>
                             @endif
-                            <td style="width: 30%">
-                                <input type="text" name="pricecost[]" value="{{ $item->pricecost }}" readonly style="width: 100%;"> VNĐ
-                            </td>
+
                             <td class="text-right"  style="width: 10%;display: inline-block;">
                                 <input type="text" name="price[]" value="{{ $item->price }}" readonly> VNĐ
                                 @if ($errors->has('price[]'))
@@ -252,6 +241,38 @@
         </div>
     </form>
     </body>
+    <script src="{{ asset('js/jquery/jquery-3.5.1.min.js') }}" crossorigin="anonymous"></script>
+
+    <script>
+
+            function validate()
+            {   console.log('ok');
+            var array=new Array();
+                $('textarea.serinumber').each(function(){
+
+                    array.push($(this).val());
+                });
+
+
+                var i, a = array;
+
+                for (i = 0; i < a.length; ++i) {
+                    if(a.indexOf(a[i]) != a.lastIndexOf(a[i]))
+                    {
+                        alert("Trùng Số Serinumber kiểm trả lại");
+                        var error=-1;
+                        break;
+                     }
+                }
+                if(error!=-1)
+                {
+                    return true;
+                }
+                return false;
+
+            }
+
+    </script>
 
 
 

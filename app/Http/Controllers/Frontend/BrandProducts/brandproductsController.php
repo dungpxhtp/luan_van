@@ -62,7 +62,12 @@ class brandproductsController extends Controller
             })->addColumn('stt',function(){
 
             })
-            ->rawColumns(['status_brandproduct','created_at_brandproduct','action','image_brands','stt'])
+            ->addColumn('soluong',function($getData){
+                $quantity=products::where('id_brandproducts','=',$getData->id)->get()->count();
+
+                return $quantity;
+            })
+            ->rawColumns(['status_brandproduct','created_at_brandproduct','action','image_brands','stt','soluong'])
             ->make('true');
         }
     }
