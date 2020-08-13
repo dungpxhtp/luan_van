@@ -307,16 +307,17 @@ class orderscontroller extends Controller
     }
     public function post_export_pdf_order(Request $request,$id_order)
     {
-        dd($request->all());
 
-        try{
+
+
             $v=Validator::make($request->all(), [
 
-
+                'serinumber' => 'required|array',
 
 
 
             ], [
+                'serinumber.array'=>'Đã Tồn Tại Số Serinumber Này',
 
 
 
@@ -325,13 +326,22 @@ class orderscontroller extends Controller
             if($v->fails())
             {
                 return redirect()->back()
-                    ->withErrors($v)
-                    ->withInput();
+                 ->withErrors(['Không bỏ trống số serinumber']);
             }
+            $serinumber=$request->get('serinumber');
+            foreach($request->get('name_product') as $key=>$value)
+            {
+                if($serinumber[$key] != "Không Có Số Serinumber")
+                {
+                    if(exportproducts::where([['serinumber','=',$serinumber[$key]]])->count())
+                    {
+                        return redirect()->back()
+                        ->withErrors(['Số Serinumber  đã có trên hệ thống vui lòng kiểm tra lại']);
+                    }
+                 }
+            }
+
             $orders=orders::findOrfail($id_order);
-            $orders->fullName=$request->get('fullName');
-            $orders->phoneOder=$request->get('phoneOder');
-            $orders->Address=$request->get('Address');
             $orders->exportDate=Carbon::now('Asia/Ho_Chi_Minh');
             $orders->save();
             $id=$orders->id;
@@ -349,18 +359,22 @@ class orderscontroller extends Controller
                 $exportproducts->save();
             }
             return redirect()->route('orders')->with("message",["type"=>"success","msg"=>"Tạo Hóa Đơn Thành Công"]);
-        }catch(Exception $e)
-        {
-            return redirect()->route('orders')->with("danger",["type"=>"success","msg"=>"Lỗi Không Tạo Được Hóa Đơn"]);
-        }
+
 
 
     }
+    //xuất hóa đơn
     public function export($id_order)
     {
         $ordersexport=orders::findOrFail($id_order);
-        $exportproducts=exportproducts::where('exportproducts.id_order','=',$id_order)->join('products','exportproducts.id_products','products.id')->select('exportproducts.*','products.name as nameproducts')->get();
-        $pdf = PDF::loadView('admin.pdfexportorder.export', compact('ordersexport','exportproducts') );
+        $ordersproducts=ordersproducts::where('id_orders','=',$ordersexport->id)->get();
+        $exportproducts=exportproducts::where('exportproducts.id_order','=',$id_order)
+        ->join('products','exportproducts.id_products','products.id')
+        ->join('ordersproducts','exportproducts.id_order','=','ordersproducts.id_orders')
+        ->select('exportproducts.*','products.name as nameproducts')
+        ->distinct()
+        ->get();
+        $pdf = PDF::loadView('admin.pdfexportorder.export', compact('ordersexport','exportproducts','ordersproducts') );
         return $pdf->stream();
     }
     public function view_exportorders()
@@ -371,10 +385,9 @@ class orderscontroller extends Controller
     {
         if($request->ajax())
         {
-            $getData=orders::where('orders.status','=',3)
-            ->join('admin','orders.id_admin','=','admin.id')
+           $getData=orders::where([['orders.status','=',3]])
             ->join('exportproducts','orders.id','=','exportproducts.id_order')
-            ->select('orders.*','admin.fullname as fullNameAdmin')->get();
+            ->select('orders.*')->distinct()->get();
             return Datatables::of($getData)
             ->setRowAttr(['align'=>'center'])
             ->addColumn('codeOder',function($getData){

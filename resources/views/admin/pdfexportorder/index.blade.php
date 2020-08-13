@@ -112,7 +112,9 @@
                 </table>
             </div>
         </div>
-
+                @if($errors->any())
+        <h4 style="color: red;">{{$errors->first()}}</h4>
+        @endif
         <table class="table">
             <thead style="background: #F5F5F5;">
                 <tr>
@@ -167,7 +169,8 @@
                             </p></td>
 
                             <td style="width: 20%">
-                                <input type="text" name="serinumber[]" value="Không Có Số Serinumber" readonly  style="width: 100%;"/>
+                                Không Có Số Serinumber
+                                <input type="hidden" name="serinumber[]" value="Không Có Số Serinumber" readonly  style="width: 100%;"/>
                                     @if ($errors->has('serinumber[]'))
                                     <span class="text-danger">{{ $errors->first('serinumber[]') }}</span>
                                     @endif
@@ -240,7 +243,11 @@
             </div>
         </div>
     </form>
+
+
+
     </body>
+
     <script src="{{ asset('js/jquery/jquery-3.5.1.min.js') }}" crossorigin="anonymous"></script>
 
     <script>

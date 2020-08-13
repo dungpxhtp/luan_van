@@ -140,12 +140,61 @@
                                     </td>
 
                                         <td>{{ $item->serinumber }}</td>
-                                        <td style="width: 30%">{{ $item->quantity }}</td>
-                                        <td>{{ $item->pricecost }}</td>
+                                        <td style="width: 30%">
+                                            @if($item->serinumber !="Không Có Số Serinumber")
+                                            @foreach ($ordersproducts as $itemorders)
+                                                    @if ($item->id_products == $itemorders->id_products)
+                                                                    1
 
-                                        <td>{{ $item->price }} VNĐ
+                                                            @endif
+                                                    @endforeach
+                                            @else
+                                                    @foreach ($ordersproducts as $itemorders)
+                                                    @if ($item->id_products == $itemorders->id_products)
+                                                            {{ $itemorders->quantity }}
+
+                                                    @endif
+                                            @endforeach
+                                            @endif
+                                        </td>
+
+                                        <td>
+                                            @if($item->serinumber !="Không Có Số Serinumber")
+                                            @foreach ($ordersproducts as $itemorders)
+                                                    @if ($item->id_products == $itemorders->id_products)
+                                                              {{  \App\library\library_my::formatMoney($itemorders->price) }}
+
+                                                            @endif
+                                                    @endforeach
+                                            @else
+                                                    @foreach ($ordersproducts as $itemorders)
+                                                    @if ($item->id_products == $itemorders->id_products)
+                                                            {{  \App\library\library_my::formatMoney($itemorders->price) }}
+
+                                                    @endif
+                                            @endforeach
+                                            @endif
+
 
                                         </td>
+                                        <td>
+                                            @if($item->serinumber !="Không Có Số Serinumber")
+                                                    @foreach ($ordersproducts as $itemorders)
+                                                            @if ($item->id_products == $itemorders->id_products)
+                                                                    {{  \App\library\library_my::formatMoney($itemorders->price) }}
+
+                                                            @endif
+                                                    @endforeach
+                                            @else
+                                                    @foreach ($ordersproducts as $itemorders)
+                                                    @if ($item->id_products == $itemorders->id_products)
+                                                            {{  \App\library\library_my::formatMoney($itemorders->price*$itemorders->quantity) }}
+
+                                                    @endif
+                                            @endforeach
+                                            @endif
+                                        </td>
+
                                 </tr>
 
 
