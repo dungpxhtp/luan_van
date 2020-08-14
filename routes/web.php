@@ -227,6 +227,13 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::get('find-admin/{id}','Frontend\Admin\admin@find')->name('admin.find');
         Route::post('update-admin/{id}','Frontend\Admin\admin@update_admin')->name('admin.update_admin');
     });
+    // quản lý biểu đồ
+
+    Route::group(['prefix' => 'charts'], function() {
+        //
+        Route::get('users-charts','Frontend\charts@chartsUser')->name('chartsUser');
+    });
+
 });
 Route::group(['prefix' => 'laravel-filemanager','middleware'=>'auth.auth'], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();

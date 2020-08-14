@@ -9,7 +9,11 @@ Tìm Kiếm
             <div class="col-md-12">
                 Đang Xem {{ $products->count() }} Sản Phẩm
             </div>
-
+                @if( $products->count() ==0)
+                    <h3 class="text-danger">
+                        không có sản phẩm nào được tìm thấy
+                    </h3>
+                @endif
             @foreach ($products as $item)
 
             <div class="col-md-3 my-3">
