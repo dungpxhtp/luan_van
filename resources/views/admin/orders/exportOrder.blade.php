@@ -6,9 +6,8 @@
 <nav aria-label="Page breadcrumb" class="my-3">
     <div class="container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item breadcrumb-customer"><i class="fas fa-tachometer-alt"></i>Danh Sách Hóa Đơn Xuất </li>
+                <li class="breadcrumb-item breadcrumb-customer"><i class="fas fa-tachometer-alt"></i>Danh Sách Đơn Hàng Đã Tạo Hóa Đơn Và Nhập Số Serinumber </li>
              {{-- <li class="breadcrumb-item active">Sản Phẩm </li> --}}
-
             </ol>
     </div>
 
@@ -30,17 +29,17 @@
                             <th scope="col"><i class="fas fa-cash-register"></i> Thanh toán</th>
                             <th scope="col">Nhân Viên</th>
                             <th scope="col">Hành Động</th>
-
                           </tr>
                         </thead>
                         <tbody>
-
                         </tbody>
                       </table>
                 </div>
         </div>
     </div>
 </div>
+
+
 @endsection
 @section('script')
        <script>
@@ -70,11 +69,51 @@
 
                 ]
             });
+
+
+            $('#table_serinumber').DataTable({
+                processing:true,
+                serverSide:true,
+                language: {
+                    "url": Vietnamese
+                },
+                ajax: '{{ Route('getAllSerinumber') }}',
+                columns:[
+                    {data:'stt',render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }},
+                    {data:'codeproducts',name:'codeproducts'},
+                    {data:'serinumberProducts',name:'serinumberProducts'},
+
+
+                ]
+            });
            });
            $(document).on('click','.update_erorr_products',function(event){
             event.preventDefault();
             var id=$(this).attr('href');
             let url ="{{ Route('update_erorr_products',':id') }}";
+            url =url.replace(':id',id);
+                $.ajax({
+                    url:url,
+                    type:"GET",
+                    success:function(data)
+                    {
+
+                        alertify.success(data.success);
+                        setTimeout(function(){
+                            $('#table_index').DataTable().ajax.reload();
+
+
+
+                        }, 1000);
+                    }
+                });
+           });
+           $(document).on('click','.update_success_products',function(event){
+            event.preventDefault();
+            var id=$(this).attr('href');
+            let url ="{{ Route('updateOrderSuccess',':id') }}";
             url =url.replace(':id',id);
                 $.ajax({
                     url:url,

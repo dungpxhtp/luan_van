@@ -42,7 +42,7 @@ class orderscontroller extends Controller
 
         if($request->ajax())
         {
-        $getData=orders::where([['orders.status','<>',3],['orders.status','<>',0]])->join('users','orders.id_users','=','users.id')->select('orders.*','users.codeuser as codeuser','users.email','users.phoneuser','users.name as tenkhachhang','users.codeuser as codeuser')->orderBy('orders.created_at','asc')->get();
+        $getData=orders::where([['orders.status','<>',3],['orders.status','<>',0],['orders.status','<>',4]])->join('users','orders.id_users','=','users.id')->select('orders.*','users.codeuser as codeuser','users.email','users.phoneuser','users.name as tenkhachhang','users.codeuser as codeuser')->orderBy('orders.created_at','asc')->get();
 
             return Datatables::of($getData)
             ->addColumn('codeOder',function($getData){
@@ -140,6 +140,8 @@ class orderscontroller extends Controller
             }
             $find->status=3;
             $find->id_admin=Auth::guard('admin')->user()->id;
+            $find->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
+
             $find->save();
             return response()->json(['success'=>'Duyệt thành công']);
         }
@@ -153,7 +155,7 @@ class orderscontroller extends Controller
             $find=orders::findOrFail($id_order);
             $find->status=0;
             $find->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
-            $find->updated_by=Auth::guard('admin')->user()->fullname;
+            $find->updated_by=Auth::guard('admin')->user()->id;
 
 
             if($find->save())
@@ -177,7 +179,7 @@ class orderscontroller extends Controller
             $find=orders::findOrFail($id_order);
             $find->status=0;
             $find->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
-            $find->updated_by=Auth::guard('admin')->user()->fullname;
+            $find->updated_by=Auth::guard('admin')->user()->id;
 
             $orders=ordersproducts::where('ordersproducts.id_orders','=',$find->id)->join('products','ordersproducts.id_products','=','products.id')
             ->select('products.*','products.quantity as soluongsanpham','ordersproducts.quantity as soluongdathang')
@@ -195,7 +197,7 @@ class orderscontroller extends Controller
         }
 
     }
-    //lấy danh sách đơn hàng đã duyệt
+    //lấy danh sách đơn hàng đã tạo hóa đơn
     public function fetchordersconfirm(Request $request)
     {
         if($request->ajax())
@@ -276,11 +278,40 @@ class orderscontroller extends Controller
     {
         if($request->ajax())
         {
-            $findOrdersproducts=ordersproducts::find($id_order_products);
-            $value=$request->get('quantity');
+            try{
+
+                $value=$request->get('quantity');
+
+                /*check kiểm tra đơn hàng trước khi tăng số lượng
+                */
+               $orders=ordersproducts::where('ordersproducts.id','=',$id_order_products)->join('products','ordersproducts.id_products','=','products.id')
+                ->select('products.quantity as soluongsanpham','products.*')
+                ->get();
+                foreach($orders as $item){
+                    if($value > $item->soluongsanpham)
+                    {
+                        return response()->json(['danger'=>'Không Đủ Số  Lượng Sản Giao ! Vui Lòng Kiểm Tra Lại <br> Code : '. $item->code]);
+                    }
+                }
+
+                $findOrdersproducts=ordersproducts::find($id_order_products);
+
+                $products=products::find($findOrdersproducts->id_products);
+                /* x là giá trị cập nhật   3 là nó lên 5
+                   y là giá trị mà ban đầu  4
+                   z là giá trị cần tính
+                 */
+                 $tinh=$products->quantity+($findOrdersproducts->quantity-$value);
+                 $products->quantity=$tinh;
+                 $products->save();
+
             $findOrdersproducts->quantity=$value;
             $findOrdersproducts->TotalProducts=$value*$findOrdersproducts->price;
             $findOrdersproducts->save();
+
+            //* cập nhật lại số lượng của sản phẩm tồn kho */
+
+
 
             $priceOrders=ordersproducts::where('id_orders','=',$findOrdersproducts->id_orders)->select('price','quantity')->get();
             $Total=0;
@@ -293,11 +324,15 @@ class orderscontroller extends Controller
             $findOrders->updated_by=Auth::guard('admin')->user()->id;;
             $findOrders->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
             if($findOrders->save())
-            return response()->json(['success'=>'Cập Nhật Thành Công']);
+              return response()->json(['success'=>'Cập Nhật Thành Công']);
             else
-            return response()->json(['danger'=>'Cập nhật không thành công thử lại']);
+              return response()->json(['danger'=>'Cập nhật không thành công thử lại']);
+            }catch(Exception $e)
+            {
+                return response()->json(['danger'=>'Cập nhật không thành công thử lại']);
+            }
 
-      }
+        }
     }
     public function export_pdf_order($id_orders)
     {
@@ -329,11 +364,12 @@ class orderscontroller extends Controller
                  ->withErrors(['Không bỏ trống số serinumber']);
             }
             $serinumber=$request->get('serinumber');
+
             foreach($request->get('name_product') as $key=>$value)
             {
                 if($serinumber[$key] != "Không Có Số Serinumber")
                 {
-                    if(exportproducts::where([['serinumber','=',$serinumber[$key]]])->count())
+                    if(exportproducts::where([['serinumber','=',$serinumber[$key]],['id_order','<>',$id_order]])->count())
                     {
                         return redirect()->back()
                         ->withErrors(['Số Serinumber  đã có trên hệ thống vui lòng kiểm tra lại']);
@@ -343,6 +379,7 @@ class orderscontroller extends Controller
 
             $orders=orders::findOrfail($id_order);
             $orders->exportDate=Carbon::now('Asia/Ho_Chi_Minh');
+            $orders->updated_by=Auth::guard('admin')->user()->id;
             $orders->save();
             $id=$orders->id;
 
@@ -356,6 +393,8 @@ class orderscontroller extends Controller
                 $exportproducts->serinumber=$serinumber[$key];
                 $exportproducts->id_products=$id_products[$key];
                 $exportproducts->id_order=$id;
+                $exportproducts->created_at=Carbon::now('Asia/Ho_Chi_Minh');
+                $exportproducts->created_by=Auth::guard('admin')->user()->id;
                 $exportproducts->save();
             }
             return redirect()->route('orders')->with("message",["type"=>"success","msg"=>"Tạo Hóa Đơn Thành Công"]);
@@ -407,8 +446,19 @@ class orderscontroller extends Controller
                 $span=$getData->Address;
                 return $span;
             })->addColumn('fullNameAdmin',function($getData){
-                $span=$getData->fullNameAdmin;
-                return $span;
+                $status=$getData->nameAdminUpdate;
+                if($status)
+
+                {
+                    $update='<span>'.$status->fullname.'</span>';
+                    $update.='<br>'.$getData->updated_at;
+                    return $update;
+                }else
+                {
+                    $update="chưa cập nhật";
+                    return $update;
+
+                }
             })->addColumn('exportDate',function($getData){
                 $span=$getData->exportDate;
                 return $span;
@@ -426,7 +476,7 @@ class orderscontroller extends Controller
             })->addColumn('action',function($getData){
 
                 $button='<a href="export/'.$getData->id.'" class="btn btn-sm btn-warning text-white"><i class="fas fa-file-pdf"></i>Xuất Hóa Đơn</a>';
-                $button.='<a class="btn btn-sm btn-success text-white"><i class="fas fa-people-carry"></i>Giao thành công</a>';
+                $button.='<a  href="'.$getData->id.'" class="btn btn-sm btn-success update_success_products text-white" ><i class="fas fa-people-carry"></i>Giao thành công</a>';
                 $button.='<a class="btn btn-sm btn-danger text-white update_erorr_products" href="'.$getData->id.'"><i class="fas fa-phone-slash"></i>Đơn hàng bị lỗi</a>';
 
                 return $button;
@@ -482,6 +532,130 @@ class orderscontroller extends Controller
             })->addColumn('status',function($getData){
                 {
                     $status='<span class="btn btn-sm btn-danger ">Đơn Hàng Lỗi</span>';
+                    return $status	;
+                }
+            })->addColumn('action',function($getData){
+                $action='<div class="col">';
+                $action.='<a type="button" href="'.$getData->id.'" name="viewOrder"   class="viewOrder btn bg-info  text-white  btn-sm"><i class="fas fa-box-open"></i> Xem</a>';
+                $action.='</div>';
+                return $action;
+            })
+            ->rawColumns(['codeOder','fullName','phoneOder','exportDate','TotalOrder','Address','Payments','status','action'])->make('true');
+
+        }
+    }
+
+    /// lấy ra danh sách số serinumber của sản phẩm
+    public function getAllSerinumber(Request $request)
+    {
+        if($request->ajax())
+        {
+            $getData=exportproducts::where('exportproducts.serinumber','<>','Không Có Số Serinumber')->get();
+           // ->join('products','exportproducts.id_products','=','products.id')->select('products.code as codeproducts','exportproducts.serinumber as serinumberProducts')
+            return Datatables::of($getData)
+            ->addColumn('codeproducts',function($getData){
+                return $getData->products->code;
+            })->addColumn('serinumberProducts',function($getData){
+                return $getData->serinumber;
+            })->addColumn('timexacnhan',function($getData){
+                $status=$getData->nameAdminExports;
+
+                if($status)
+
+                {
+                    $update='<span>'.$status->fullname.'</span>';
+                    $update.='<br>'.$getData->updated_at;
+                    return $update;
+                }else
+                {
+                    $update="Không Xác Định";
+                    return $update;
+
+                }
+            })
+            ->rawColumns(['codeproducts','serinumberProducts','timexacnhan'])->make('true');
+        }
+    }
+    //update đơn hành thành công
+    public function updateOrderSuccess(Request $request,$id_order)
+    {
+        if($request->ajax())
+
+        {
+
+            $find=orders::findOrFail($id_order);
+            $find->status=4;
+            $find->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
+            $find->updated_by=Auth::guard('admin')->user()->id;
+            $find->save();
+            $exportproducts=exportproducts::where('id_order','=',$id_order)->get();
+            foreach($exportproducts as $item)
+            {
+                  if($item->serinumber =="Không Có Số Serinumber")
+                  {
+                      $item->delete();
+                  }else{
+                        $item->updated_by=Auth::guard('admin')->user()->id;
+                        $item->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
+                        $item->save();
+
+                  }
+            }
+
+            if($find->save())
+            {
+            return response()->json(['success'=>'Đơn Hàng Đã Giao Thành Công ']);
+            }
+        }
+    }
+    //danh sách đơn hàng thành công
+    public function ordersSuccess()
+    {
+        return view('admin.orders.ordersSuccess');
+    }
+    public function fetch_success_order(Request $request){
+        if($request->ajax())
+        {
+        $getData=orders::where([['orders.status','=',4]])->join('users','orders.id_users','=','users.id')->select('orders.*','users.codeuser as codeuser','users.email','users.phoneuser','users.name as tenkhachhang','users.codeuser as codeuser')->orderBy('orders.created_at','asc')->get();
+
+            return Datatables::of($getData)
+            ->addColumn('codeOder',function($getData){
+                $codeOder=$getData->codeOder;
+                return $codeOder;
+            })->addColumn('codeuser',function($getData){
+                $codeuser =$getData->codeuser;
+                return $codeuser;
+            })
+            ->addColumn('fullName',function($getData){
+                $fullName=$getData->fullName;
+                return $fullName;
+            })->addColumn('phoneOder',function($getData){
+                $phoneOder=$getData->phoneOder;
+                return $phoneOder;
+            })->addColumn('exportDate',function($getData){
+                $exportDate =\Carbon\Carbon::parse($getData->created_at)->format('d m Y H:i:s');
+                return $exportDate;
+            })->addColumn('TotalOrder',function($getData){
+                $formatMoney=library_my::formatMoney($getData->TotalOrder);
+                $TotalOrder='<span  style="cursor: default;">'.$formatMoney.' VNĐ</span>';
+
+                return $TotalOrder;
+            })->addColumn('Address',function($getData){
+                $Address=$getData->Address;
+                return $Address;
+            })->addColumn('Payments',function($getData){
+                if($getData->Payments ==1)
+                {
+                    $span='<span class="btn btn-sm btn-success" style="cursor: default;"><i class="fas fa-shipping-fast"></i>Thanh Toán Trực Tiếp</span>';
+                    return $span;
+                }else if($getData->Payments==2)
+                {
+                    $span='<span class="btn btn-sm btn-success" style="cursor: default;"><i class="fab fa-cc-paypal"></i>Chuyển tiền</span>';
+                    return $span;
+                }
+            })->addColumn('status',function($getData){
+                {
+                    $status='<span class="btn btn-sm btn-success ">Giao hàng thành công</span>';
                     return $status	;
                 }
             })->addColumn('action',function($getData){

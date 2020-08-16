@@ -3,27 +3,96 @@
     Dashboard
 @endsection
 @section('head')
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
-<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
 
     <style>
         .highcharts-credits{
             display: none;
         }
-        .ui-datepicker-calendar {
-            display: none;
-            }
-            .current-month{
-                display: none;
-            }
-            .today{
-                display: none;
-            }
     </style>
+    <style>
+        :root {
+            --background-color: #fff;
+            --border-color: #ccc;
+            --text-color: #555;
+            --selected-text-color: rgb(56, 241, 164);
+            --hover-background-color: #eee;
+        }
+
+        .yearpicker-container {
+            position: absolute;
+            color: var(--text-color);
+            width: 280px;
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+            font-size: 1rem;
+            box-shadow: 1px 1px 8px 0px rgba(0, 0, 0, 0.2);
+            background-color: var(--background-color);
+            z-index: 10;
+            margin-top: 0.2rem;
+        }
+
+        .yearpicker-header {
+            display: flex;
+            width: 100%;
+            height: 2.5rem;
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .yearpicker-prev,
+        .yearpicker-next {
+            cursor: pointer;
+            font-size: 2rem;
+        }
+
+        .yearpicker-prev:hover,
+        .yearpicker-next:hover {
+            color: var(--selected-text-color);
+        }
+
+        .yearpicker-year {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0.5rem;
+        }
+
+        .yearpicker-items {
+            list-style: none;
+            padding: 1rem 0.5rem;
+            flex: 0 0 33.3%;
+            width: 100%;
+        }
+
+        .yearpicker-items:hover {
+            background-color: var(--hover-background-color);
+            color: var(--selected-text-color);
+            cursor: pointer;
+        }
+
+        .yearpicker-items.selected {
+            color: var(--selected-text-color);
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .yearpicker-items.disabled {
+            pointer-events: none;
+            color: #bbb;
+        }
+    </style>
+
+
 @endsection
 @section('main')
 <nav aria-label="Page breadcrumb" class="my-3">
@@ -50,7 +119,7 @@
                     </div>
                     <div class="card-footer-box">
                         <a href="javascript:;">
-                            <span class="pull-xs-left">View Details</span>
+
                             <span class="pull-xs-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
                         </a>
@@ -70,7 +139,7 @@
                     </div>
                     <div class="card-footer-box">
                         <a href="javascript:;">
-                            <span class="pull-xs-left">View Details</span>
+
                             <span class="pull-xs-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
                         </a>
@@ -89,7 +158,7 @@
                     </div>
                     <div class="card-footer-box">
                         <a href="javascript:;">
-                            <span class="pull-xs-left">View Details</span>
+
                             <span class="pull-xs-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
                         </a>
@@ -109,24 +178,33 @@
                 </ol>
         </div>
     </nav>
-    <div class="row ">
-        <div class="col-md-12 d-flex justify-content-center">
-            <input class="date-own form-control" style="width: 300px;">
-    <script>
-        $('.date-own').datepicker({
-            minViewMode: 1,
-            format: 'yyyy'
-          });
-    </script>
-</div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div id="users"></div>
-        </div>
+        <div class="container">
+                <div class="row">
 
-    </div>
+                    <div class="col-md-12">
+                        <i class="far fa-calendar-alt"></i> <input type="text" class="yearpicker" value="">
+                        <div id="reportPage">
+                        <div  id="users"></div>
+                        </div>
+                    </div>
+            </div>
+        </div>
    </div>
+
+   <div class="container my-5">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <i class="far fa-calendar-alt"></i> <input type="text" id="yearorder" value="">
+                    <div id="orders">
+
+                    </div>
+                </div>
+            </div>
+   </div>
+
+
    {{--Thông kê đơn hàng trong ngày --}}
 
    {{-- transactions Card --}}
@@ -134,7 +212,7 @@
     <nav aria-label="Page breadcrumb" class="my-3">
         <div class="container">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item breadcrumb-customer"><i class="fas fa-money-check-alt"></i>Transactions Card New</li>
+                    <li class="breadcrumb-item breadcrumb-customer"><i class="fas fa-money-check-alt"></i>Đơn Hàng Mới</li>
                  {{-- <li class="breadcrumb-item active">Sản Phẩm </li> --}}
 
                 </ol>
@@ -191,14 +269,308 @@
 
 @endsection
 @section('script')
-    <script>
+   <script src="{{ asset('datePicker/datePicker.js') }}">
 
+   </script>
+    <script>
 
         $(document).ready(function(){
             var users;
-            console.log('ok');
+            var d = new Date();
 
-            var url ="{{ Route('chartsUser') }}";
+            $(".yearpicker").yearpicker({
+                startYear:2019,
+                endYear:d.getFullYear(),
+                onChange : function(value){
+                    alertify.success("Tải Dữ Liệu");
+                        setTimeout(function(){
+                            var year=value;
+                            let url="{{ Route('chartsYearUser',':id') }}";
+                            url=url.replace(':id',year);
+                              $.ajax({
+                                  async:false,
+                                  url:url,
+                                  type:"GET",
+
+
+
+
+                              }).done(function(data){
+                                  var categories=new Array();
+                                  var number=new Array();
+                                /*  Object.keys(data).forEach(function (key) {
+
+                                      categories.push(" Tháng "+key);
+
+                                   });
+                                   */
+
+                                   Object.entries(data).forEach(entry => {
+                                      const [key, value] = entry;
+                                      categories.push(" Tháng "+key);
+                                      number.push(value.length);
+                                    });
+
+
+
+
+                             Highcharts.chart('users', {
+
+                                  title: {
+
+                                      text: 'Thống Kê  Lượt Tạo Tài Khoản Từng Tháng Theo Năm '+value
+
+                                  },
+                                  exportFileName: "pdf file",
+
+                                  exporting: {
+                                    enabled: true // hide button
+                                 },
+                                  subtitle: {
+
+                                      text: 'watchstore.vn'
+
+                                  },
+
+                                  xAxis: {
+                                      title: {
+
+                                          text: 'Tháng'
+
+                                      },
+                                      categories: categories,
+
+                                  },
+
+                                  yAxis: {
+
+                                      title: {
+
+                                          text: 'Số lượt tạo tài khoản'
+
+                                      }
+
+                                  },
+
+                                  legend: {
+
+                                      layout: 'vertical',
+
+                                      align: 'right',
+
+                                      verticalAlign: 'middle'
+
+                                  },
+
+                                  plotOptions: {
+
+                                      series: {
+
+                                          allowPointSelect: true
+
+                                      }
+
+                                  },
+
+                                  series: [{
+
+                                      name: '',
+
+                                      data: number
+
+                                  }],
+
+
+                                  responsive: {
+
+                                      rules: [{
+
+                                          condition: {
+
+                                              maxWidth: 500
+
+                                          },
+
+                                          chartOptions: {
+
+                                              legend: {
+
+                                                  layout: 'horizontal',
+
+                                                  align: 'center',
+
+                                                  verticalAlign: 'bottom'
+
+                                              }
+
+                                          }
+
+                                      }]
+
+                                  }
+
+                                  });
+                                      });
+                        },1000);
+
+
+                }
+
+                /* đóng hàm */
+
+
+              });
+
+              /*end */
+
+
+
+
+
+              $("#yearorder").yearpicker({
+                startYear:2019,
+                endYear:d.getFullYear(),
+                onChange:function(value)
+                {
+                    setTimeout(function(){
+                        var year=value;
+                        let url="{{ Route('chartsOrders',':id') }}";
+                        url=url.replace(':id',year);
+                          $.ajax({
+                              async:false,
+                              url:url,
+                              type:"GET",
+
+
+
+
+                          }).done(function(data){
+                              var categories=new Array();
+                              var number=new Array();
+                            /*  Object.keys(data).forEach(function (key) {
+
+                                  categories.push(" Tháng "+key);
+
+                               });
+                               */
+
+                               Object.entries(data).forEach(entry => {
+                                  const [key, value] = entry;
+                                  categories.push(" Tháng "+key);
+                                  number.push(value.length);
+                                });
+
+
+
+
+                         Highcharts.chart('orders', {
+
+                              title: {
+
+                                  text: 'Thống Kê Số Lượng Đặt Mua Hàng  '+value
+
+                              },
+                              exportFileName: "pdf file",
+
+                              exporting: {
+                                enabled: true // hide button
+                             },
+                              subtitle: {
+
+                                  text: 'watchstore.vn'
+
+                              },
+
+                              xAxis: {
+                                  title: {
+
+                                      text: 'Tháng'
+
+                                  },
+                                  categories: categories,
+
+                              },
+
+                              yAxis: {
+
+                                  title: {
+
+                                      text: 'Tổng số hóa đơn trong năm'
+
+                                  }
+
+                              },
+
+                              legend: {
+
+                                  layout: 'vertical',
+
+                                  align: 'right',
+
+                                  verticalAlign: 'middle'
+
+                              },
+
+                              plotOptions: {
+
+                                  series: {
+
+                                      allowPointSelect: true
+
+                                  }
+
+                              },
+
+                              series: [{
+
+                                  name: '',
+
+                                  data: number
+
+                              }],
+
+
+                              responsive: {
+
+                                  rules: [{
+
+                                      condition: {
+
+                                          maxWidth: 500
+
+                                      },
+
+                                      chartOptions: {
+
+                                          legend: {
+
+                                              layout: 'horizontal',
+
+                                              align: 'center',
+
+                                              verticalAlign: 'bottom'
+
+                                          }
+
+                                      }
+
+                                  }]
+
+                              }
+
+                              });
+                                  });
+                    },1000);
+
+                }
+              });
+
+
+              /* var url ="{{ Route('chartsUser') }}";
+
+
+
+            $
             var return_first = function () {
                 var tmp = null;
                 $.ajax({
@@ -211,16 +583,17 @@
                     }
                 });
                 return tmp;
-            }();
-            var categories=new Array();
+            }();*/
+            /*
+                    var categories=new Array();
             var number=new Array();
-            Object.keys(return_first).forEach(function (key) {
+            Object.keys(year).forEach(function (key) {
 
                 categories.push(key);
 
              });
 
-             Object.entries(return_first).forEach(entry => {
+             Object.entries(year).forEach(entry => {
                 const [key, value] = entry;
                 categories.push(" Tháng "+key);
                 number.push(value.length);
@@ -320,6 +693,12 @@
             }
 
     });
-});
+            */
+
+
+
+     });
+
+
     </script>
 @endsection

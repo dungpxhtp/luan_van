@@ -180,12 +180,20 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::get('view-exportorders','Frontend\orders\orderscontroller@view_exportorders')->name('view_exportorders');
         Route::get('fetch-view-exportorders','Frontend\orders\orderscontroller@fetch_view_export_orders')->name('fetch_view_export_orders');
         Route::get('export/{id}','Frontend\orders\orderscontroller@export')->name('export');
+        //lấy ra danh sách số serinumber
+        Route::get('fetch-all-serinumer','Frontend\orders\orderscontroller@getAllSerinumber')->name('getAllSerinumber');
+
         ///Báo lỗi đơn hàng lúc liên hệ
         Route::get('order-error/{id}','Frontend\orders\orderscontroller@update_erorr')->name('update_erorr');
         Route::get('error-order','Frontend\orders\orderscontroller@error_order')->name('error_order');
         Route::get('fetch-error-order','Frontend\orders\orderscontroller@fetch_error_order')->name('fetch_error_order');
         //Báo lỗi đơn hàng sau khi duyệt xong
         Route::get('cancel-orders-quantity/{id}','Frontend\orders\orderscontroller@update_erorr_products')->name('update_erorr_products');
+        //Đơn Hàng Giao Thành Công
+        Route::get('successs-orders-quantity/{id}','Frontend\orders\orderscontroller@updateOrderSuccess')->name('updateOrderSuccess');
+        // lấy ra danh sách đơn hành giao thành công status = 4
+        Route::get('orders-success','Frontend\orders\orderscontroller@ordersSuccess')->name('ordersSuccess');
+        Route::get('fetch-success-order','Frontend\orders\orderscontroller@fetch_success_order')->name('fetch_success_order');
     });
     //Quản Lý User
     Route::group(['prefix' => 'users'], function () {
@@ -232,6 +240,10 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
     Route::group(['prefix' => 'charts'], function() {
         //
         Route::get('users-charts','Frontend\charts@chartsUser')->name('chartsUser');
+        //lấy biểu đồ users theo năm
+        Route::get('users-charts/{year}','Frontend\charts@chartsYearUser')->name('chartsYearUser');
+        Route::get('orders-total/{year}','Frontend\charts@chartsOrders')->name('chartsOrders');
+
     });
 
 });

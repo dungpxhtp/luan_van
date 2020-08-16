@@ -113,7 +113,7 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                   <a class="dropdown-item" href="{{ Route('orders') }}">Danh Sách Đơn Hàng</a>
-                                  <a class="dropdown-item" href="{{ Route('view_exportorders') }}">Danh Sách Hóa Đơn </a>
+                                  <a class="dropdown-item" href="{{ Route('ordersSuccess') }}">Danh Sách Đơn Hàng Đã Giao Thành Công </a>
 
                                 </div>
                               </li>

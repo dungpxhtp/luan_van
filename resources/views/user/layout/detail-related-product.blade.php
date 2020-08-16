@@ -1,6 +1,6 @@
 @php
     use App\Models\products;
-    $products_related=products::where([['status','=','1'],['id_brandproducts','=',$id]])->orderBy('created_at','desc')->take(8)->get();
+    $products_related=products::where([['status','=','1'],['id_brandproducts','=',$id],['id','<>',$id_products]])->orderBy('created_at','desc')->take(8)->get();
 @endphp
 @if (count($products_related))
     <div class="row" >

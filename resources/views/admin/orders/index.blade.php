@@ -295,6 +295,11 @@
 
                                 }, 1000);
                                 }
+                                if(data.danger)
+                                {
+                                    $('#confirmModal').modal('hide');
+                                    alertify.error(data.danger);
+                                }
 
                             }
 
@@ -329,6 +334,10 @@
 
 
                             }, 1000);
+                        }else
+                        {
+                            $('#confirmModal').modal('hide');
+                            alertify.error(data.danger);
                         }
                     }
                 });

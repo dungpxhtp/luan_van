@@ -136,7 +136,7 @@
     </div>
     <div class="clearfix my-5">
         <div class="container">
-                @includeIf('user.layout.detail-related-product', ['id' => $product->id_brandproducts])
+                @includeIf('user.layout.detail-related-product', ['id' => $product->id_brandproducts,'id_products'=>$product->id])
         </div>
     </div>
     <div class="clearfix my-5">
