@@ -7,6 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="author" content="Taylor PMT">
+    <meta name="robots" content="noodp,index,follow" />
+    {{--  all:Bọ tìm kiếm đánh chỉ số tất cả (ngầm định).
+    none: Bọ tìm kiếm không đánh chỉ số gì hết.
+    index: Đánh chỉ số trang Web.
+    noindex: Không đánh chỉ số trang, nhưng vẫn truy vấn đường dẫn URL.
+    follow: Bọ tìm kiếm sẽ đọc liên kết siêu văn bản trong trang và truy vấn, xử lý sau đó.
+    nofollow: Bọ tìm kiếm không phân tích liên kết trong trang.
+    noarchive: Không cho máy tìm kiếm lưu vào bộ nhó bản sao trang Web.
+    nocache: Chức năng như thẻ noarchive nhưng chỉ áp dụng cho MSN/Live.
+    nosnippet: Không cho bọ tìm kiếm hiển thị miêu tả sinppet của trang trong kết quả tìm kiếm và không cho phép chúng hiển thị trong bộ nhớ (cache hay caching).
+    noodp: Ngăn máy tìm kiếm khỏi việc tạo các miêu tả description từ các thư mục danh bạ Web DMOZ như là một phần của snippet trong trang kết quả tìm kiếm.
+    noydir: Ngăn Yahoo khỏi việc trích miêu tả trong danh bạ Web Yahoo! diectory để tạo các phần miêu tả trong kết quả tìm kiếm. Giá trị noydir chỉ áp dụng với Yahoo và không có công cụ tìm kiếm nào khác sử dụng danh bạn Web của Yahoo bởi thế giá trị này không được hỗ trợ cho máy tìm kiếm khác..  --}}
     @yield('meta')
     <title>@yield('title')</title>
 
@@ -185,7 +198,11 @@
                 font-size: 1.4rem;
                 font-weight: 700;
             }
-
+            .span-title-brands{
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: #900;
+            }
     </style>
         @yield('style')
     @yield('head')

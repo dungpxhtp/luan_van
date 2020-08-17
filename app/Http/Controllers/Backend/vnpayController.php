@@ -20,7 +20,7 @@ class vnpayController extends Controller
             'vnp_OrderType' => 200000,
             'vnp_OrderInfo' => 'Thanh Toán Hóa Đơn Mua Hàng  : '.$codeOder,
             'vnp_IpAddr' => '127.0.0.1',
-            'vnp_Amount' => $orders->TotalOrder,
+            'vnp_Amount' => $orders->TotalOrder.'00',
             'vnp_ReturnUrl' => "https://watchstore.vn/kiem-tra-thanh-toan",
         ])->send();
 

@@ -6,6 +6,16 @@
         <link rel="stylesheet" href="{{ asset('carousel/css/owl.carousel.min.css') }}">
         <link rel="stylesheet" href="{{ asset('carousel/css/owl.theme.default.min.css') }}">
 
+@endsection
+@section('meta')
+    <meta name="description" content="{{ $product->metadesc }}" />
+    <meta name="keywords" content="{{ $product->metakey }}">
+    <meta property="og:url"           content="{{url()->current()}}" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="{{ $product->name }}" />
+    <meta property="og:description"   content="{{ $product->metadesc }}" />
+    <meta property="og:image"         content="{{ $product->image }}" />
+    <meta property="fb:page_id" content="3417082331657785" />
 
 @endsection
 @section('style')
@@ -22,6 +32,8 @@
 
         }
     </style>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js"></script>
+
 @endsection
 @section('main')
 
@@ -58,8 +70,8 @@
                           <div class ="row">
                                 <div class="col-md-12">
                                         <span class="sku_wrapper text-uppercase">
-                                        mã số sản phẩm :
-                                        <span class="sku">
+                                        mã sản phẩm :
+                                        <span class="sku" style="display: block;">
                                             {{$product->code}}
                                         </span>
                                         </span>
@@ -92,6 +104,46 @@
                           </div>
                     </div>
                     @includeIf('user.layout.detail-right-product')
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div id="fb-root"></div>
+                    <script>
+                        window.fbAsyncInit = function() {
+                          FB.init({
+                            appId      : '3417082331657785',
+                            xfbml      : true,
+                            version    : 'v7.0'
+                          });
+                          FB.AppEvents.logPageView();
+                        };
+
+                        (function(d, s, id){
+                           var js, fjs = d.getElementsByTagName(s)[0];
+                           if (d.getElementById(id)) {return;}
+                           js = d.createElement(s); js.id = id;
+                           js.src = "https://connect.facebook.net/vi_VN/sdk.js";
+                           fjs.parentNode.insertBefore(js, fjs);
+                         }(document, 'script', 'facebook-jssdk'));
+
+
+
+
+                      </script>
+
+                    <!-- Your like button code -->
+
+                </div>
+                <div class="fb-like"
+                data-href="{{url()->current()}}"
+                data-width=""
+                data-layout="button_count"
+                data-action="like"
+                data-size="small"
+                data-share="true">
+
+                </div>
+                </div>
             </div>
        </div>
     </div>
@@ -134,9 +186,16 @@
             </div>
         </div>
     </div>
+    {{--  theo đối tượng   --}}
     <div class="clearfix my-5">
         <div class="container">
-                @includeIf('user.layout.detail-related-product', ['id' => $product->id_brandproducts,'id_products'=>$product->id])
+                @includeIf('user.layout.detail-related-product', ['id' => $product->id_gendercategoryproducts,'id_products'=>$product->id])
+        </div>
+    </div>
+    {{--  theo hãng  --}}
+    <div class="clearfix my-5">
+        <div class="container">
+                @includeIf('user.layout.detail-relate-product-brand', ['id' => $product->id_brandproducts,'id_products'=>$product->id])
         </div>
     </div>
     <div class="clearfix my-5">
@@ -152,6 +211,11 @@
                             <button  value="{{ Route('commentProduct',['id_products'=>$product->id]) }}" class="btn btn-sm btn-success btn-submit-comment" >Bình Luận</button>
                         </form>
                 </div>
+            </div>
+            <div class="row">
+                <div id="fb-root"></div>
+                <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v7.0&appId=3417082331657785&autoLogAppEvents=1" nonce="fkwaljGG"></script>
+                <div class="fb-comments" data-href="{{url()->current()}}" data-numposts="5" data-width="100%"></div>
             </div>
             <div id="showcomment">
             @includeIf('user.layout.comment.replyComment')

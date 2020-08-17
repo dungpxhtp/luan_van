@@ -7,7 +7,7 @@ data-aos-duration="500">
             <div class="col-md-3 my-3">
                 <div class="card-deck">
                     <div class="card border-color">
-                     <a> <img class="card-img-top lazy" data-src="{{ $item->image }}" alt="{{ $item->slug }}"  > </a>
+                     <a href="{{Route('productDetail',['slug'=>$item->slug])}}"> <img class="card-img-top lazy" data-src="{{ $item->image }}" alt="{{ $item->slug }}"  > </a>
                       <div class="card-body">
                         <h5 class="card-title text-center">{{ $item->name }}</h5>
                         <p class="card-text my-3 text-center">

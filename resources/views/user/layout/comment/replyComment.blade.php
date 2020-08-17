@@ -24,7 +24,7 @@
         <h5 class="name-comment">{{ $item->nameuser }}</h5>
         <p class="text-comment">{{ $item->commentText }}</p>
         <div class="comment-acttion">
-            <button  value="{{ $item->id }}" class="btn-reply btn btn-sm ">Trả Lời</button>
+            <button  value="{{ $item->id }}" class="btn-reply btn btn-sm  btn-success">Trả Lời</button>
             <span style="display: block;"><i class="far fa-clock"></i>{{ $item->created_at }}</span>
             <div class="row box-reply my-2  {{ $item->id }}" style="display: none">
 
@@ -74,6 +74,8 @@
 
 
     <script src="{{ asset('js/jquery/jquery-3.5.1.min.js') }}" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/bs4/bootstrap.min.js') }}"></script>
+
     <script>
         $(document).ready(function(){
             function reloadComment(url) {
