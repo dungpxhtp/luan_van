@@ -1,6 +1,6 @@
  <div class="container">
      <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" style="font-size: 1.6rem;">
             <p class="text-guarantee"> Chế Độ Bảo Hành Tất cả các đồng hồ khi bán ra đều kèm theo 2 phiếu bảo hành:</p>
                 <ol>
                   <li> 1 Phiếu Bảo Hành (hoặc Thẻ Bảo Hành/Sổ Bảo Hành) của hãng có giá trị bảo hành Quốc tế (Thời gian bảo hành tùy theo quy định của từng hãng).

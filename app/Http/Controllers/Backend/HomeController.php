@@ -667,7 +667,7 @@ class HomeController extends Controller
     {
         if($request->ajax())
         {
-            $getData=orders::where([['id_users','=',Auth::guard('khachhang')->user()->id],['status','<>','3']])->get();
+            $getData=orders::where([['id_users','=',Auth::guard('khachhang')->user()->id],['status','<>','3']])->orderBy('created_at','desc')->get();
             return Datatables::of($getData)->setRowAttr(['align'=>'center'])
             ->addColumn('codeOder',function($getData){
                 return $getData->codeOder;
@@ -731,7 +731,7 @@ class HomeController extends Controller
     {
         if($request->ajax())
         {
-            $getData=orders::where([['id_users','=',Auth::guard('khachhang')->user()->id],['status','=','3']])->get();
+            $getData=orders::where([['id_users','=',Auth::guard('khachhang')->user()->id],['status','=','3']])->orderBy('created_at','desc')->get();
             return Datatables::of($getData)->setRowAttr(['align'=>'center'])
             ->addColumn('codeOder',function($getData){
                 return $getData->codeOder;
@@ -799,7 +799,7 @@ class HomeController extends Controller
     public function fetch_order_error(Request $request)
     {
         if($request->ajax()){
-            $getData=orders::where([['id_users','=',Auth::guard('khachhang')->user()->id],['status','=','0']])->get();
+            $getData=orders::where([['id_users','=',Auth::guard('khachhang')->user()->id],['status','=','0']])->orderBy('created_at','desc')->get();
             return Datatables::of($getData)->setRowAttr(['align'=>'center'])
             ->addColumn('codeOder',function($getData){
                 return $getData->codeOder;
@@ -864,7 +864,7 @@ class HomeController extends Controller
         if($request->ajax())
         {
             $keyword=$request->input('keyword');
-            $products=products::where([['name','LIKE',"%$keyword%"]])->select('products.name')->get();
+            $products=products::where([['name','LIKE',"%$keyword%"]])->select('products.name')->orderBy('created_at','desc')->take(8)->get();
             return response()->json($products);
         }
     }

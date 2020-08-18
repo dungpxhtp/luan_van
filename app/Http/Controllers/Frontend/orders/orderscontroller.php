@@ -42,7 +42,7 @@ class orderscontroller extends Controller
 
         if($request->ajax())
         {
-        $getData=orders::where([['orders.status','<>',3],['orders.status','<>',0],['orders.status','<>',4]])->join('users','orders.id_users','=','users.id')->select('orders.*','users.codeuser as codeuser','users.email','users.phoneuser','users.name as tenkhachhang','users.codeuser as codeuser')->orderBy('orders.created_at','asc')->get();
+        $getData=orders::where([['orders.status','<>',3],['orders.status','<>',0],['orders.status','<>',4]])->join('users','orders.id_users','=','users.id')->select('orders.*','users.codeuser as codeuser','users.email','users.phoneuser','users.name as tenkhachhang','users.codeuser as codeuser')->orderBy('orders.created_at','desc')->get();
 
             return Datatables::of($getData)
             ->addColumn('codeOder',function($getData){
@@ -426,7 +426,7 @@ class orderscontroller extends Controller
         {
            $getData=orders::where([['orders.status','=',3]])
             ->join('exportproducts','orders.id','=','exportproducts.id_order')
-            ->select('orders.*')->distinct()->get();
+            ->select('orders.*')->orderBy('orders.created_at','desc')->distinct()->get();
             return Datatables::of($getData)
             ->setRowAttr(['align'=>'center'])
             ->addColumn('codeOder',function($getData){

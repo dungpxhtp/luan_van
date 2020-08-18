@@ -109,5 +109,15 @@ class charts extends Controller
       return response()->json($users);
       }
     }
+    public function danhthu(Request $request,$year)
+    {
+      if($request->ajax())
+      {
+        $users = orders::where('status','=',4)->whereYear('created_at', $year)->select(\DB::raw('MONTH(created_at) as thang'),\DB::raw('SUM(TotalOrder) as Total'))->orderBy('created_at','asc')
 
+        ->groupBy('created_at')->get();
+
+      return response()->json($users);
+      }
+    }
 }

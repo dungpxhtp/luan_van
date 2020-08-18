@@ -203,7 +203,19 @@
                 </div>
             </div>
    </div>
+</div>
+    <div class="container">
+            <div class="row">
 
+                <div class="col-md-12">
+                    <i class="far fa-calendar-alt"></i> <input type="text" id="yearordertotals" value="">
+
+                    <div  id="totals"></div>
+
+                </div>
+        </div>
+    </div>
+    </div>
 
    {{--Thông kê đơn hàng trong ngày --}}
 
@@ -270,7 +282,6 @@
 @endsection
 @section('script')
    <script src="{{ asset('datePicker/datePicker.js') }}">
-
    </script>
     <script>
 
@@ -453,11 +464,12 @@
 
                                });
                                */
-
                                Object.entries(data).forEach(entry => {
                                   const [key, value] = entry;
                                   categories.push(" Tháng "+key);
                                   number.push(value.length);
+
+
                                 });
 
 
@@ -526,6 +538,151 @@
                                   name: '',
 
                                   data: number
+
+                              }],
+
+
+                              responsive: {
+
+                                  rules: [{
+
+                                      condition: {
+
+                                          maxWidth: 500
+
+                                      },
+
+                                      chartOptions: {
+
+                                          legend: {
+
+                                              layout: 'horizontal',
+
+                                              align: 'center',
+
+                                              verticalAlign: 'bottom'
+
+                                          }
+
+                                      }
+
+                                  }]
+
+                              }
+
+                              });
+                                  });
+                    },1000);
+
+                }
+              });
+              $("#yearordertotals").yearpicker({
+                startYear:2019,
+                endYear:d.getFullYear(),
+                onChange:function(value)
+                {
+                    setTimeout(function(){
+                        var year=value;
+                        let url="{{ Route('danhthu',':id') }}";
+                        url=url.replace(':id',year);
+                          $.ajax({
+                              async:false,
+                              url:url,
+                              type:"GET",
+
+
+
+
+                          }).done(function(data){
+                              var categories=new Array();
+                              var number=new Array();
+                            /*  Object.keys(data).forEach(function (key) {
+
+                                  categories.push(" Tháng "+key);
+
+                               });
+                               */
+
+                               console.log(data);
+                               //value , key
+                                Object.entries(data).forEach((entry) => {
+
+                                    const [key, value] = entry;
+                                    console.log(value.thang);
+
+                                  categories.push("Tháng "+value.thang);
+                                  number.push(parseInt(value.Total));
+
+                                });
+
+
+
+
+                         Highcharts.chart('totals', {
+
+                              title: {
+
+                                  text: 'DOANH THU MỖI NĂM  '+value
+
+                              },
+                              exportFileName: "pdf file",
+
+                              exporting: {
+                                enabled: true // hide button
+                             },
+                              subtitle: {
+
+                                  text: 'watchstore.vn'
+
+                              },
+
+                              xAxis: {
+                                  title: {
+
+                                      text: 'Tháng'
+
+                                  },
+
+                                  categories: categories,
+
+                              },
+
+                              yAxis: {
+
+                                  title: {
+
+                                      text: 'Tổng số hóa đơn trong năm'
+
+                                  }
+
+                              },
+
+                              legend: {
+
+                                  layout: 'vertical',
+
+                                  align: 'right',
+
+                                  verticalAlign: 'middle'
+
+                              },
+
+                              plotOptions: {
+
+                                  series: {
+
+                                      allowPointSelect: true
+
+                                  }
+
+                              },
+
+                              series: [{
+
+
+
+                                  data: number,
+                                  name: 'Tổng VNĐ  ',
 
                               }],
 
@@ -694,8 +851,6 @@
 
     });
             */
-
-
 
      });
 

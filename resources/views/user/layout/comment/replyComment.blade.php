@@ -74,7 +74,7 @@
 
 
     <script src="{{ asset('js/jquery/jquery-3.5.1.min.js') }}" crossorigin="anonymous"></script>
-    <script src="{{ asset('js/bs4/bootstrap.min.js') }}"></script>
+   {{--  <script src="{{ asset('js/bs4/bootstrap.min.js') }}"></script>  --}}
 
     <script>
         $(document).ready(function(){

@@ -62,7 +62,7 @@
             <div class="row">
                     <div class="col-md-3 my-3">
                         <div class ="box-img">
-                            <img class="card-img-top lazy" data-src="{{ $product->image }}" alt="{{ $product->slug }}" style="width:250px ; height:250px;">
+                            <img id="image-products-zoom" class="card-img-top lazy" data-src="{{ $product->image }}" alt="{{ $product->slug }}" style="width:250px ; height:250px;">
                         </div>
                     </div>
                     <div class="col-md-4 my-3">
@@ -169,7 +169,7 @@
                     <div id="menu1" class="container tab-pane fade">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12" style="font-size: 1.6rem; line-height: 1.3;">
                                        <p>
                                          {!!$product->detail !!}
                                                 </p>
@@ -201,7 +201,7 @@
     <div class="clearfix my-5">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12" style="font-size: 1.6rem;line-height: 1.3;">
                         <form class="form-comment">
                             <div class="form-group">
                               <label for="exampleFormControlTextarea1">Bình Luận Về Sản Phẩm</label>
@@ -217,7 +217,7 @@
                 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v7.0&appId=3417082331657785&autoLogAppEvents=1" nonce="fkwaljGG"></script>
                 <div class="fb-comments" data-href="{{url()->current()}}" data-numposts="5" data-width="100%"></div>
             </div>
-            <div id="showcomment">
+            <div id="showcomment" style="font-size: 1.6rem; line-height: 1.3;">
             @includeIf('user.layout.comment.replyComment')
             </div>
         </div>
@@ -358,6 +358,7 @@
         //show box comment
 
     </script>
+
 
     <script type="text/javascript" src="{{ asset('js/myJs/demsokitu.js') }}">
     </script>

@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-12"  style="font-size: 1.6rem;">
               <p class="title-description text-uppercase">
                   <strong>thương hiệu : </strong><span class="text-description">{{ $product->name_brandproducts }}</span>
               </p>

@@ -243,7 +243,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         //lấy biểu đồ users theo năm
         Route::get('users-charts/{year}','Frontend\charts@chartsYearUser')->name('chartsYearUser');
         Route::get('orders-total/{year}','Frontend\charts@chartsOrders')->name('chartsOrders');
-
+        Route::get('thong-ke-doanh-thu/{year}','Frontend\charts@danhthu')->name('danhthu');
     });
 
 });
@@ -251,6 +251,5 @@ Route::group(['prefix' => 'laravel-filemanager','middleware'=>'auth.auth'], func
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
 Route::fallback(function(){
-    return response()->json([
-        'message' => 'Page Not Found. If error persists, contact thien.phamminhstu@gmail.com'], 404);
+    return view('404');
 });
