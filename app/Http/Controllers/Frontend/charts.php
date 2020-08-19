@@ -113,9 +113,8 @@ class charts extends Controller
     {
       if($request->ajax())
       {
-        $users = orders::where('status','=',4)->whereYear('created_at', $year)->select(\DB::raw('MONTH(created_at) as thang'),\DB::raw('SUM(TotalOrder) as Total'))->orderBy('created_at','asc')
-
-        ->groupBy('created_at')->get();
+        $users = orders::where('status','=',4)->whereYear('created_at', $year)->select(\DB::raw('MONTH(created_at) as thang'),\DB::raw('SUM(TotalOrder) as Total'))->orderByRaw('MONTH(created_at)','asc')
+        ->groupBy(\DB::raw('MONTH(created_at)'))->get();
 
       return response()->json($users);
       }

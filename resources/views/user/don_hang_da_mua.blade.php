@@ -31,9 +31,6 @@
                           <a class="nav-link " data-toggle="tab" href="#messages" role="tab">Đơn Hàng Lỗi</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Đang Giao</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#dagiao" role="tab">Đã Giao</a>
                           </li>
                       </ul>
@@ -58,12 +55,9 @@
                                         <th scope="col">Ngày Đặt Hàng</th>
                                         <th scope="col">Tình Trạng</th>
                                         <th scope="col">Xem</th>
-
-                                    </tr>
+                                      </tr>
                                     </thead>
                                     <tbody>
-
-
                                     </tbody>
                                 </table>
 
@@ -85,12 +79,9 @@
                                         <th scope="col">Ngày Đặt Hàng</th>
                                         <th scope="col">Tình Trạng</th>
                                         <th scope="col">Xem</th>
-
                                     </tr>
                                     </thead>
                                     <tbody>
-
-
                                     </tbody>
                                 </table>
 
@@ -113,18 +104,36 @@
                                         <th scope="col">Tình Trạng</th>
                                         <th scope="col">Xem</th>
 
+                                   </tr>
+                                    </thead>
+                                        <tbody>
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane p-2" id="dagiao" role="table">
+                            <div class="table-responsive my-3">
+                                <table class="table table-bordered table-hover table-striped " id="table_success">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th scope="col">Mã Hóa Đơn</th>
+                                        <th scope="col">Tên Người Nhận</th>
+                                        <th scope="col">Số Điện Thoại</th>
+                                        <th scope="col">Tổng Hóa Đơn</th>
+                                        <th scope="col">Địa Chỉ</th>
+                                        <th scope="col">Ghi Chú Đơn Hàng</th>
+                                        <th scope="col">Hình Thức Thanh Toán</th>
+                                        <th scope="col">Ngày Đặt Hàng</th>
+                                        <th scope="col">Tình Trạng</th>
+                                        <th scope="col">Xem</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-
-
                                     </tbody>
                                 </table>
-
                             </div>
                         </div>
-                        <div class="tab-pane p-2" id="settings" role="tabpanel">Settings tab.</div>
-                        <div class="tab-pane p-2" id="dagiao" role="table">Đã Giao</div>
                       </div>
 
                    </div>
@@ -189,9 +198,7 @@
 
                 ]
             });
-
-
-            // view
+            // view click
             $(document).on('click','.view_order',function(event){
                 event.preventDefault();
                 var url =$(this).attr("href");
@@ -209,8 +216,6 @@
                     }
                 });
            });
-
-           $(document).on('click','a[href="#profile"]',function(event){
                  $('#table_accpect').DataTable({
                     processing:true,
                     retrieve: true,
@@ -236,19 +241,15 @@
 
                     ]
                 });
-           });
-
-           $(document).on('click','a[href="#messages"]',function(event){
-
-
-                $('#table_error').DataTable({
+        /* table đã mua */
+                $('#table_success').DataTable({
                     processing:true,
                     retrieve: true,
                     serverSide:true,
                     language: {
                         "url": Vietnamese
                     },
-                    ajax: '{{ Route('fetch_order_error') }}',
+                    ajax: '{{ Route('order_success') }}',
                     columns:[
                         {data:'stt',render: function (data, type, row, meta) {
                             return meta.row + meta.settings._iDisplayStart + 1;
@@ -266,6 +267,35 @@
 
                     ]
                 });
+
+
+
+
+
+            $('#table_error').DataTable({
+                processing:true,
+                retrieve: true,
+                serverSide:true,
+                language: {
+                    "url": Vietnamese
+                },
+                ajax: '{{ Route('fetch_order_error') }}',
+                columns:[
+                    {data:'stt',render: function (data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }},
+                    {data:'codeOder',name:'codeOder'},
+                    {data:'fullName',name:'fullName'},
+                    {data:'phoneOder',name:'phoneOder'},
+                    {data:'TotalOrder',name:'TotalOrder'},
+                    {data:'Address',name:'Address'},
+                    {data:'notes',name:'notes'},
+                    {data:'Payments',name:'Payments'},
+                    {data:'created_at',name:'created_at'},
+                    {data:'status',name:'status'},
+                    {data:'action',name:'action'}
+
+                ]
             });
 
 

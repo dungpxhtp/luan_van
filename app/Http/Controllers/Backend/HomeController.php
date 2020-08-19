@@ -846,6 +846,57 @@ class HomeController extends Controller
             ->make('true');
         }
     }
+    // đơn hàng giao thành công
+    public function order_success(Request $request)
+    {
+        if($request->ajax()){
+            $getData=orders::where([['id_users','=',Auth::guard('khachhang')->user()->id],['status','=','4']])->orderBy('created_at','desc')->get();
+            return Datatables::of($getData)->setRowAttr(['align'=>'center'])
+            ->addColumn('codeOder',function($getData){
+                return $getData->codeOder;
+            })->addColumn('fullName',function($getData){
+                return $getData->fullName;
+            })->addColumn('phoneOder',function($getData){
+                return $getData->phoneOder;
+            })->addColumn('TotalOrder',function($getData){
+                return library_my::formatMoney($getData->TotalOrder);
+            })->addColumn('Address',function($getData){
+                return $getData->Address;
+            })->addColumn('notes',function($getData){
+                return $getData->notes;
+            })->addColumn('Payments',function($getData){
+                if($getData->Payments ==1)
+                {
+                    $span='Trả Tiền Mặt Khi Nhận Hàng ';
+                    return $span;
+                }else
+                {
+                    $span='<span class="" style="color:#005aab;"><i class="fab fa-cc-amazon-pay"></i> Chuyển Khoản Ngân Hàng</span>';
+                    return $span;
+                }
+
+            })->addColumn('status',function($getData){
+
+                if($getData->status==4)
+                {
+                    $status='<span class="btn-success btn btn-sm disabled ">Đơn hàng Giao Thanh Công</span>';
+                }
+
+
+                    return $status;
+
+
+            })->addColumn('created_at',function($getData){
+                $time=  \Carbon\Carbon::parse($getData->created_at)->format('d/m/Y');
+                return $time;
+            })->addColumn('action',function($getData){
+                $button='<a class="btn btn-sm btn-info view_order" href="danh-sach-san-pham/'.$getData->id.'"><i class="fas fa-eye"></i></a>';
+                return $button;
+            })
+            ->rawColumns(['codeOder','fullName','phoneOder','TotalOrder','Address','notes','Payments','status','action'])
+            ->make('true');
+        }
+    }
     public function ds_order(Request $request,$id)
     {
         if($request->ajax())

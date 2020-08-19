@@ -69,6 +69,12 @@ Route::get('dang-ky','Backend\HomeController@register')->name('resgister');
 Route::post('post-dang-ky','Backend\HomeController@postRegister')->name('postRegister');
 Route::post('xac-thuc-email','Backend\HomeController@xacthucgmail')->name('active_email');
 Route::get('xac-thuc','Backend\HomeController@getxacthuc')->name('getxacthuc');
+/*
+
+    Phần User Bao Gồm Quản Lý User
+
+
+*/
 Route::group(['middleware' => 'auth.user'], function () {
     Route::post('binh-luan/{id_products}','Backend\HomeController@commentProduct')->name('commentProduct');
     Route::post('tra-loi/{id_products}/{parentid}','Backend\HomeController@replyCommentProduct')->name('replyCommentProduct');
@@ -93,17 +99,22 @@ Route::group(['middleware' => 'auth.user'], function () {
     Route::get('danh-sach-san-pham/{id}','Backend\HomeController@ds_order')->name('ds_order');
     Route::get('danh-sach-san-pham-accept','Backend\HomeController@fetch_order_accept')->name('fetch_order_accept');
     Route::get('danh-sach-san-pham-error','Backend\HomeController@fetch_order_error')->name('fetch_order_error');
+    Route::get('danh-sach-don-hang-da-giao','Backend\HomeController@order_success')->name('order_success');
 
 });
 
+/*
 
-        ///phần admin //
+    Danh Sách Route Quản lý Admin
+*/
 
 Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
     Route::get('dashboard','Frontend\Backend@dashboard')->name('dashboard');
     Route::get('logOutAdmin','Frontend\Backend@logOutAdmin')->name('logOutAdmin');
     /* product */
-
+    /*
+        Quản Lý Sản Phẩm
+    */
     Route::group(['prefix' => 'products'], function() {
         //
         Route::get('brandsproducts.html','Frontend\Product\product@index')->name('productindex');
@@ -127,6 +138,10 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::post('update-quantity-product/{id}','Frontend\Product\product@update_quantity')->name('update_quantity');
 
     });
+    /*
+
+        Quản Lý hãng Sản phẩm
+    */
     Route::group(['prefix' => 'brandproducts'], function () {
         Route::get('brandproduct','Frontend\BrandProducts\brandproductsController@index')->name('indexbrandproduct');
         Route::get('ajaxbrandproduct','Frontend\BrandProducts\brandproductsController@ajaxbrandproduct')->name('ajaxbrandproduct');
@@ -140,7 +155,11 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::post('post_add_brandproduct','Frontend\BrandProducts\brandproductsController@post_add_brandproduct')->name('post_add_brandproduct');
 
     });
+    /*
 
+
+        Quản Lý Loại Sản Phẩm
+    */
     Route::group(['prefix' => 'categoryproducts'], function() {
         //
         Route::get('categoryproducts','Frontend\Categoryproduct\categoryProductsController@indexcategoryproducts')->name('indexcategoryproducts');
@@ -151,12 +170,11 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::post('post_update_categoryproducts/{id_categoryproducts}','Frontend\Categoryproduct\categoryProductsController@post_update_categoryproducts')->name('post_update_categoryproducts');
         Route::get('add_categoryproducts','Frontend\Categoryproduct\categoryProductsController@add_categoryproducts')->name('add_categoryproducts');
         Route::post('post_add_categoryproducts','Frontend\Categoryproduct\categoryProductsController@post_add_categoryproducts')->name('post_add_categoryproducts');
-
-
-
-
-
     });
+    /*
+
+    Quản Lý Đối Tượng Sản Phẩm
+    */
     Route::group(['prefix' => 'gendercategoryproducts'], function () {
         Route::get('gendercategoryproducts','Frontend\genderCategoryProducts\gendercategoryproductscontroller@indexgendercategoryproducts')->name('indexgendercategoryproducts');
         Route::get('fetchgendercategoryproducts','Frontend\genderCategoryProducts\gendercategoryproductscontroller@fetchgendercategoryproducts')->name('fetchgendercategoryproducts');
@@ -166,7 +184,10 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::post('post_update_gendercategoryproducts/{id_gendercategoryproducts}','Frontend\genderCategoryProducts\gendercategoryproductscontroller@post_update_gendercategoryproducts')->name('post_update_gendercategoryproducts');
         Route::post('post_add_gendercategoryproducts','Frontend\genderCategoryProducts\gendercategoryproductscontroller@post_add_gendercategoryproducts')->name('post_add_gendercategoryproducts');
     });
-    //Đơn Hàng
+    /*
+    Quản Lý Đơn Hàng
+
+    */
     Route::group(['prefix' => 'orders'], function () {
         Route::get('orders','Frontend\orders\orderscontroller@indexorders')->name('orders');
         Route::get('fetchorders','Frontend\orders\orderscontroller@fetchorders')->name('fetchorders');
@@ -195,12 +216,18 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::get('orders-success','Frontend\orders\orderscontroller@ordersSuccess')->name('ordersSuccess');
         Route::get('fetch-success-order','Frontend\orders\orderscontroller@fetch_success_order')->name('fetch_success_order');
     });
-    //Quản Lý User
+    /*
+
+    Quản Lý User
+    */
     Route::group(['prefix' => 'users'], function () {
         Route::get('users','Frontend\UserController@index')->name('users.view');
         Route::get('FetchUsersList','Frontend\UserController@fetchUserAjax')->name('users.FetchAjax');
     });
-    //Quản Lý Chủ Đề Tin Tức
+    /*
+          Quản Lý Đề Tài Tin Tức
+
+    */
     Route::group(['prefix' => 'topic'], function () {
         Route::get('all-topic','Frontend\Topic\topicController@index')->name('index.Topic');
         //jdatatable
@@ -214,7 +241,11 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         //cập nhật topic
         Route::post('update-topic/{id}','Frontend\Topic\topicController@update')->name('update.topic');
     });
-    //Quản Lý Tin Tức
+    /*
+
+        Quản lý tin tức
+
+    */
     Route::group(['prefix' => 'news'], function () {
         Route::get('all-post','Frontend\post\postController@index')->name('index.post');
         Route::get('fetch-all-post','Frontend\post\postController@fetchindex')->name('fetchindex.post');
@@ -227,7 +258,10 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::get('update-news-detail/{slug}/{id}','Frontend\post\postController@get_update')->name('get_update.post');
         Route::post('post-update-detail/{id}','Frontend\post\postController@post_update')->name('post_update.post');
     });
-    // quản lý admin
+    /* quản lý admin
+
+
+    */
     Route::group(['prefix' => 'admin'], function () {
         Route::get('admin-all','Frontend\Admin\admin@index')->name('admin.index');
         Route::get('fetch-data-admin','Frontend\Admin\admin@fetchindex')->name('admin.fetchIndex');

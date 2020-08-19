@@ -283,6 +283,7 @@
 @section('script')
    <script src="{{ asset('datePicker/datePicker.js') }}">
    </script>
+   <script src="{{ asset('js/myJs/readmoneyvnd.js') }}"></script>
     <script>
 
         $(document).ready(function(){
@@ -643,6 +644,7 @@
 
                                   },
 
+
                                   categories: categories,
 
                               },
@@ -653,7 +655,14 @@
 
                                       text: 'Tổng số hóa đơn trong năm'
 
-                                  }
+                                  },
+                                  labels: {
+                                    formatter: function() {
+                                        var docTien = new DocTienBangChu();
+                                        //return this.value
+                                           return docTien.doc(this.value);
+                                    }
+                                },
 
                               },
 
@@ -682,7 +691,8 @@
 
 
                                   data: number,
-                                  name: 'Tổng VNĐ  ',
+                                  name: 'Tổng VNĐ',
+
 
                               }],
 
