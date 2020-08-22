@@ -50,159 +50,7 @@
             <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,500;1,700&display=swap" rel="stylesheet">
 
       <style>
-            html{
-                font-size: 62.5%;
-                line-height: 1.6rem;
-                font-family: 'Roboto', sans-serif;
-
-            }
-            body{
-                background-color: #F7F7F7;
-            }
-
-            .cart-payment{display:none}.dropdown{position:static!important}.dropdown-menu{box-shadow:0 .5rem 1rem rgba(0,0,0,.15)!important;margin-top:0!important;width:100%!important}.dropdown-menu-cart{box-shadow:0 .5rem 1rem rgba(0,0,0,.15)!important;margin-top:0!important;width:50%!important}.nav-item{margin:0 10px}.nav__name{font-weight:600}.title-brands{font-weight:600;font-size:1.1rem}.title-product{position:relative;z-index:2;color:#fff;padding:0 20px;font-weight:700;font-size:1.2rem}.title-product::after{content:" ";display:block;border-top:2px solid #900;width:10%;left:0;height:1px;position:absolute;top:50%;z-index:1}.title-product::before{content:" ";display:block;border-top:2px solid #900;width:10%;right:0;height:1px;position:absolute;top:50%;z-index:1}.border-color{border:1px solid #f60;border-radius:10px}.border-color:hover{box-shadow:0 4px 8px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)}.border-brands-product{border:1px solid #0b0b0b;border-radius:4%}.border-color:hover{box-shadow:0 4px 8px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)}.margin-item{margin:4px 4px}.span-title{background-color:#f60;color:#fff;padding:3px 20px}.span-title-brands{color:#333}.card-deck{min-height:480px}footer{position:relative;background:#343a40;clip-path:polygon(53% 13%,100% 28%,100% 100%,0 100%,0 0);clear:both;padding-top:50px;padding-bottom:104px;z-index:50}.title-product-detail{font-weight:500;font-size:1rem}.sku_wrapper{display:block;clear:both;color:#000;margin-bottom:10px}.sku{color:#827c7c}.price-product{font-size:1.4rem;color:#827c7c}.add-cart{padding:10px;background:#900}.clear-cart{padding:10px;background:#900}.hvr-grow{display:inline-block;vertical-align:middle;transform:translateZ(0);box-shadow:0 0 1px transparent;backface-visibility:hidden;-moz-osx-font-smoothing:grayscale;transition-duration:.3s;transition-property:transform}.hvr-grow:active,.hvr-grow:focus,.hvr-grow:hover{transform:scale(1.1);box-shadow:0 4px 8px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)}.hotline{display:block}.border-title-top-bottom{padding:20px 0;border-top:1px solid #ebebeb;border-bottom:1px solid #ebebeb}.description{margin:5px 0;clear:both;text-align:justify}.title-description:nth-child(even){background-color:#efeff1}.text-guarantee{font-weight:700}.reply-comment{margin:5px 20px;background-color:#f1f1f1}#loading{background-color:#fff;position:fixed;display:block;top:0;bottom:0;z-index:1000000;opacity:.5;width:100%;height:100%;text-align:center}#loading img{margin:auto;display:block;left:50%;top:50%;transform:translateX(-50%) translateY(-50%);-webkit-transform:translateX(-50%) translateY(-50%);position:absolute;z-index:999}.page-wrapper{min-height:80vh}.box-topic{border:1px solid #333}.box-post{border-bottom:1px solid #333}img{display:block;transition:.5s ease;backface-visibility:hidden}img:hover{transition:.5s ease;opacity:.5}.date-post{text-align:center;width:150px;height:50px;border:1px solid #333}.title-topic{margin-top:1.5rem;margin-bottom:1.5rem}.title-topic-new{text-transform:uppercase}.box-reply{border:1px solid #333}.btn-facebook{background-color:#3578e5;color:#fff;border-color:rgba(0,0,0,.2);font-size:1.2rem}.btn-google{background-color:#dd4b39;color:#fff;border-color:rgba(0,0,0,.2);font-size:1.2rem}.border-radius{border-radius:20px}.footer-logo{color:#ffff;text-transform:uppercase}.footer-copyright{background:#333}.copyright-content{color:#ffff}.quantity{background-color:#6394f8;border-radius:10px;color:#fff;display:inline-block;font-size:12px;line-height:1;padding:3px 7px;text-align:center;vertical-align:middle;white-space:nowrap}.badge{color:red}.btn-checkout{border-radius:20px;background-color:#900}
-            .text-uppercase{
-                margin: 20px 20px;
-                font-size: 1.8rem;
-                padding: 3px;
-            }
-            .navbar{
-                background-color: rgb(255, 255, 255);
-                text-transform: uppercase;
-
-
-            }
-            .nav-link{
-                color: rgb(0, 0, 0);
-                font-size: 1.3rem;
-                font-weight: 700;
-            }
-            .nav-tabs >.nav-item{
-                color: rgb(0, 0, 0);
-            }
-            .card-title{
-                font-size: 1.3rem;
-                text-transform: capitalize;
-            }
-            ..full-width-row {
-                overflow-x: hidden;
-              }
-
-              .full-width-row > div {
-                margin-left: -15px;
-                margin-right: -15px;
-              }
-            .footer-logo{
-                color: #F4BA01;
-                border-bottom: 1px solid ;
-                width: 50%;
-            }
-            .content-footer{
-                text-align: center;
-                color: rgb(255, 255, 255);
-                text-transform: uppercase;
-                font-size: 1.3rem;
-                width: 50%;
-            }
-            .content-contact{
-                display: inline-block;
-            }
-            .active{
-                border-bottom: 2px solid #F4BA01;
-
-              }
-              .span-title-brands{
-                  font-size: 1.5rem;
-
-
-              }
-              #lab_social_icon_footer {
-                padding: 40px 0;
-                background-color: #dedede;
-              }
-
-              #lab_social_icon_footer a {
-                color: #333;
-              }
-
-              #lab_social_icon_footer .social:hover {
-                -webkit-transform: scale(1.1);
-                -moz-transform: scale(1.1);
-                -o-transform: scale(1.1);
-              }
-
-              #lab_social_icon_footer .social {
-                -webkit-transform: scale(0.8);
-                /* Browser Variations: */
-
-                -moz-transform: scale(0.8);
-                -o-transform: scale(0.8);
-                -webkit-transition-duration: 0.5s;
-                -moz-transition-duration: 0.5s;
-                -o-transition-duration: 0.5s;
-              }
-              /*
-                  Multicoloured Hover Variations
-              */
-
-              #lab_social_icon_footer #social-fb:hover {
-                color: #3B5998;
-              }
-
-              #lab_social_icon_footer #social-tw:hover {
-                color: #4099FF;
-              }
-
-              #lab_social_icon_footer #social-gp:hover {
-                color: #d34836;
-              }
-
-              #lab_social_icon_footer #social-em:hover {
-                color: #f39c12;
-              }+
-              .autocomplete-suggestions { border: 1px solid #999; background-color:white !important; overflow: auto; }
-              .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; background-color:white !important; width: 300px;font-size: 1.3rem;line-height: 2;  overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;}
-              .autocomplete-selected { background: #696666; }
-              .autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
-              .autocomplete-group { padding: 2px 5px; }
-              .autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
-              .text-capitalize{
-                font-size: 1.4rem;
-                line-height: 3;
-
-              }
-              .text-capitalize::after {
-                content: '';
-                display: block;
-                width: 0;
-                height: 2px;
-                background: #900;
-                transition: width .3s;
-            }
-
-            .text-capitalize:hover::after {
-                width: 100%;
-                transition: width .3s;
-            }
-            .text-nav{
-                font-weight: 700;
-                color: #900;
-            }
-            .price{
-                font-size: 1.3rem;
-                font-weight: 500;
-            }
-            .price-sales{
-                font-size: 1.4rem;
-                font-weight: 700;
-            }
-            .span-title-brands{
-                font-size: 1.8rem;
-                font-weight: 700;
-                color: #900;
-            }
+        html{font-size:62.5%;line-height:1.6rem;font-family:Roboto,sans-serif}body{background-color:#f7f7f7}.cart-payment{display:none}.dropdown{position:static!important}.dropdown-menu{box-shadow:0 .5rem 1rem rgba(0,0,0,.15)!important;margin-top:0!important;width:100%!important}.dropdown-menu-cart{box-shadow:0 .5rem 1rem rgba(0,0,0,.15)!important;margin-top:0!important;width:50%!important}.nav-item{margin:0 10px}.nav__name{font-weight:600}.title-brands{font-weight:600;font-size:1.1rem}.title-product{position:relative;z-index:2;color:#fff;padding:0 20px;font-weight:700;font-size:1.2rem}.title-product::after{content:" ";display:block;border-top:2px solid #900;width:10%;left:0;height:1px;position:absolute;top:50%;z-index:1}.title-product::before{content:" ";display:block;border-top:2px solid #900;width:10%;right:0;height:1px;position:absolute;top:50%;z-index:1}.border-color{border:1px solid #f60;border-radius:10px}.border-color:hover{box-shadow:0 4px 8px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)}.border-brands-product{border:1px solid #0b0b0b;border-radius:4%}.border-color:hover{box-shadow:0 4px 8px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)}.margin-item{margin:4px 4px}.span-title{background-color:#f60;color:#fff;padding:3px 20px}.span-title-brands{color:#333}.card-deck{min-height:480px}footer{position:relative;background:#343a40;clip-path:polygon(53% 13%,100% 28%,100% 100%,0 100%,0 0);clear:both;padding-top:50px;padding-bottom:104px;z-index:50}.title-product-detail{font-weight:500;font-size:1rem}.sku_wrapper{display:block;clear:both;color:#000;margin-bottom:10px}.sku{color:#827c7c}.price-product{font-size:1.4rem;color:#827c7c}.add-cart{padding:10px;background:#900}.clear-cart{padding:10px;background:#900}.hvr-grow{display:inline-block;vertical-align:middle;transform:translateZ(0);box-shadow:0 0 1px transparent;backface-visibility:hidden;-moz-osx-font-smoothing:grayscale;transition-duration:.3s;transition-property:transform}.hvr-grow:active,.hvr-grow:focus,.hvr-grow:hover{transform:scale(1.1);box-shadow:0 4px 8px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)}.hotline{display:block}.border-title-top-bottom{padding:20px 0;border-top:1px solid #ebebeb;border-bottom:1px solid #ebebeb}.description{margin:5px 0;clear:both;text-align:justify}.title-description:nth-child(even){background-color:#efeff1}.text-guarantee{font-weight:700}.reply-comment{margin:5px 20px;background-color:#f1f1f1}#loading{background-color:#fff;position:fixed;display:block;top:0;bottom:0;z-index:1000000;opacity:.5;width:100%;height:100%;text-align:center}#loading img{margin:auto;display:block;left:50%;top:50%;transform:translateX(-50%) translateY(-50%);-webkit-transform:translateX(-50%) translateY(-50%);position:absolute;z-index:999}.page-wrapper{min-height:80vh}.box-topic{border:1px solid #333}.box-post{border-bottom:1px solid #333}img{display:block;transition:.5s ease;backface-visibility:hidden}img:hover{transition:.5s ease;opacity:.5}.date-post{text-align:center;width:150px;height:50px;border:1px solid #333}.title-topic{margin-top:1.5rem;margin-bottom:1.5rem}.title-topic-new{text-transform:uppercase}.box-reply{border:1px solid #333}.btn-facebook{background-color:#3578e5;color:#fff;border-color:rgba(0,0,0,.2);font-size:1.2rem}.btn-google{background-color:#dd4b39;color:#fff;border-color:rgba(0,0,0,.2);font-size:1.2rem}.border-radius{border-radius:20px}.footer-logo{color:#ffff;text-transform:uppercase}.footer-copyright{background:#333}.copyright-content{color:#ffff}.quantity{background-color:#6394f8;border-radius:10px;color:#fff;display:inline-block;font-size:12px;line-height:1;padding:3px 7px;text-align:center;vertical-align:middle;white-space:nowrap}.badge{color:red}.btn-checkout{border-radius:20px;background-color:#900}.text-uppercase{margin:20px 20px;font-size:1.8rem;padding:3px}.navbar{background-color:#fff;text-transform:uppercase}.nav-link{color:#000;font-size:1.3rem;font-weight:700}.nav-tabs>.nav-item{color:#000}.card-title{font-size:1.3rem;text-transform:capitalize}..full-width-row{overflow-x:hidden}.full-width-row>div{margin-left:-15px;margin-right:-15px}.footer-logo{color:#f4ba01;border-bottom:1px solid;width:50%}.content-footer{text-align:center;color:#fff;text-transform:uppercase;font-size:1.3rem;width:50%}.content-contact{display:inline-block}.active{border-bottom:2px solid #f4ba01}.span-title-brands{font-size:1.5rem}#lab_social_icon_footer{padding:40px 0;background-color:#dedede}#lab_social_icon_footer a{color:#333}#lab_social_icon_footer .social:hover{-webkit-transform:scale(1.1);-moz-transform:scale(1.1);-o-transform:scale(1.1)}#lab_social_icon_footer .social{-webkit-transform:scale(.8);-moz-transform:scale(.8);-o-transform:scale(.8);-webkit-transition-duration:.5s;-moz-transition-duration:.5s;-o-transition-duration:.5s}#lab_social_icon_footer #social-fb:hover{color:#3b5998}#lab_social_icon_footer #social-tw:hover{color:#4099ff}#lab_social_icon_footer #social-gp:hover{color:#d34836}#lab_social_icon_footer #social-em:hover{color:#f39c12}.autocomplete-suggestion{padding:2px 5px;white-space:nowrap;overflow:hidden;background-color:#fff!important;width:300px;font-size:1.3rem;line-height:2;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.autocomplete-selected{background:#696666}.autocomplete-suggestions strong{font-weight:400;color:#39f}.autocomplete-group{padding:2px 5px}.autocomplete-group strong{display:block;border-bottom:1px solid #000}.text-capitalize{font-size:1.4rem;line-height:3}.text-capitalize::after{content:'';display:block;width:0;height:2px;background:#900;transition:width .3s}.text-capitalize:hover::after{width:100%;transition:width .3s}.text-nav{font-weight:700;color:#900}.price{font-size:1.3rem;font-weight:500}.price-sales{font-size:1.4rem;font-weight:700}.span-title-brands{font-size:1.8rem;font-weight:700;color:#900}
     </style>
         @yield('style')
     @yield('head')
@@ -213,7 +61,7 @@
 
                     <nav class="navbar navbar-expand-lg  fixed-top" style="background-color: rgba(255, 255, 255, 0);">
                         <div class="container">
-                        <a class="navbar-brand" href="{{ route('home') }}"><h1 style="font-size: 1.6rem;">WatchStore</h1></a>
+                        <a class="navbar-brand" href="{{ route('home') }}"><img src="https://watchstore.vn/storage/files/watchshop-logoV3.svg" style="width: 100px;" alt="logo"></a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                           <span class="navbar-toggler-icon"><i class="fas fa-bars" style="background-color: #6394f8;"></i></span>
                         </button>
@@ -308,19 +156,16 @@
                               </li>
                               <li class="nav-item">
 
+                                    <a href="" class="nav-link nav__search"> <i class="fas fa-search"></i></a>
 
-
-                            </li>
+                              </li>
                               {{-- <form class="form-inline my-2 my-lg-0">
                                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                               </form> --}}
 
                           </ul>
-                          <form class="form-inline my-2 my-lg-0" style="width: 200px" action="{{ Route('view_search_result') }}" method="GET">
-                              @csrf
-                            <input class="form-control" type="search" placeholder="Nhập Vào Tên Sản Phẩm"  name="keyword" id="keyword" style="width: 100%" >
-                          </form>
+
                           <ul class="navbar-nav ml-md-auto account">
                             @if (!Auth::guard('khachhang')->check())
                             <li class="nav-item">
@@ -554,6 +399,36 @@
         </div>
         </div>
     </div>
+    <div class="modal modalsearch" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;">
+          <div class="modal-content" style=" height: auto;
+          min-height: 100%;
+          border-radius: 0;
+          box-shadow: none;">
+            <div class="modal-header" style="  border-bottom: none;">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style=" opacity: 1;
+              font-size: 30px;">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" style="  text-align: center;border-bottom: none;">
+                <form class="form-inline my-2 my-lg-0" style=" margin: 0 auto;
+                float: none;
+                width: 300px;" action="{{ Route('view_search_result') }}" method="GET">
+                    @csrf
+                  <input class="form-control" type="search" placeholder="Nhập Vào Sản Phẩm Cần Tìm"  name="keyword" id="keyword" style="width: 100%" >
+                </form>
+            </div>
+            <div class="modal-footer" style="  border-bottom: none;
+            ">
+
+            </div>
+          </div>
+        </div>
+      </div>
 
     @includeIf('user.layout.loading.loading')
     <script src="{{asset('js/jquery/jquery-3.5.1.slim.min.js')}}"></script>
@@ -569,24 +444,30 @@
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
     <script src="{{ asset('js/jquery/jquery.autocomplete.min.js') }}"></script>
     <script>
-        $("#keyword").autocomplete({
-            serviceUrl:'{{ Route('search_complete') }}',
-            paramName:'keyword',
-            onSelect:function(suggestions)
-            {
-                $("#keyword").val(suggestions.value);
-            },
-            transformResult:function(response)
-            {
-                return {
-                    suggestions:$.map($.parseJSON(response),function(item){
-                        return {
-                            value:item.name,
-                        };
-                    })
-                };
-            },
+        $(document).on("click",'.nav__search',function(event){
+                event.preventDefault();
+                $('.modalsearch').modal('show');
+
+            $("#keyword").autocomplete({
+                serviceUrl:'{{ Route('search_complete') }}',
+                paramName:'keyword',
+                onSelect:function(suggestions)
+                {
+                    $("#keyword").val(suggestions.value);
+                },
+                transformResult:function(response)
+                {
+                    return {
+                        suggestions:$.map($.parseJSON(response),function(item){
+                            return {
+                                value:item.name,
+                            };
+                        })
+                    };
+                },
+            });
         });
+
 
         $(function(){
             $('.lazy').lazy();
