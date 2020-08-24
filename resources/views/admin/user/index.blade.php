@@ -33,6 +33,7 @@
                         <th scope="col">Giới Tính</th>
                         <th scope="col">Trạng Thái</th>
                         <th scope="col">Ngày Đăng Ký</th>
+                        <th scope="col">Chức năng</th>
 
 
                     </tr>
@@ -69,9 +70,31 @@
                     {data:'gender',name:'gender'},
                     {data:'status',name:'status'},
                     {data:'action',name:'action'},
+                    {data:'chucnang',name:'chucnang'},
+
 
 
                 ]
+            });
+            $(document).on('click','.update_status',function(event){
+                event.preventDefault();
+                var id = $(this).attr("href");
+                let url="{{ Route('update_status.user',':id') }}";
+                url = url.replace(':id', id);
+                $.ajax({
+                    url :url,
+                    type:"GET",
+                    dataType:"json",
+                    jsonpCallback: "index",
+                    success:function(data)
+                    {
+                    setTimeout(function(){
+                        alertify.success(data.success);
+                        $('#table_index').DataTable().ajax.reload();
+
+                    },1000);
+                    }
+                });
             });
         });
     </script>

@@ -58,7 +58,39 @@ class UserController extends Controller
             })->addColumn('action',function($userGetAll){
                 $action=\Carbon\Carbon::parse($userGetAll->created_at)->format('d m Y H:i:s');
                 return $action;
-            })->rawColumns(['codeuser','email','phoneuser','name','gender','status','action'])->make('true');
+            })->addColumn('chucnang',function($userGetAll){
+                $button='<a href="'.$userGetAll->id.'" class="btn btn-sm btn-success update_status">Trạng thái</a>';
+                return $button;
+            })
+
+
+            ->rawColumns(['codeuser','email','phoneuser','name','gender','status','action','chucnang'])->make('true');
+        }
+    }
+    public function update_status($id,Request $request)
+    {
+        if($request->ajax())
+        {
+           try{
+            $user=users::find($id);
+            if($user->status==1)
+            {
+                $user->status=0;
+                $user->save();
+                return response()->json(['success'=>'Tắt trạng thái thành công']);
+            }else
+            {
+            $user->status=1;
+            $user->save();
+
+            return response()->json(['success'=>'Bật trạng thái thành công']);
+            }
+
+
+           }catch(Exception $e)
+           {
+            return response()->json(['danger'=>'Phát sinh lỗi']);
+           }
         }
     }
 }

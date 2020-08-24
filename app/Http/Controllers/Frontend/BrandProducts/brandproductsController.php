@@ -76,17 +76,17 @@ class brandproductsController extends Controller
     {
       if($request->ajax())
       {
-        $row=brandproducts::findOrFail($id);
+        $row=brandproducts::find($id);
         if($row->status==0)
         {
             $row->status=1;
             $row->save();
-            return response()->json('Bật Trạng Thái Thành Công');
+            return response()->json(['success'=>'Bật Trạng Thái Thành Công']);
         }else
         {
             $row->status=0;
             $row->save();
-            return response()->json('Tắt Trạng Thái Thành Công');
+            return response()->json(['success'=>'Tắt Trạng Thái Thành Công']);
         }
       }
 

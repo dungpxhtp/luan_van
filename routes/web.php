@@ -146,8 +146,8 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::get('brandproduct','Frontend\BrandProducts\brandproductsController@index')->name('indexbrandproduct');
         Route::get('ajaxbrandproduct','Frontend\BrandProducts\brandproductsController@ajaxbrandproduct')->name('ajaxbrandproduct');
 
-        Route::get('update-status/{id_brandproducts}','Frontend\BrandProducts\brandproductsController@update_status')->name('update_status');
-        Route::get('destroy/{id_brandproducts}','Frontend\BrandProducts\brandproductsController@destroy')->name('destroy');
+        Route::get('update-status/{id_brandproducts}','Frontend\BrandProducts\brandproductsController@update_status')->name('update_status.brandproducts');
+        Route::get('destroy/{id_brandproducts}','Frontend\BrandProducts\brandproductsController@destroy')->name('destroy.brandproducts');
         Route::get('update_brandproduct/{id_brandproducts}/{slug}','Frontend\BrandProducts\brandproductsController@update_brandproduct')->name('update_brandproduct');
         Route::post('post_brandproduct/{id_brandproducts}','Frontend\BrandProducts\brandproductsController@post_brandproduct')->name('post_brandproduct');
 
@@ -223,6 +223,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
     Route::group(['prefix' => 'users'], function () {
         Route::get('users','Frontend\UserController@index')->name('users.view');
         Route::get('FetchUsersList','Frontend\UserController@fetchUserAjax')->name('users.FetchAjax');
+        Route::get('update-status-user/{id}','Frontend\UserController@update_status')->name('update_status.user');
     });
     /*
           Quản Lý Đề Tài Tin Tức
@@ -269,6 +270,16 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::get('find-admin/{id}','Frontend\Admin\admin@find')->name('admin.find');
         Route::post('update-admin/{id}','Frontend\Admin\admin@update_admin')->name('admin.update_admin');
     });
+
+    Route::group(['prefix' => 'comment'], function() {
+        //
+        Route::get('quan-ly-binh-luan','Frontend\Comment\comment@index')->name('comment.index');
+        Route::get('fetch-all-binh-luan','Frontend\Comment\comment@fetchindex')->name('comment.fetchindex');
+        Route::get('fetch-check-binh-luan','Frontend\Comment\comment@fecthindexcheck')->name('comment.fecthindexcheck');
+        Route::get('update-status-comment/{id}','Frontend\Comment\comment@update_status')->name('comment.updateStatus');
+        Route::get('delete-comment/{id}','Frontend\Comment\comment@delete')->name('comment.delete');
+    });
+
     // quản lý biểu đồ
 
     Route::group(['prefix' => 'charts'], function() {
@@ -278,6 +289,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::get('users-charts/{year}','Frontend\charts@chartsYearUser')->name('chartsYearUser');
         Route::get('orders-total/{year}','Frontend\charts@chartsOrders')->name('chartsOrders');
         Route::get('thong-ke-doanh-thu/{year}','Frontend\charts@danhthu')->name('danhthu');
+
     });
 
 });

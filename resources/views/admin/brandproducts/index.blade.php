@@ -158,7 +158,7 @@
             $(document).on('click','.update_status',function(event){
                 event.preventDefault();
                 var id = $(this).attr("href");
-                let url="{{ Route('update_status',':id') }}";
+                let url="{{ Route('update_status.brandproducts',':id') }}";
                 url = url.replace(':id', id);
                 $.ajax({
                     url :url,
@@ -168,8 +168,9 @@
                     success:function(data)
                     {
                     setTimeout(function(){
+                        alertify.success(data.success);
                         $('#table_index').DataTable().ajax.reload();
-                        alert(data);
+
                     },1000);
                     }
                 });
@@ -185,7 +186,7 @@
 
             })
             $('#ok_button').click(function(){
-                let url="{{ Route('destroy',':id') }}";
+                let url="{{ Route('destroy.brandproducts',':id') }}";
                 url = url.replace(':id', id_brands);
                 $.ajax({
                     url :url,
@@ -198,7 +199,7 @@
                         setTimeout(function(){
                             $('#confirmModal').modal('hide');
                             $('#table_index').DataTable().ajax.reload();
-                            alert(data);
+                            alertify.success(data);
                         }, 1000);
                     }
 

@@ -122,7 +122,7 @@
                                     Quản Lý Bình Luận
                                   </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                  <a class="dropdown-item" href="{{ Route('orders') }}">Quản Lý Bình Luận</a>
+                                  <a class="dropdown-item" href="{{ Route('comment.index') }}">Quản Lý Bình Luận</a>
                                 </div>
 
                               </li>

@@ -23,7 +23,10 @@ class SocialAuthController extends Controller
         }
              $getInfo  = Socialite::driver('facebook')->user();
             $user=$this->checklogin($getInfo);
-
+            if($user->status==0)
+            {
+                return redirect()->route('home')->with("message",["type"=>"danger","msg"=>"Tài Khoản Bị Khóa"]);
+            }
             Auth::guard('khachhang')->login($user);
 
             return redirect()->route('home')->with("message",["type"=>"success","msg"=>"Đăng Nhập Thành Công"]);
@@ -56,7 +59,10 @@ class SocialAuthController extends Controller
     {
         $getInfo  = Socialite::driver('google')->user();
         $user=$this->checkLoginGoogle($getInfo);
-
+        if($user->status==0)
+        {
+            return redirect()->route('home')->with("message",["type"=>"danger","msg"=>"Tài Khoản Bị Khóa"]);
+        }
         Auth::guard('khachhang')->login($user);
 
         return redirect()->route('home')->with("message",["type"=>"success","msg"=>"Đăng Nhập Thành Công"]);
