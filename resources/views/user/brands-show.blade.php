@@ -2,7 +2,10 @@
 @section('title')
     {{ $brandShow->name }}
 @endsection
-@section('head')
+@section('meta')
+    <meta name="description" content="{{ $brandShow->metadesc }}" />
+    <meta name="keywords" content="{{ $brandShow->metakey }}">
+
 
 @endsection
 @section('main')

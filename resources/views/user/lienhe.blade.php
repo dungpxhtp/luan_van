@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Email *</label>
-                                    <input type="email" name="email" class="form-control" id="exampleFormControlInput1" >
+                                    <input type="email" name="email" class="form-control" required id="exampleFormControlInput1" >
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Số Điện Thoại * </label>
@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="form-group">
                                   <label for="exampleFormControlTextarea1">Nội Dung *</label>
-                                  <textarea class="form-control counted" id="exampleFormControlTextarea1" rows="3" minlength="20" name="content"></textarea>
+                                  <textarea class="form-control counted" id="exampleFormControlTextarea1" rows="3" minlength="20" name="content" required></textarea>
                                    <h6 class="pull-right" id="counter" style="margin-top:10px;"></h6>
                                   <small id="emailHelp" class="form-text text-muted">Nội dung không dưới 20 kí tự</small>
                                 </div>

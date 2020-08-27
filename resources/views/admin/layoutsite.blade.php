@@ -160,6 +160,7 @@
 
                                   @endif
                                   <a class="dropdown-item" href="{{ Route('admin.account') }}"><i class="fas fa-users"></i><span class="item-margin-5">Thông Tin</span></a>
+                                  <a class="dropdown-item" href="{{ Route('admin.checkTransaction') }}"><i class="fas fa-users"></i><span class="item-margin-5">Kiểm Tra Thông Tin Giao Dịch</span></a>
 
                                   <a class="dropdown-item" href="{{ Route('logOutAdmin') }}"><i class="fas fa-sign-out-alt"></i><span class="item-margin-5">Đăng Xuất</span></a>
                                 </div>

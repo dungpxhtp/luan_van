@@ -31,6 +31,18 @@
             font-size: 1.3rem;
 
         }
+        .box-img{
+            padding-top: 40px;
+        }
+        .btn-submit-comment{
+            padding: 5px;
+            color: white;
+            font-size: 1.4rem;
+
+        }
+        .owl-prev , .owl-next{
+            display: none;
+        }
     </style>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js"></script>
 
@@ -208,7 +220,7 @@
                               <textarea class="form-control counted input-comment" name="input-comment" placeholder="Mời Bạn Nhập Bình Luận Về Sản Phẩm" rows="3" ></textarea>
                               <h6 class="pull-right counter"  style="margin-top: 10px; display: none;"></h6>
                             </div>
-                            <button  value="{{ Route('commentProduct',['id_products'=>$product->id]) }}" class="btn btn-sm btn-success btn-submit-comment" >Bình Luận</button>
+                            <button  value="{{ Route('commentProduct',['id_products'=>$product->id]) }}" class="btn btn-sm btn-success btn-submit-comment"  >Bình Luận</button>
                         </form>
                 </div>
             </div>
@@ -246,7 +258,7 @@
                 margin:10,
                 responsiveClass:true,
                 autoplay:true,
-                autoplayTimeout:2000,
+                autoplayTimeout:5000,
                 autoplayHoverPause:true,
                 responsive:{
                     0:{
@@ -254,7 +266,7 @@
                         nav:true
                     },
                     600:{
-                        items:3,
+                        items:2,
                         nav:false
                     },
                     1000:{
@@ -265,7 +277,7 @@
                 }
             });
             $('.play').on('click',function(){
-                owl.trigger('play.owl.autoplay',[1000])
+                owl.trigger('play.owl.autoplay',[5000])
             });
             $('.stop').on('click',function(){
                 owl.trigger('stop.owl.autoplay')

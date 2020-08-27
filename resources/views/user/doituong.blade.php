@@ -2,7 +2,10 @@
 @section('title')
     {{ $doituong->name }}
 @endsection
-@section('head')
+@section('meta')
+    <meta name="description" content="{{ $doituong->metadesc }}" />
+    <meta name="keywords" content="{{ $doituong->metakey }}">
+
 
 @endsection
 @section('main')

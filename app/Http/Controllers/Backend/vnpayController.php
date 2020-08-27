@@ -51,6 +51,7 @@ class vnpayController extends Controller
             //khi khách hủy bỏ giao dịch*/
             $order=orders::where('codeOder','=',$complete->vnp_TxnRef)->firstOrFail();
             $order->status=2;
+            $order->created_at=Carbon::now('Asia/Ho_Chi_Minh');
             $order->save();
             return redirect()->route('home')->with("message",["type"=>"success","msg"=>"Quý khách đã thanh toán đơn hành thành công"]);
 
@@ -68,6 +69,32 @@ class vnpayController extends Controller
           return redirect()->back()->with("message",["type"=>"danger","msg"=>"Phát Sinh Lỗi Liên Hệ Với Nhân Viên Cửa Hàng"]);
 
        }
+    }
+    public function checkTransaction()
+    {
+        return view('admin.vnpay.getTransactionReference');
+    }
+    public function checkTransactionReference(Request $request ,$id)
+    {
+        $response = \VNPay::queryTransaction([
+            'vnp_TransDate' => 20190705151126,
+            'vnp_TxnRef' => 1562314234,
+            'vnp_OrderInfo' => time(),
+            'vnp_IpAddr' => '127.0.0.1',
+            'vnp_TransactionNo' => 496558,
+        ])->send();
+
+        if ($response->isSuccessful()) {
+            // TODO: xử lý kết quả và hiển thị.
+            print $response->getTransactionId();
+            print $response->getTransactionReference();
+
+            var_dump($response->getData()); // toàn bộ data do VNPay gửi về.
+
+        } else {
+
+            print $response->getMessage();
+        }
     }
 
 }

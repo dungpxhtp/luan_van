@@ -2,7 +2,10 @@
 @section('title')
     {{ $loaisanpham->name }}
 @endsection
-@section('head')
+@section('meta')
+    <meta name="description" content="{{ $loaisanpham->metadesc }}" />
+    <meta name="keywords" content="{{ $loaisanpham->metakey }}">
+
 
 @endsection
 @section('main')

@@ -360,7 +360,7 @@ img {
                         @foreach ($details['product']->items as $item)
                         <p>{{ $item['name'] }} <strong style="color: #CD5F53;">Số Lượng : {{ $item['quantity'] }}</strong></p>
                           @endforeach
-
+                        <p>{{ $details['body'] }}</p>
                         <p>📬 Gửi Từ WatchStore : Đơn Hàng Này Sẽ Được Giao Trong Khoảng 3 Ngày </p>
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                           <tbody>

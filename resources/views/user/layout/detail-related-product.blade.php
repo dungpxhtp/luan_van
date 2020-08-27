@@ -15,7 +15,7 @@
         <div class="owl-carousel">
             @foreach ($products_related as $item)
             <div>
-                <div class="card" style="min-height: 400px">
+                <div class="card" style="min-height: 480px">
                  <a href="{{Route('productDetail',['slug'=>$item->slug])}}">   <img class="card-img-top owl-lazy" src="{{ $item->image }}" data-src="{{ $item->image }}" alt="{{ $item->slug }}" width="170px"> </a>
                     <div class="card-body" style="height: 100px">
                         <h5 class="card-title text-center">{{ $item->name }}</h5>

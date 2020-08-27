@@ -64,7 +64,7 @@
                              <div class="form-group">
                                  <small>THÔNG TIN THÊM
                                      Ghi chú đơn hàng (tuỳ chọn)</small>
-                             <textarea class="form-control" name="notes" required rows="3" placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng
+                             <textarea class="form-control" name="notes"  rows="3" placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng
                              chi tiết hơn."></textarea>
                              </div>
                              <small>Lưu Ý Đơn Hàng Được Gửi Qua Mail Ban Đầu Bạn Đã Đăng Ký</small>
@@ -79,7 +79,7 @@
                          </div>
                          <div class="form-check">
                              <label class="form-check-label" for="radio2">
-                             <input type="radio" name="option" class="form-check-input"  value="2">Chuyển Khoản Ngân Hàng
+                             <input type="radio" name="option" class="form-check-input"  value="2">Chuyển Khoản Ngân Hàng Thông Qua VNPAY
                              </label>
                          </div>
 

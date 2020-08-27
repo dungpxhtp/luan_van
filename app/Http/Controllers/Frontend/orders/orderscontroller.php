@@ -68,6 +68,10 @@ class orderscontroller extends Controller
                 return $TotalOrder;
             })->addColumn('Address',function($getData){
                 $Address=$getData->Address;
+                if(!empty($getData->notes))
+                {
+                    $Address.="<br> <br> Ghi Chú : ".$getData->notes;
+                }
                 return $Address;
             })->addColumn('Payments',function($getData){
                 if($getData->Payments ==1)
@@ -229,6 +233,10 @@ class orderscontroller extends Controller
                 return $TotalOrder;
             })->addColumn('Address',function($getData){
                 $Address=$getData->Address;
+                if(!empty($getData->notes))
+                {
+                    $Address.="<br> <br> Ghi Chú : ".$getData->notes;
+                }
                 return $Address;
             })->addColumn('Payments',function($getData){
                 if($getData->Payments ==1)
@@ -443,8 +451,12 @@ class orderscontroller extends Controller
                 return $span;
 
             })->addColumn('Address',function($getData){
-                $span=$getData->Address;
-                return $span;
+                $Address=$getData->Address;
+                if(!empty($getData->notes))
+                {
+                    $Address.="<br> <br> Ghi Chú : ".$getData->notes;
+                }
+                return $Address;
             })->addColumn('fullNameAdmin',function($getData){
                 $status=$getData->nameAdminUpdate;
                 if($status)
@@ -518,6 +530,10 @@ class orderscontroller extends Controller
                 return $TotalOrder;
             })->addColumn('Address',function($getData){
                 $Address=$getData->Address;
+                if(!empty($getData->notes))
+                {
+                    $Address.="<br> <br> Ghi Chú : ".$getData->notes;
+                }
                 return $Address;
             })->addColumn('Payments',function($getData){
                 if($getData->Payments ==1)
@@ -642,6 +658,10 @@ class orderscontroller extends Controller
                 return $TotalOrder;
             })->addColumn('Address',function($getData){
                 $Address=$getData->Address;
+                if(!empty($getData->notes))
+                {
+                    $Address.="<br> <br> Ghi Chú : ".$getData->notes;
+                }
                 return $Address;
             })->addColumn('Payments',function($getData){
                 if($getData->Payments ==1)
@@ -661,6 +681,83 @@ class orderscontroller extends Controller
             })->addColumn('action',function($getData){
                 $action='<div class="col">';
                 $action.='<a type="button" href="'.$getData->id.'" name="viewOrder"   class="viewOrder btn bg-info  text-white  btn-sm"><i class="fas fa-box-open"></i> Xem</a>';
+                $action.='</div>';
+                return $action;
+            })
+            ->rawColumns(['codeOder','fullName','phoneOder','exportDate','TotalOrder','Address','Payments','status','action'])->make('true');
+
+        }
+    }
+    public function checkTransaction(Request $request)
+    {
+
+        if($request->ajax())
+        {
+        $getData=orders::where([['orders.Payments','=',2],['orders.status','<>',3],['orders.status','<>',0],['orders.status','<>',4]])->join('users','orders.id_users','=','users.id')->select('orders.*','users.codeuser as codeuser','users.email','users.phoneuser','users.name as tenkhachhang','users.codeuser as codeuser')->orderBy('orders.created_at','desc')->get();
+
+            return Datatables::of($getData)
+            ->addColumn('codeOder',function($getData){
+                $codeOder=$getData->codeOder;
+                return $codeOder;
+            })->addColumn('codeuser',function($getData){
+                $codeuser =$getData->codeuser;
+                return $codeuser;
+            })
+            ->addColumn('fullName',function($getData){
+                $fullName=$getData->fullName;
+                return $fullName;
+            })->addColumn('phoneOder',function($getData){
+                $phoneOder=$getData->phoneOder;
+                return $phoneOder;
+            })->addColumn('exportDate',function($getData){
+                $exportDate =\Carbon\Carbon::parse($getData->created_at)->format('d m Y H:i:s');
+                return $exportDate;
+            })->addColumn('TotalOrder',function($getData){
+                $formatMoney=library_my::formatMoney($getData->TotalOrder);
+                $TotalOrder='<span  style="cursor: default;">'.$formatMoney.' VNĐ</span>';
+
+                return $TotalOrder;
+            })->addColumn('Address',function($getData){
+                $Address=$getData->Address;
+                if(!empty($getData->notes))
+                {
+                    $Address.="<br> <br> Ghi Chú : ".$getData->notes;
+                }
+                return $Address;
+            })->addColumn('Payments',function($getData){
+                if($getData->Payments ==1)
+                {
+                    $span='<span class="btn btn-sm btn-success" style="cursor: default;"><i class="fas fa-shipping-fast"></i>Thanh Toán Trực Tiếp</span>';
+                    return $span;
+                }else if($getData->Payments==2)
+                {
+                    $span='<span class="btn btn-sm btn-success" style="cursor: default;"><i class="fab fa-cc-paypal"></i>Chuyển tiền</span>';
+                    return $span;
+                }
+            })->addColumn('status',function($getData){
+                if($getData->Payments ==1)
+                {
+                    if($getData->status	==1)
+                    {
+                        $status	='<span class="btn-warning btn btn-sm disabled ">Đang Xử Lý</span>';
+                    }
+                    return $status	;
+                }else
+                {
+                    if($getData->status	==2)
+                    {
+                        $status	='<span class="btn btn-sm btn-success disabled "><i class="fas fa-money-check-alt"></i> Đã Thanh Toán</span>';
+                    }
+                    else
+                    {
+                        $status	='<span class="btn-danger btn btn-sm text-white disabled" >Chưa Thanh Toán</span>';
+                    }
+                    return $status	;
+                }
+            })->addColumn('action',function($getData){
+                $action='<div class="col">';
+                $action.='<a type="button" href="'.$getData->id.'" name="viewOrder"   class="viewOrder btn bg-info  text-white  btn-sm"><i class="fas fa-check"></i>Kiểm Tra</a>';
+
                 $action.='</div>';
                 return $action;
             })

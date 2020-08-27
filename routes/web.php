@@ -215,6 +215,8 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         // lấy ra danh sách đơn hành giao thành công status = 4
         Route::get('orders-success','Frontend\orders\orderscontroller@ordersSuccess')->name('ordersSuccess');
         Route::get('fetch-success-order','Frontend\orders\orderscontroller@fetch_success_order')->name('fetch_success_order');
+
+        Route::get('orders-transactionReference','Frontend\orders\orderscontroller@checkTransaction')->name('orders.checkTransaction');
     });
     /*
 
@@ -273,6 +275,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         //Thay đổi thông tin admin
         Route::get('account-information','Frontend\Admin\nhanvien\nhanviencontroller@account')->name('admin.account');
         Route::post('update-information/{id_admin}','Frontend\Admin\nhanvien\nhanviencontroller@update')->name('admin.update_information');
+        Route::get('TransactionReference','Backend\vnpayController@checkTransaction')->name('admin.checkTransaction');
     });
 
     Route::group(['prefix' => 'comment'], function() {

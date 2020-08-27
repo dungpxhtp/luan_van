@@ -387,7 +387,6 @@ class HomeController extends Controller
                 'name'=>'required',
                 'phone'=>'required',
                 'address'=>'required',
-                'notes'=>'required',
                 'option'=>'required',
 
             ],[
