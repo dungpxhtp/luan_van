@@ -1,6 +1,6 @@
 @extends('admin.layoutsite')
 @section('title')
-Quản Lý Bài Viết
+Quản Lý Bình Luận
 @endsection
 @section('main')
 <nav aria-label="Page breadcrumb">
@@ -14,11 +14,7 @@ Quản Lý Bài Viết
 
 </nav>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <a href="{{ Route('insert.getPost') }}" class="btn btn-sm btn-success">Thêm Bài Viết</a>
-        </div>
-    </div>
+
     <div class="row">
         <div class="col-md-12">
             <div class="table-responsive">

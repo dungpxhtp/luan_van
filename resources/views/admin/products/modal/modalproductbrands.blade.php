@@ -10,8 +10,8 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button"  id="btn-save" class="btn btn-primary btn-save">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+        <button type="button"  id="btn-save" class="btn btn-primary btn-save">Đồng Ý </button>
       </div>
     </div>
   </div>

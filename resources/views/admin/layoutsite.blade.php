@@ -154,13 +154,13 @@
                                   <i class="fas fa-users"></i> {{ Auth::guard('admin')->user()->fullname }}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                  <a class="dropdown-item" href="#"><i class="fas fa-users"></i><span class="item-margin-5">Thông Tin</span></a>
                                   @if (Auth::guard('admin')->user()->access ==1 )
 
                                   <a class="dropdown-item" href="{{ Route('admin.index') }}"><i class="fas fa-users"></i><span class="item-margin-5">Quản Lý Nhân Viên</span></a>
 
                                   @endif
-                                  <a class="dropdown-item" href="#"><i class="fas fa-cogs "></i><span class="item-margin-5">Setting</span></a>
+                                  <a class="dropdown-item" href="{{ Route('admin.account') }}"><i class="fas fa-users"></i><span class="item-margin-5">Thông Tin</span></a>
+
                                   <a class="dropdown-item" href="{{ Route('logOutAdmin') }}"><i class="fas fa-sign-out-alt"></i><span class="item-margin-5">Đăng Xuất</span></a>
                                 </div>
                               </li>

@@ -269,6 +269,10 @@ Route::group(['prefix' => 'admin','middleware'=>'auth.auth'], function () {
         Route::get('update-status-admin/{id}','Frontend\Admin\admin@update_status')->name('admin.updateStatus');
         Route::get('find-admin/{id}','Frontend\Admin\admin@find')->name('admin.find');
         Route::post('update-admin/{id}','Frontend\Admin\admin@update_admin')->name('admin.update_admin');
+        Route::post('insert-admin','Frontend\Admin\admin@insert')->name('admin.insert');
+        //Thay đổi thông tin admin
+        Route::get('account-information','Frontend\Admin\nhanvien\nhanviencontroller@account')->name('admin.account');
+        Route::post('update-information/{id_admin}','Frontend\Admin\nhanvien\nhanviencontroller@update')->name('admin.update_information');
     });
 
     Route::group(['prefix' => 'comment'], function() {
