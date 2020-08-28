@@ -10,7 +10,12 @@
         .text-comment{
             margin: 5px 20px;
         }
+
+
     </style>
+
+
+
 @endsection
 <div class="row my-2">
 
@@ -24,8 +29,10 @@
         <h5 class="name-comment">{{ $item->nameuser }}</h5>
         <p class="text-comment">{{ $item->commentText }}</p>
         <div class="comment-acttion">
+            @if (Auth::guard('khachhang')->check())
             <button  value="{{ $item->id }}" class="btn-reply btn btn-sm  btn-success">Trả Lời</button>
-            <span style="display: block;"><i class="far fa-clock"></i>{{ $item->created_at }}</span>
+            @endif
+            <small style="display: block;"><i class="far fa-clock"></i>{{ $item->created_at }}</small>
             <div class="row box-reply my-2  {{ $item->id }}" style="display: none">
 
                    <div class="col-md-8 my-2">
@@ -35,9 +42,11 @@
                         <textarea name="text-comment" class="text"  cols="30" rows="3" required minlength="20" maxlength="200" style="width: 100% ;border:none;" >@ {{ $item->nameuser }} : </textarea>
                         <h6 class="pull-right show" style="margin-top: 10px;"></h6>
 
-                        <button type="submit" class="btn btn-sm btn-warning ">
-                            Gửi Bình Luận
-                        </button>
+                            <button type="submit" class="btn btn-sm btn-warning ">
+                                Gửi Bình Luận
+                            </button>
+
+
                     </form>
                    </div>
 
@@ -52,7 +61,7 @@
                     <h5 class="name-comment">{{ $itemreply->nameuser }}</h5>
                     <span class="text-comment">{{  $itemreply->commentText }}</span>
                     <div class="comment-acttion">
-                        <span><i class="far fa-clock"></i> {{ $itemreply->created_at }}</span>
+                        <small><i class="far fa-clock"></i> {{ $itemreply->created_at }}</small>
                     </div>
                 </div>
                 @endif

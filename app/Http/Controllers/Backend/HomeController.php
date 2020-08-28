@@ -23,7 +23,6 @@ use App\Models\orders;
 use App\Models\ordersproducts;
 use App\Models\users;
 use Yajra\Datatables\Datatables;
-
 class HomeController extends Controller
 {
     //
@@ -50,10 +49,10 @@ class HomeController extends Controller
                 'categoryproducts.name as name_categoryproducts','productborderscolor.name as name_productborderscolor','brandproducts.name as name_brandproducts','products.*','brandproducts.image as image_brandproducts','brandproducts.slug as slug_brandproducts' )
         ->firstOrFail();
 
-        $comment=commentproducts::where([['commentproducts.id_product','=',$product->id],['commentproducts.status','=','1']])->join('users','commentproducts.id_user','=','users.id')->select('commentproducts.*','users.name as nameuser')->orderBy('created_at','desc')->paginate(20);
+        $comment=commentproducts::where([['commentproducts.id_product','=',$product->id],['commentproducts.status','=','1']])->join('users','commentproducts.id_user','=','users.id')->select('commentproducts.*','users.name as nameuser')->orderBy('created_at','desc')->paginate(8);
         if($request->ajax())
         {
-            $comment=commentproducts::where([['commentproducts.id_product','=',$product->id],['commentproducts.status','=','1']])->join('users','commentproducts.id_user','=','users.id')->select('commentproducts.*','users.name as nameuser')->orderBy('created_at','desc')->paginate(20);
+            $comment=commentproducts::where([['commentproducts.id_product','=',$product->id],['commentproducts.status','=','1']])->join('users','commentproducts.id_user','=','users.id')->select('commentproducts.*','users.name as nameuser')->orderBy('created_at','desc')->paginate(8);
 
             return view('user.layout.comment.replyComment',['comment'=>$comment])->render();
         }
@@ -79,13 +78,13 @@ class HomeController extends Controller
                 {
                 $commentproducts = new commentproducts;
                 $commentproducts->id_user=Auth::guard('khachhang')->user()->id;
-                $commentproducts->status=1;
+                $commentproducts->status=0;
                 $commentproducts->commentText=$request->get('input-comment');
                 $commentproducts->parentid=0;
                 $commentproducts->id_product=$idProducts;
                 $commentproducts->created_at=Carbon::now('Asia/Ho_Chi_Minh');
                 $commentproducts->save();
-                return response()->json(['success'=>'Bình Luận Thành Công']);
+                return response()->json(['success'=>'Bình Luận Thành Công Đợi Nhân Viên Xét Duyệt']);
                 }else
                 {
                     return response()->json(['error'=>'Yêu Cầu Đăng Nhập']);
@@ -119,13 +118,13 @@ class HomeController extends Controller
                 {
                 $commentproducts = new commentproducts;
                 $commentproducts->id_user=Auth::guard('khachhang')->user()->id;
-                $commentproducts->status=1;
+                $commentproducts->status=0;
                 $commentproducts->commentText=$request->get('text-comment');
                 $commentproducts->parentid=$parentid;
                 $commentproducts->id_product=$idProducts;
                 $commentproducts->created_at=Carbon::now('Asia/Ho_Chi_Minh');
                 $commentproducts->save();
-                return response()->json(['success'=>'Bình Luận Thành Công']);
+                return response()->json(['success'=>'Bình Luận Thành Công Đợi Nhân Viên Xét Duyệt']);
                 }else
                 {
                     return response()->json(['success'=>'Đăng Nhập Để Bình Luận ']);
@@ -921,8 +920,14 @@ class HomeController extends Controller
     public function view_search_result(Request $request)
     {
        $keyword=$request->get('keyword');
-       $products=products::where([['name','LIKE',"%$keyword%"]])->get();
-       return view('user.search_show',compact('products'));
+       $products=products::where([['name','LIKE',"%$keyword%"]])->orderBy('created_at','desc')->paginate(8);
+       $count=products::where([['name','LIKE',"%$keyword%"]])->orderBy('created_at','desc')->get()->count();
+       $products->appends(['keyword'=>$keyword]);
+       if($request->ajax()){
+             return view('user.layout.search.searchPaginate',['products'=>$products,'keyword'=>$keyword,'count'=>$count])->render();
+
+       }
+       return view('user.search_show',['products'=>$products,'keyword'=>$keyword,'count'=>$count])->render();
 
     }
 

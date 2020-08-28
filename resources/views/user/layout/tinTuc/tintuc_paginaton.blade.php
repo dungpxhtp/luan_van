@@ -8,9 +8,9 @@
                         </span>
                     </p>
 
-                    <h2 class="title-post text-center">
+                    <a class="title-post text-center" href="{{ Route('postdetail',['slug'=>$item->slug]) }}">
                         {{ $item->title }}
-                    </h2>
+                    </a>
 
                    <div>
                   <a href="{{ Route('postdetail',['slug'=>$item->slug]) }}"> <img src="{{ $item->image }}" alt="{{ $item->slug }}" style="width:100%"> </a>

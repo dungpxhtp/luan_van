@@ -8,6 +8,49 @@
     <meta property="fb:admins" content="3417082331657785"/>
 
 @endsection
+@section('head')
+    <style>
+        .topic-link{
+            font-size: 1.4rem;
+            color: #111;
+            line-height: 2;
+            font-weight: 500;
+            text-transform: uppercase;
+
+        }
+        .title-topic-new{
+            text-transform: capitalize;
+            font-size: 1.3rem;
+            color: #111;
+            font-weight: 500;
+        }
+        .topic-link:hover{
+            text-decoration: none;
+        }
+        .title-topic{
+            border-bottom: #900 2px solid;
+        }
+        .title-post{
+            text-transform: capitalize;
+            display: block;
+            justify-content: center;
+            font-size: 2rem;
+            line-height: 2;
+            color: #111;
+            font-weight: 700;
+        }
+        .title-post:hover{
+            text-decoration: none;
+        }
+        .text-description{
+            font-size: 1.3rem;
+
+        }
+        .read-more a{
+            font-size: 1.4rem;
+        }
+    </style>
+@endsection
 @section('title')
     {{ $postdetail->title }}
 @endsection
@@ -107,7 +150,7 @@
                                     @foreach ($topic as $item)
                                     <div class="box-description-topic my-2">
                                         <i class="fas fa-chevron-right"></i>
-                                        <a href="{{ Route('topicPost',['slug'=>$item->slug]) }}" style="margin: 0 20px">
+                                        <a class="topic-link" href="{{ Route('topicPost',['slug'=>$item->slug]) }}" style="margin: 0 20px">
                                             {{ $item->name }}
                                         </a>
                                     </div>

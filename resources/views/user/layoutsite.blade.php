@@ -79,6 +79,13 @@
         .percent{
             display: block;background-color: #FA5130;color: white;padding: 5px 5px;font-weight: 700;width: 80px;margin: 10px auto 0;
         }
+        .back a{
+            font-size: 1.3rem;
+            color: #900;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: #900 1px solid;
+        }
     </style>
         @yield('style')
     @yield('head')
@@ -446,7 +453,7 @@
                 <form class="form-inline my-2 my-lg-0" style=" margin: 0 auto;
                 float: none;
                 width: 300px;" action="{{ Route('view_search_result') }}" method="GET">
-                    @csrf
+
                   <input class="form-control" type="search" placeholder="Nhập Vào Sản Phẩm Cần Tìm" required  name="keyword" id="keyword" style="width: 100%" >
                 </form>
             </div>

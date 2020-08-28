@@ -7,6 +7,7 @@ use App\Models\commentproducts;
 use Exception;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class comment extends Controller
 {
@@ -51,6 +52,7 @@ class comment extends Controller
            try{
             $comment=commentproducts::find($id);
             $comment->status=1;
+            $comment->id_admin=Auth::guard('admin')->user()->id;
             $comment->save();
             return response()->json(['success'=>'Duyệt Bình Luận Thành Công']);
            }catch(Exception $e)
@@ -76,6 +78,7 @@ class comment extends Controller
                 return $span;
             })->addColumn('created_at',function($getData){
                 $time=  \Carbon\Carbon::parse($getData->created_at)->format('d/m/Y H:i');
+                $time.='<br> <br> '.$getData->getNameAdmin->fullname;
                 return $time;
             })->addColumn('products',function($getData){
                 $nameproducts=$getData->getNameProducts->name;

@@ -3,34 +3,48 @@
 Tìm Kiếm
 @endsection
 @section('main')
-{{ Breadcrumbs::render('account',Request()->keyword) }}
-    <div class="container">
-        <div class="row my-3">
-            <div class="col-md-12">
-                Đang Xem {{ $products->count() }} Sản Phẩm
-            </div>
-                @if( $products->count() ==0)
-                    <h3 class="text-danger">
-                        không có sản phẩm nào được tìm thấy
-                    </h3>
-                @endif
-            @foreach ($products as $item)
 
-            <div class="col-md-3 my-3">
-                <div class="card-deck">
-                    <div class="card border-color">
-                     <a href="{{Route('productDetail',['slug'=>$item->slug])}}"> <img class="card-img-top lazy" data-src="{{ $item->image }}" alt="{{ $item->slug }}"  src="{{ $item->image }}"> </a>
-                      <div class="card-body">
-                        <h5 class="card-title text-center">{{ $item->name }}</h5>
-                        <p class="card-text my-3 text-center">{{ number_format($item->price) }} VNĐ</p>
-                      </div>
-                    </div>
-                </div>
-          </div>
+    <div id="pagination_show">
 
-          @endforeach
-
-        </div>
-
+            @includeIf('user.layout.search.searchPaginate')
     </div>
+
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function(){
+            $(document).ajaxStart(function() {
+                $("#loading").show();
+            });
+            $(document).ajaxStop(function() {
+                $("#loading").hide();
+            });
+        });
+    $(function() {
+        $('body').on('click', '.pagination a', function(e) {
+            e.preventDefault();
+
+            $('#load a').css('color', '#dfecf6');
+            $('#load').append('<i class="fas fa-spinner"></i>');
+
+            var url = $(this).attr('href');
+            console.log(url);
+            getArticles(url);
+
+        // window.history.pushState("", "", url);
+        });
+
+        function getArticles(url) {
+            $.ajax({
+                url : url
+            }).done(function (data) {
+                $('#pagination_show').html(data);
+                jQuery('html, body').animate({scrollTop: 0}, 500);
+
+            }).fail(function () {
+                alert('Articles could not be loaded.');
+            });
+        }
+    });
+    </script>
 @endsection

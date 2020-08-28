@@ -214,6 +214,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12" style="font-size: 1.6rem;line-height: 1.3;">
+                    @if (Auth::guard('khachhang')->check())
+
                         <form class="form-comment">
                             <div class="form-group">
                               <label for="exampleFormControlTextarea1">Bình Luận Về Sản Phẩm</label>
@@ -221,7 +223,11 @@
                               <h6 class="pull-right counter"  style="margin-top: 10px; display: none;"></h6>
                             </div>
                             <button  value="{{ Route('commentProduct',['id_products'=>$product->id]) }}" class="btn btn-sm btn-success btn-submit-comment"  >Bình Luận</button>
+
                         </form>
+                    @else
+                    <span class="d-block text-danger" style="font-size: 1.4rem;">Đăng Nhập Để Bình Luận Về Sản Phẩm</span>
+                    @endif
                 </div>
             </div>
             <div class="row">
@@ -230,7 +236,7 @@
                 <div class="fb-comments" data-href="{{url()->current()}}" data-numposts="5" data-width="100%"></div>
             </div>
             <div id="showcomment" style="font-size: 1.6rem; line-height: 1.3;">
-            @includeIf('user.layout.comment.replyComment')
+             @includeIf('user.layout.comment.replyComment')
             </div>
         </div>
     </div>

@@ -18,5 +18,9 @@ class commentproducts extends Model
     {
         return $this->belongsTo('App\Models\products','id_product','id');
     }
+    public function getNameAdmin()
+    {
+        return $this->belongsTo('App\Models\admin','id_admin','id');
+    }
 
 }
