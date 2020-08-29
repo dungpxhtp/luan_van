@@ -65,7 +65,7 @@
 
                 </div>
                 <div class="form-group">
-                    <label>Từ Khóa Meta Key</label>
+                    <label>Từ Khóa Meta Desc</label>
                     <textarea name="metadesc" class="form-control" rows="3">{{ old('metakey') }}</textarea>
                  @if ($errors->has('metadesc'))
                  <span class="text-danger">{{ $errors->first('metadesc') }}</span>

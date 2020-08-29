@@ -5,7 +5,7 @@
                 <table class="table table-bordered table-hover table-striped " id="myTable">
                     <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">STT</th>
                         <th scope="col">Loại</th>
                         <th scope="col">Đối Tượng</th>
                         <th scope="col">Tên </th>
@@ -23,11 +23,13 @@
 
 
 
-
+                        @php
+                            $i=1;
+                        @endphp
 
                         @foreach ($getData as $item)
                             <tr>
-                                <td></td>
+                                <td>{{ $i++ }}</td>
                                 <td>{{ $item->NameLoai }}</td>
                                 <td>{{ $item->nameGender }}</td>
                                 <td>{{ $item->name }}</td>

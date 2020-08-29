@@ -40,6 +40,7 @@ class brandproductsController extends Controller
             })
             ->addColumn('created_at_brandproduct',function($getData){
                 $time=  \Carbon\Carbon::parse($getData->created_at)->format('d/m/Y');
+                $time.="<br> <br>".$getData->getNameCreate->fullname;
                 return $time;
             })
             ->addColumn('action',function($getData){
@@ -59,8 +60,18 @@ class brandproductsController extends Controller
             })->addColumn('image_brands',function($getData){
                 $image= '<img src="'.$getData->image .' " alt="image thuong hieu" style="height:150px;width:150px;" />' ;
                 return $image;
-            })->addColumn('stt',function(){
+            })->addColumn('stt',function($getData){
+                $status=$getData->updateName;
+                if($status)
+                {   $time=  \Carbon\Carbon::parse($getData->updated_at)->format('d/m/Y');
+                    $time.="<br> <br>".$status->fullname;
+                    return $time;
+                }else
+                {
+                    $status="chưa cập nhật";
+                    return $status;
 
+                }
             })
             ->addColumn('soluong',function($getData){
                 $quantity=products::where('id_brandproducts','=',$getData->id)->get()->count();
@@ -80,11 +91,15 @@ class brandproductsController extends Controller
         if($row->status==0)
         {
             $row->status=1;
+            $row->updated_by=Auth::guard('admin')->user()->id;
+            $row->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
             $row->save();
             return response()->json(['success'=>'Bật Trạng Thái Thành Công']);
         }else
         {
             $row->status=0;
+            $row->updated_by=Auth::guard('admin')->user()->id;
+            $row->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
             $row->save();
             return response()->json(['success'=>'Tắt Trạng Thái Thành Công']);
         }
@@ -135,6 +150,7 @@ class brandproductsController extends Controller
                 $status=0;
             }
             $idAdmin=Auth::guard('admin')->user()->id;
+
             $str_code=Str::slug($request->code);
             $row=brandproducts::findOrFail($id_brandproducts);
             $row->status=$status;
@@ -145,8 +161,8 @@ class brandproductsController extends Controller
             $row->metadesc=$request->metadesc;
             $row->metakey=$request->metakey;
             $row->detail=$request->detail;
-            $row->updated_by=$idAdmin;
-            $row->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
+            $row->created_by=$idAdmin;
+            $row->created_at=Carbon::now('Asia/Ho_Chi_Minh');
             $row->save();
             return redirect()->back()->with("message",["type"=>"success","msg"=>"Sửa Thành Công"]);
     }
@@ -220,8 +236,8 @@ class brandproductsController extends Controller
             $row->metadesc=$request->metadesc;
             $row->metakey=$request->metakey;
             $row->detail=$request->detail;
-            $row->updated_by=$idAdmin;
-            $row->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
+            $row->created_by=$idAdmin;
+            $row->created_at=Carbon::now('Asia/Ho_Chi_Minh');
             $row->save();
             return redirect()->back()->with("message",["type"=>"success","msg"=>"Thêm Thành Công"]);
     }

@@ -5,7 +5,7 @@
                 <table class="table table-bordered table-hover table-striped " id="myTable">
                     <thead>
                     <tr>
-                        <th scope="col"># </th>
+                        <th scope="col">STT</th>
                         <th scope="col">Đối Tượng</th>
                         <th scope="col">Tên </th>
                         <th scope="col">Mã Sản Phẩm</th>
@@ -23,10 +23,12 @@
 
 
 
-
+                        @php
+                            $i=1;
+                        @endphp
                         @foreach ($getData as $item)
                             <tr>
-                                <td></td>
+                                <td>{{ $i }}</td>
                                 <td>{{ $item->nameGender }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->code }}</td>
@@ -40,7 +42,9 @@
                                    {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y')}}
 
                                 </td>
-
+                                @php
+                                    $i++;
+                                @endphp
 
                             </tr>
                         @endforeach

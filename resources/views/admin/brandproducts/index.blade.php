@@ -146,6 +146,8 @@
                         {data:'soluong',name:'soluong'},
 
                         {data:'created_at_brandproduct',name:'created_at_brandproduct'},
+                        {data:'stt',name:'stt'},
+
                         {data:'image_brands',name:'image_brands',orderable:false},
                         {data:'action',name:'action',orderable: false},
 

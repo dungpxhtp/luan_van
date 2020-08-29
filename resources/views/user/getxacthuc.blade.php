@@ -21,7 +21,7 @@
                     <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-10">
-                            <input type="email" name="email_active" class="email_active form-control" placeholder="Nhập vào email đăng ký">
+                            <input type="email" required name="email_active" class="email_active form-control" placeholder="Nhập vào email đăng ký">
 
                         </div>
                       </div>

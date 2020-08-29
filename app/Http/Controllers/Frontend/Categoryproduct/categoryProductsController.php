@@ -37,6 +37,7 @@ class categoryProductsController extends Controller
                 })
                 ->addColumn('created_at_brandproduct',function($getData){
                     $time=  \Carbon\Carbon::parse($getData->created_at)->format('d/m/Y');
+                    $time.="<br><br>".$getData->getNameCreate->fullname;
                     return $time;
                 })
                 ->addColumn('action',function($getData){
@@ -56,8 +57,18 @@ class categoryProductsController extends Controller
                 })->addColumn('image_brands',function($getData){
                     $image= '<img src="'.$getData->image .' " alt="image thuong hieu" />' ;
                     return $image;
-                })->addColumn('stt',function(){
+                })->addColumn('stt',function($getData){
+                    $status=$getData->updateName;
+                    if($status)
+                    {   $time=  \Carbon\Carbon::parse($getData->updated_at)->format('d/m/Y');
+                        $time.="<br> <br>".$status->fullname;
+                        return $time;
+                    }else
+                    {
+                        $status="chưa cập nhật";
+                        return $status;
 
+                    }
                 })
                 ->rawColumns(['status_brandproduct','created_at_brandproduct','action','image_brands','stt'])
                 ->make('true');
@@ -72,11 +83,15 @@ class categoryProductsController extends Controller
         if($row->status==0)
         {
             $row->status=1;
+            $row->updated_by=Auth::guard('admin')->user()->id;
+            $row->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
             $row->save();
             return response()->json('Bật Trạng Thái Thành Công');
         }else
         {
             $row->status=0;
+            $row->updated_by=Auth::guard('admin')->user()->id;
+            $row->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
             $row->save();
             return response()->json('Tắt Trạng Thái Thành Công');
         }

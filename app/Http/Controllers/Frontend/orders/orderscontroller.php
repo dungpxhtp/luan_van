@@ -60,6 +60,15 @@ class orderscontroller extends Controller
                 return $phoneOder;
             })->addColumn('exportDate',function($getData){
                 $exportDate =\Carbon\Carbon::parse($getData->created_at)->format('d m Y H:i:s');
+                $status=$getData->nameAdminUpdate;
+                if($status)
+                {   $exportDate.= "<br><br>Chỉnh sửa<br>".\Carbon\Carbon::parse($getData->updated_at)->format('d m Y H:i:s');
+                    $exportDate.="<br> <br>".$status->fullname;
+                }else
+                {
+                    $exportDate.="chưa cập nhật";
+
+                }
                 return $exportDate;
             })->addColumn('TotalOrder',function($getData){
                 $formatMoney=library_my::formatMoney($getData->TotalOrder);

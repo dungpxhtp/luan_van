@@ -37,9 +37,20 @@ class gendercategoryproductscontroller extends Controller
             })
             ->addColumn('created_at_brandproduct',function($getData){
                 $time=  \Carbon\Carbon::parse($getData->created_at)->format('d/m/Y');
+                $time.="<br><br>".$getData->getNameCreate->fullname;
                 return $time;
-            })->addColumn('stt',function(){
+            })->addColumn('stt',function($getData){
+                $status=$getData->updateName;
+                if($status)
+                {   $time=  \Carbon\Carbon::parse($getData->updated_at)->format('d/m/Y');
+                    $time.="<br> <br>".$status->fullname;
+                    return $time;
+                }else
+                {
+                    $status="chưa cập nhật";
+                    return $status;
 
+                }
             })
             ->addColumn('action',function($getData){
                         if($getData->status==1){
@@ -70,11 +81,15 @@ class gendercategoryproductscontroller extends Controller
         if($row->status==0)
         {
             $row->status=1;
+            $row->updated_by=Auth::guard('admin')->user()->id;
+            $row->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
             $row->save();
             return response()->json('Bật Trạng Thái Thành Công');
         }else
         {
             $row->status=0;
+            $row->updated_by=Auth::guard('admin')->user()->id;
+            $row->updated_at=Carbon::now('Asia/Ho_Chi_Minh');
             $row->save();
             return response()->json('Tắt Trạng Thái Thành Công');
         }

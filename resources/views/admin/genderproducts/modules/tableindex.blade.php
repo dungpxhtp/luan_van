@@ -13,6 +13,7 @@
                         <th scope="col">Trạng Thái</th>
 
                         <th scope="col">Ngày Tạo</th>
+                        <th scope="col">Ngày Cập Nhật</th>
                         <th scope="col"></th>
 
 

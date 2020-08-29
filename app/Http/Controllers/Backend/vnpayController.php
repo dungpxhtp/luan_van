@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\orders;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -51,6 +52,7 @@ class vnpayController extends Controller
             //khi khách hủy bỏ giao dịch*/
             $order=orders::where('codeOder','=',$complete->vnp_TxnRef)->firstOrFail();
             $order->status=2;
+
             $order->created_at=Carbon::now('Asia/Ho_Chi_Minh');
             $order->save();
             return redirect()->route('home')->with("message",["type"=>"success","msg"=>"Quý khách đã thanh toán đơn hành thành công"]);

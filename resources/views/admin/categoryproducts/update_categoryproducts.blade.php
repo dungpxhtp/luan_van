@@ -33,7 +33,7 @@
                 <div class="col-md-6 text-right">
                     <button type="submit" class="btn btn-success" id="save-form" ><i class="far fa-save"></i>Lưu[Sữa]</button>
 
-                    <a href="{{ Route('indexbrandproduct') }}" class="btn btn-sm btn-danger"><i class="fas fa-sign-out-alt"></i>Quay Lại
+                    <a href="{{ Route('indexcategoryproducts') }}" class="btn btn-sm btn-danger"><i class="fas fa-sign-out-alt"></i>Quay Lại
 
                     </a>
                 </div>
@@ -65,7 +65,7 @@
 
                 </div>
                 <div class="form-group">
-                    <label>Từ Khóa Meta Key</label>
+                    <label>Từ Khóa Meta Desc</label>
                     <textarea name="metadesc" class="form-control" rows="3">{{ old('metakey',$getData->metadesc) }}</textarea>
                  @if ($errors->has('metadesc'))
                  <span class="text-danger">{{ $errors->first('metadesc') }}</span>

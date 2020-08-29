@@ -17,7 +17,9 @@
                     </tr>
                     </thead>
                     <tbody>
-
+                        @php
+                            $i=1;
+                        @endphp
                         @foreach ($getData as $item)
 
 
@@ -25,7 +27,7 @@
 
 
                             <tr>
-                                <td>#</td>
+                                <td>{{ $i++ }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->code }}</td>
                                 <td>

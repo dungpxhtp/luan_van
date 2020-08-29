@@ -180,7 +180,7 @@
 
                                 {data:'status_brandproduct',name:'status_brandproduct'},
                                 {data:'created_at_brandproduct',name:'created_at_brandproduct'},
-
+                                {data:'stt',name:'stt'},
                                 {data:'action',name:'action',orderable: false},
 
 
